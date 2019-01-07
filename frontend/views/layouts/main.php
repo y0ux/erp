@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -11,6 +12,24 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
+$menuItems = [
+    ['label' => 'Home', 'url' => ['/site/index']],
+    //['label' => 'About', 'url' => ['/site/about']],
+    //['label' => 'Contact', 'url' => ['/site/contact']],
+];
+if (Yii::$app->user->isGuest) {
+    $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
+    $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+} else {
+    $menuItems[] = '<li>'
+        . Html::beginForm(['/site/logout'], 'post')
+        . Html::submitButton(
+            'Logout (' . Yii::$app->user->identity->username . ')',
+            ['class' => 'btn btn-link logout']
+        )
+        . Html::endForm()
+        . '</li>';
+}
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -35,24 +54,6 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
@@ -60,17 +61,57 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+    <div id="main-container" class="container-fluid">
+      <div class="row">
+        <?php if (!Yii::$app->user->isGuest) : ?>
+        <div class="col-sm-3 col-md-2 sidebar">
+          <?php
+            $currentUrl = Url::current();
+            $menuItems = [];
+            $menuItems[] = ['label' => 'Inicio', 'url' => ['/site/index']];
+            // check if is already registered
+            $menuItems[] = ['label' => 'Registro', 'url' => ['/site/register']];
+            //$menuItems[] = ['label' => 'Marca', 'url' => ['/tag/index']];
+            $menuItems[] = ['label' => 'Productos (Soon)', 'url' => ['/site/index','#' => '']];
+            $menuItems[] = ['label' => 'Personal (Soon)', 'url' => ['/site/index','#' => '']];
+            $menuItems[] = ['label' => 'Vehiculos (Soon)', 'url' => ['/site/index','#' => '']];
+          ?>
+            <div class="list-group">
+                <?php
+                foreach ($menuItems as $menuitem) {
+                    //print_r($menuitem);
+                    $label = '<i class="glyphicon glyphicon-chevron-right"></i>' . Html::encode($menuitem['label']);
+                    echo Html::a($label, $menuitem['url'], [
+                        'class' => Url::to($menuitem['url']) == $currentUrl ? 'list-group-item active' : 'list-group-item',
+                    ]);
+                }
+                ?>
+            </div>
+          <?php
+            /*echo Nav::widget([
+                'options' => ['class' => 'nav nav-sidebar'],
+                'items' => $menuItems,
+            ]);*/
+            ?>
+        </div>
+        <?php endif; ?>
+        <div class="<?= (Yii::$app->user->isGuest? "col-sm-12" : "col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2") ?> main">
+          <?= Breadcrumbs::widget([
+              'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+          ]) ?>
+          <?= Alert::widget() ?>
+          <?= $content ?>
+        </div>
+      </div>
+
+      <div class="container">
+
+      </div>
     </div>
 </div>
 
 <footer class="footer">
-    <div class="container">
+    <div class="container-fluid">
         <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>

@@ -12,6 +12,13 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use common\models\Company;
+use common\models\BankAccount;
+use common\models\Bank;
+use common\models\Brand;
+use common\models\Stand;
+use common\models\UserCompany;
+use common\models\CompanyBankAccount;
 
 /**
  * Site controller
@@ -153,6 +160,10 @@ class SiteController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
+                // RBCA
+                $auth = Yii::$app->authManager;
+                $authorRole = $auth->getRole('author');
+                $auth->assign($authorRole, $user->getId());
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();
                 }
@@ -211,5 +222,118 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Requests password reset.
+     *
+     * @return mixed
+     */
+    public function actionRegister()
+    {
+      $company = new Company();
+      $bank_account = new BankAccount();
+      $brand = new Brand();
+      if($this->save($company, $bank_account, $brand))
+          return $this->redirect(['register']);
+
+      return $this->render('register',[
+          'model' => [
+            'company' => $company,
+            'bank_account' => $bank_account,
+            'brand' => $brand,
+          ],
+      ]);
+    }
+
+    /**
+     * Updates o creates a company.
+     * @param Company $company
+     * @param BankAccount $bank_account
+     * @param Brand $brand
+     * @return mixed
+     */
+    protected function save($company, $bank_account, $brand)
+    {
+      $flash_id = 'company-'.($company->isNewRecord? 'create' : 'update');
+      Yii::$app->session->addFlash($flash_id, "flash_id: ".print_r($flash_id, true));
+      Yii::$app->session->addFlash($flash_id, "model isNewRecord? ".($company->isNewRecord? "yes":"no"));
+
+      $company_transaction = Company::getDb()->beginTransaction();
+      try
+      {
+          if ( $company->load(Yii::$app->request->post()) && $company->save() )
+          {
+              Yii::$app->session->addFlash($flash_id,'checking company user relationship');
+              if ($company->isNewRecord || UserCompany::find()->where(['company_id' => $company->id, 'user_id' => Yii::$app->user->id])->one() == null)
+              {
+                  Yii::$app->session->addFlash($flash_id,'saving relationshing');
+                  // save user relaltionship
+                  $user_company = new UserCompany();
+                  $user_company->company_id = $company->id;
+                  $user_company->user_id = Yii::$app->user->id;
+                  // move this to after save
+                  if (!$user_company->save())
+                      throw now \Throwable("Can't save User-Company realtionship, otherwise won't be able to update later... bail");
+              }
+              else
+              {
+                  Yii::$app->session->addFlash($flash_id,'relationship already created');
+              }
+
+              // save bank account info
+              Yii::$app->session->addFlash($flash_id,'checking bank_account.. isNewRecord? '.($bank_account->isNewRecord? "yes" : "no"));
+              $bank_account_transaction = BankAccount::getDb()->beginTransaction();
+              $bank_account_isNew = $bank_account->isNewRecord;
+              if ( $bank_account->load(Yii::$app->request->post()) && $bank_account->save() )
+              {
+                  Yii::$app->session->addFlash($flash_id, 'saving bank_account');
+                  if ($bank_account_isNew)
+                  {
+                      Yii::$app->session->addFlash($flash_id, 'saving company - bank_account relationship');
+                      $company_bank_account = new CompanyBankAccount();
+                      $company_bank_account->company_id = $company->id;
+                      $company_bank_account->bank_account_id = $bank_account->id;
+                      if ($company_bank_account->save())
+                      {
+                          Yii::$app->session->addFlash($flash_id, 'commiting bank account');
+                          $bank_account_transaction->commit();
+                      }
+                      else
+                      {
+                          Yii::$app->session->addFlash($flash_id, 'roollingback bank account');
+                          $bank_account_transaction->rollBack();
+                      }
+                  }
+                  else
+                  {
+                      Yii::$app->session->addFlash($flash_id, 'updating bank account');
+                      $bank_account_transaction->commit();
+                  }
+              }
+              else {
+                return false;
+              }
+
+
+
+              Yii::$app->session->addFlash($flash_id, 'commiting company');
+              $company_transaction->commit();
+              // save brand info
+              Yii::$app->session->addFlash($flash_id,'checking brand.. isNewRecord? '.($brand->isNewRecord? "yes" : "no"));
+              $brand->company_id = $company->id;
+              if ( $brand->load(Yii::$app->request->post()) && $brand->save() )
+              {
+                  Yii::$app->session->addFlash($flash_id, 'saving brand');
+              }
+              return true;
+          }
+      }
+      catch (Exception $e)
+      {
+          $company_transaction->rollBack();
+          Yii::$app->session->addFlash($flash_id,"There was an error trying to save the Company information: [".$e->getMessage()."]");
+      }
+      return false;
     }
 }

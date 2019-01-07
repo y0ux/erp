@@ -17,8 +17,8 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property string $auth_key
  * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
+ * @property string $created_at
+ * @property string $updated_at
  * @property string $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -36,25 +36,71 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function behaviors()
+    public function rules()
     {
         return [
-            TimestampBehavior::className(),
+            [['username', 'email'], 'required'],
+            [['password_reset_token', 'auth_key'], 'string'],
+            [['status'], 'integer'],
+            /*[['created_at', 'updated_at'], 'safe'],*/
+            [['username', 'password'], 'string', 'max' => 150],
+            [['password_hash', 'email'], 'string', 'max' => 250],
+            [['username'], 'unique'],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('event-planner', 'ID'),
+            'username' => Yii::t('event-planner', 'Username'),
+            'password' => Yii::t('event-planner', 'Password'),
+            'password_hash' => Yii::t('event-planner', 'Password Hash'),
+            'password_reset_token' => Yii::t('event-planner', 'Password Reset Token'),
+            'email' => Yii::t('event-planner', 'Email'),
+            'auth_key' => Yii::t('event-planner', 'Auth Key'),
+            'status' => Yii::t('event-planner', 'Status'),
+            'created_at' => Yii::t('event-planner', 'Created At'),
+            'updated_at' => Yii::t('event-planner', 'Updated At'),
         ];
     }
 
     /**
      * {@inheritdoc}
      */
+    public function behaviors()
+    {
+        return [
+            [
+              'class' => TimestampBehavior::className(),
+              /*'attributes' => [
+                  ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                  ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+              ],*/
+              // if you're using datetime instead of UNIX timestamp:
+              // 'value' => new Expression('NOW()'),
+              'value' => date('Y-m-d H:i:s',time()),
+            ],
+        ];
+    }
+
+    /* *
+     * {@inheritdoc}
+     * /
     public function rules()
     {
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
-    }
+    }*/
 
     /**
      * {@inheritdoc}

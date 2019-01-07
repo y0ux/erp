@@ -2,7 +2,15 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'Festival de Cerveza Artesanal 2019 - Antigua Guatemala';
+?>
+<?php
+  if (!empty($flash_messages)) :
+    echo Alert::widget([
+       'options' => ['class' => 'alert-info'],
+       'body' => "<pre>".implode("<br/>", $flash_messages)."</pre>",
+    ]);
+  endif;
 ?>
 <div class="site-index">
 

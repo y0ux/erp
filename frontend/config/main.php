@@ -8,9 +8,14 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
+    'name' => 'Event Planner 1.0',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    // set target language to be Spanish
+    'language' => 'es-GT',
+    // set source language to be English
+    'sourceLanguage' => 'en-US',
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
