@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "stand".
@@ -15,6 +16,8 @@ use Yii;
  * @property string $description
  * @property string $negotiation_type
  * @property string $amount
+ * @property string $created_at
+ * @property string $updated_at
  */
 class Stand extends \yii\db\ActiveRecord
 {
@@ -35,6 +38,7 @@ class Stand extends \yii\db\ActiveRecord
             [['location_number', 'status', 'size', 'brand_id', 'description', 'negotiation_type', 'amount'], 'required'],
             [['location_number', 'status', 'brand_id', 'negotiation_type', 'amount'], 'integer'],
             [['description'], 'string'],
+            [['created_at', 'updated_at'], 'safe'],
             [['size'], 'string', 'max' => 20],
         ];
     }
@@ -53,6 +57,21 @@ class Stand extends \yii\db\ActiveRecord
             'description' => 'Description',
             'negotiation_type' => 'Negotiation Type',
             'amount' => 'Amount',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            [
+              'class' => TimestampBehavior::className(),
+              'value' => date('Y-m-d H:i:s',time()),
+            ],
         ];
     }
 }

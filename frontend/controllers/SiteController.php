@@ -4,6 +4,8 @@ namespace frontend\controllers;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -225,17 +227,37 @@ class SiteController extends Controller
     }
 
     /**
+     * Displays a single Venue model.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        $model = Company::findOne($id);
+        if (empty($model))
+          throw new NotFoundHttpException('Id: '.$id.' does not exists.', 404, null);
+        if (!empty($model->user) && $model->user->id == Yii::$app->user->id)
+          return $this->render('company', [
+              'model' => $model,
+          ]);
+        throw new ForbiddenHttpException('Please, access your registration only.', 403, null);
+    }
+
+    /**
      * Requests password reset.
      *
      * @return mixed
      */
     public function actionRegister()
     {
+      if (!empty(Yii::$app->user->identity->company)) {
+          return $this->redirect(['view', 'id' => Yii::$app->user->identity->company->id]);
+      }
       $company = new Company();
       $bank_account = new BankAccount();
       $brand = new Brand();
       if($this->save($company, $bank_account, $brand))
-          return $this->redirect(['register']);
+          return $this->redirect(['view', 'id' => $company->id]);
 
       return $this->render('register',[
           'model' => [
@@ -243,8 +265,47 @@ class SiteController extends Controller
             'bank_account' => $bank_account,
             'brand' => $brand,
           ],
+          'lists' => [
+            'standsTaken' => Company::getTakenStands(),
+          ]
       ]);
     }
+
+    /**
+     * Updates an existing BusinessProfile model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $company = Company::find()->where(['id' => $id])->one();
+
+        if (!empty($company->user) && $company->user->id == Yii::$app->user->id) {
+          $bank_account = $company->getFirstBankAccount()->one();
+          if (empty($bank_account))
+              $bank_account = new BankAccount();
+
+          $brand = $company->getBrand()->one();
+          if (empty($brand))
+              $brand = new Brand();
+
+          if($this->save($company, $bank_account, $brand))
+              return $this->redirect(['view', 'id' => $company->id]);
+
+          return $this->render('register',[
+              'model' => [
+                'company' => $company,
+                'bank_account' => $bank_account,
+                'brand' => $brand,
+              ],
+              'lists' => [
+                'standsTaken' => Company::getTakenStands(),
+              ]
+          ]);
+        }
+        throw new ForbiddenHttpException('Please, modify your registration only.', 403, null);
+      }
 
     /**
      * Updates o creates a company.
@@ -262,6 +323,17 @@ class SiteController extends Controller
       $company_transaction = Company::getDb()->beginTransaction();
       try
       {
+          $stand_position = null;
+          if (Yii::$app->request->post()) {
+            $data = Yii::$app->request->post();
+            if(isset($data['Company'])) {
+              $company->details = json_encode([
+                'city' => isset($data['Company']['city'])? $data['Company']['city'] : '',
+                'firstTime' => isset($data['Company']['first-time'])? true : false,
+                'costCompromise' => isset($data['Company']['cost-compromise'])? true : false,
+              ]);
+            }
+          }
           if ( $company->load(Yii::$app->request->post()) && $company->save() )
           {
               Yii::$app->session->addFlash($flash_id,'checking company user relationship');
@@ -315,10 +387,6 @@ class SiteController extends Controller
                 return false;
               }
 
-
-
-              Yii::$app->session->addFlash($flash_id, 'commiting company');
-              $company_transaction->commit();
               // save brand info
               Yii::$app->session->addFlash($flash_id,'checking brand.. isNewRecord? '.($brand->isNewRecord? "yes" : "no"));
               $brand->company_id = $company->id;
@@ -326,6 +394,13 @@ class SiteController extends Controller
               {
                   Yii::$app->session->addFlash($flash_id, 'saving brand');
               }
+              else {
+                return false;
+              }
+
+              Yii::$app->session->addFlash($flash_id, 'commiting company');
+              $company_transaction->commit();
+
               return true;
           }
       }
@@ -335,5 +410,17 @@ class SiteController extends Controller
           Yii::$app->session->addFlash($flash_id,"There was an error trying to save the Company information: [".$e->getMessage()."]");
       }
       return false;
+    }
+
+    /**
+     * Deletes an existing Venue model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        Company::findOne($id)->delete();
+        return $this->redirect(['index']);
     }
 }

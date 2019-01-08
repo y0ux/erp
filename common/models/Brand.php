@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "brand".
@@ -16,8 +17,10 @@ use Yii;
  * @property double $amount
  * @property string $company_id
  * @property string $details
+ * @property string $created_at
+ * @property string $updated_at
  *
- * @property Company $id0
+ * @property Company $company
  */
 class Brand extends \yii\db\ActiveRecord
 {
@@ -39,10 +42,11 @@ class Brand extends \yii\db\ActiveRecord
             [['stand_number', 'negotiation_type', 'status', 'company_id'], 'integer'],
             [['amount'], 'number'],
             [['details'], 'string'],
+            [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 255],
             [['stand_size'], 'string', 'max' => 20],
             [['name'], 'unique'],
-            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['id' => 'id']],
+            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['company_id' => 'id']],
         ];
     }
 
@@ -61,14 +65,29 @@ class Brand extends \yii\db\ActiveRecord
             'amount' => 'Amount',
             'company_id' => 'Company ID',
             'details' => 'Details',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 
     /**
+    * {@inheritdoc}
+    */
+   public function behaviors()
+   {
+       return [
+           [
+             'class' => TimestampBehavior::className(),
+             'value' => date('Y-m-d H:i:s',time()),
+           ],
+       ];
+   }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
-    public function getId0()
+    public function getCompany()
     {
-        return $this->hasOne(Company::className(), ['id' => 'id']);
+        return $this->hasOne(Company::className(), ['id' => 'company_id']);
     }
 }

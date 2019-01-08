@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "bank_account".
@@ -12,6 +13,8 @@ use Yii;
  * @property string $account_number
  * @property string $type
  * @property string $bank_id
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property Bank $bank
  * @property CompanyBankAccount[] $companyBankAccounts
@@ -34,8 +37,9 @@ class BankAccount extends \yii\db\ActiveRecord
     {
         return [
             [['beneficiary', 'account_number', 'type', 'bank_id'], 'required'],
-            [['account_number', 'type', 'bank_id'], 'integer'],
-            [['beneficiary'], 'string', 'max' => 255],
+            [['type', 'bank_id'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['beneficiary', 'account_number'], 'string', 'max' => 255],
             [['bank_id'], 'exist', 'skipOnError' => true, 'targetClass' => Bank::className(), 'targetAttribute' => ['bank_id' => 'id']],
         ];
     }
@@ -51,6 +55,21 @@ class BankAccount extends \yii\db\ActiveRecord
             'account_number' => 'Account Number',
             'type' => 'Type',
             'bank_id' => 'Bank ID',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            [
+              'class' => TimestampBehavior::className(),
+              'value' => date('Y-m-d H:i:s',time()),
+            ],
         ];
     }
 

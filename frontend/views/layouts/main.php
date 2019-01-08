@@ -70,7 +70,12 @@ if (Yii::$app->user->isGuest) {
             $menuItems = [];
             $menuItems[] = ['label' => 'Inicio', 'url' => ['/site/index']];
             // check if is already registered
-            $menuItems[] = ['label' => 'Registro', 'url' => ['/site/register']];
+            $company = Yii::$app->user->identity->company;
+            if (empty($company)) {
+              $menuItems[] = ['label' => 'Registro', 'url' => ['/site/register']];
+            } else {
+              $menuItems[] = ['label' => 'Registro', 'url' => ['/site/view', 'id' => $company->id]];
+            }
             //$menuItems[] = ['label' => 'Marca', 'url' => ['/tag/index']];
             $menuItems[] = ['label' => 'Productos (Soon)', 'url' => ['/site/index','#' => '']];
             $menuItems[] = ['label' => 'Personal (Soon)', 'url' => ['/site/index','#' => '']];

@@ -1,4 +1,5 @@
 <?php
+
 namespace common\models;
 
 use Yii;
@@ -20,6 +21,9 @@ use yii\web\IdentityInterface;
  * @property string $created_at
  * @property string $updated_at
  * @property string $password write-only password
+ *
+ * @property UserCompany[] $userCompanies
+ * @property Company[] $companies
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -80,27 +84,34 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             [
               'class' => TimestampBehavior::className(),
-              /*'attributes' => [
-                  ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
-                  ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
-              ],*/
-              // if you're using datetime instead of UNIX timestamp:
-              // 'value' => new Expression('NOW()'),
               'value' => date('Y-m-d H:i:s',time()),
             ],
         ];
     }
 
-    /* *
-     * {@inheritdoc}
-     * /
-    public function rules()
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserCompanies()
     {
-        return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
-        ];
-    }*/
+       return $this->hasMany(UserCompany::className(), ['user_id' => 'id']);
+    }
+
+    /**
+      * @return \yii\db\ActiveQuery
+      */
+    public function getCompanies()
+    {
+       return $this->hasMany(Company::className(), ['id' => 'company_id'])->viaTable('user_company', ['user_id' => 'id']);
+    }
+
+    /**
+      * @return \yii\db\ActiveQuery
+      */
+    public function getCompany()
+    {
+       return $this->hasOne(Company::className(), ['id' => 'company_id'])->viaTable('user_company', ['user_id' => 'id']);
+    }
 
     /**
      * {@inheritdoc}
