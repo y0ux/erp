@@ -30,7 +30,7 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
     <p>Por favor, llena estos datos para poder registrarte:</p>
 
     <div class="row">
-        <div class="col-lg-5">
+        <div class="">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
             <h3>Datos de la Empresa</h3>
                 <?= $form->field($model['company'], 'legal_name')->textInput(['autofocus' => true])->label('Nombre Legal') ?>
@@ -104,9 +104,29 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                   }
                 ?>
                 <?= $form->field($model['company'], 'stand')->label('Stand')->dropDownList($stands, ['class' => 'form-control', 'required'=>true,  'prompt' => 'Selecciona...', 'options' => ['value' => 'none', 'class' => 'prompt', 'label' => 'Select']]) ?>
-                <div class='form-group'>
-                  <br>
-                  <?= Html::img(Url::to('@web/images/santa-isabel-jardin-espacios-short.png'),['style' => 'max-width: 600px;']) ?>
+                <div class='row'>
+                  <div class='col-sm-6 col-md-6 '>
+                    <div class='form-group'>
+                      <br>
+                      <?= Html::img(Url::to('@web/images/santa-isabel-jardin-espacios-short.png'),['style' => 'max-width: 95%;']) ?>
+                    </div>
+                  </div>
+                  <?php
+
+                  ?>
+                  <div class='col-sm-6 col-md-6 '>
+                    <ol>
+                      <h4>Cervecerias</h4>
+                      <?php
+                      for ($i = 1; $i < 20; $i++) {
+                        if (in_array($i, $lists['standsTaken']))
+                          echo '<li style="color: #ccc;">Reservado</li>';
+                        else
+                          echo '<li>Disponible</li>';
+                      }
+                      ?>
+                    </ol>
+                  </div>
                 </div>
 
                 <div class="form-group">
