@@ -13,7 +13,7 @@ use common\widgets\Alert;
 
 AppAsset::register($this);
 $menuItems = [
-    ['label' => 'Home', 'url' => ['/site/index']],
+    ['label' => 'Inicio', 'url' => ['/site/index']],
     //['label' => 'About', 'url' => ['/site/about']],
     //['label' => 'Contact', 'url' => ['/site/contact']],
 ];
@@ -21,6 +21,7 @@ if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
     $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
 } else {
+    $menuItems[] = ['label' => 'Registro', 'url' => ['/site/register']];
     $menuItems[] = '<li>'
         . Html::beginForm(['/site/logout'], 'post')
         . Html::submitButton(
