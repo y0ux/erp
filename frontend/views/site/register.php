@@ -18,12 +18,12 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
 
 <div class="site-register">
     <?php
-      if (!empty($flash_messages)) :
+      /*if (!empty($flash_messages)) :
         echo Alert::widget([
            'options' => ['class' => 'alert-info'],
            'body' => "<pre>".implode("<br/>", $flash_messages)."</pre>",
         ]);
-      endif;
+      endif;*/
     ?>
     <h1><?= Html::encode($this->title) ?></h1>
 

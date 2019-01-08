@@ -31,12 +31,12 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));?
     </div>
 
     <?php
-      if (!empty($flash_messages)) :
+      /*if (!empty($flash_messages)) :
         echo Alert::widget([
            'options' => ['class' => 'alert-info'],
            'body' => "<pre>".implode("<br/>", $flash_messages)."</pre>",
         ]);
-      endif;
+      endif;*/
     ?>
 
     <?= DetailView::widget([
