@@ -118,9 +118,11 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                     <ol>
                       <h4>Cervecerias</h4>
                       <?php
+                      $keys = array_keys($lists['standsTaken']);
                       for ($i = 1; $i < 20; $i++) {
-                        if (in_array($i, $lists['standsTaken']))
-                          echo '<li style="color: #ccc;">Reservado</li>';
+                        if (in_array($i, $keys)) {
+                          echo '<li style="color: #ccc;">'.($i == 14 || $i == 19? 'Reservado' : $lists['standsTaken'][$i]).'</li>';
+                        }
                         else
                           echo '<li>Disponible</li>';
                       }

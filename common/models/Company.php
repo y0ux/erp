@@ -177,4 +177,16 @@ class Company extends \yii\db\ActiveRecord
           $stands[$item->stand] = $item->stand;
         return $stands;
     }
+
+    /**
+     * @return Array
+     */
+    public static function getTakenCompanyStands()
+    {
+        $list = self::find()->all();
+        $stands = [];
+        foreach ($list as $item)
+          $stands[$item->stand] = $item->legal_name;
+        return $stands;
+    }
 }
