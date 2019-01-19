@@ -98,7 +98,6 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                     18 => '18',
                     //19 => '19',
                   ];
-                  print_r($lists['standsTaken']);
                   foreach ($lists['standsTaken'] as $key => $taken) {
                     if ($key <> $model['company']->stand && in_array($key, $stands))
                       unset($stands[$key]);
