@@ -96,19 +96,21 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                     16 => '16',
                     17 => '17',
                     18 => '18',
-                    19 => '19',
+                    //19 => '19',
                   ];
-                  foreach ($lists['standsTaken'] as $taken) {
-                    if (in_array($taken, $stands))
-                      unset($stands[$taken]);
+                  print_r($lists['standsTaken']);
+                  foreach ($lists['standsTaken'] as $key => $taken) {
+                    if ($key <> $model['company']->stand && in_array($key, $stands))
+                      unset($stands[$key]);
                   }
                 ?>
+
                 <?= $form->field($model['company'], 'stand')->label('Stand')->dropDownList($stands, ['class' => 'form-control', 'required'=>true,  'prompt' => 'Selecciona...', 'options' => ['value' => 'none', 'class' => 'prompt', 'label' => 'Select']]) ?>
                 <div class='row'>
                   <div class='col-sm-6 col-md-6 '>
                     <div class='form-group'>
                       <br>
-                      <?= Html::img(Url::to('@web/images/santa-isabel-jardin-espacios-short.png'),['style' => 'max-width: 95%;']) ?>
+                      <?= Html::img(Url::to('@web/images/santa-isabel-jardin-espacios-short.jpg'),['style' => 'max-width: 95%;']) ?>
                     </div>
                   </div>
                   <?php
@@ -119,9 +121,12 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                       <h4>Cervecerias</h4>
                       <?php
                       $keys = array_keys($lists['standsTaken']);
-                      for ($i = 1; $i < 20; $i++) {
+                      for ($i = 1; $i < 19; $i++) {
                         if (in_array($i, $keys)) {
-                          echo '<li style="color: #ccc;">'.($i == 14 || $i == 19? 'Reservado' : $lists['standsTaken'][$i]).'</li>';
+                          if ($i == $model['company']->stand)
+                            echo '<li style="color: #2ecc71; font-weight: bold;">'.$lists['standsTaken'][$i].'</li>';
+                          else
+                            echo '<li style="color: #ccc;">'.($i == 1 || $i == 13 || $i == 18? 'Reservado' : $lists['standsTaken'][$i]).'</li>';
                         }
                         else
                           echo '<li>Disponible</li>';
