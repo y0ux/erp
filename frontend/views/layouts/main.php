@@ -23,10 +23,12 @@ if (Yii::$app->user->isGuest) {
 } else {
     $menuItems[] = ['label' => 'Dashboard', 'url' => ['/site/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
     $menuItems[] = ['label' => 'Registro', 'url' => ['/site/register'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    $menuItems[] = ['label' => 'Marcas', 'url' => ['/brand/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
     $menuItems[] = ['label' => 'Productos', 'url' => ['/product/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
     $menuItems[] = ['label' => 'Personal', 'url' => ['/staff/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
     $menuItems[] = ['label' => 'Vehiculos', 'url' => ['/vehicle/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
     $menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    $menuItems[] = ['label' => 'Categorias', 'url' => ['/category/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
     /*$menuItems[] = [
       'label' => 'Perfil',
       'items' => [
@@ -98,8 +100,8 @@ if (Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => 'Productos', 'url' => ['/product/index']];
             $menuItems[] = ['label' => 'Personal', 'url' => ['/staff/index']];
             $menuItems[] = ['label' => 'Vehiculos', 'url' => ['/vehicle/index','#' => '']];
-            $menuItems[] = ['label' => 'Ventas', 'url' => ['/sale/index']];
-            $menuItems[] = ['label' => 'Categorias', 'url' => ['/category']];
+            $menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index']];
+            $menuItems[] = ['label' => 'Categorias', 'url' => ['/category/index']];
           ?>
             <div class="list-group">
                 <?php
