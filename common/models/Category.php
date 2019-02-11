@@ -6,23 +6,25 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 
 /**
- * This is the model class for table "bank".
+ * This is the model class for table "category".
  *
  * @property string $id
  * @property string $name
+ * @property string $description
+ * @property string $details
  * @property string $created_at
  * @property string $updated_at
  *
- * @property BankAccount[] $bankAccounts
+ * @property Product[] $products
  */
-class Bank extends \yii\db\ActiveRecord
+class Category extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'bank';
+        return 'category';
     }
 
     /**
@@ -32,6 +34,7 @@ class Bank extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
+            [['description', 'details'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 255],
             [['name'], 'unique'],
@@ -46,6 +49,8 @@ class Bank extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('eventplanner.company', 'ID'),
             'name' => Yii::t('eventplanner.company', 'Name'),
+            'description' => Yii::t('eventplanner.company', 'Description'),
+            'details' => Yii::t('eventplanner.company', 'Details'),
             'created_at' => Yii::t('eventplanner.company', 'Created At'),
             'updated_at' => Yii::t('eventplanner.company', 'Updated At'),
         ];
@@ -67,8 +72,20 @@ class Bank extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBankAccounts()
+    public function getProducts()
     {
-        return $this->hasMany(BankAccount::className(), ['bank_id' => 'id']);
+        return $this->hasMany(Product::className(), ['category_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public static function getCategoryList()
+    {
+        $categories = [];
+        $list = self::find()->all();
+        foreach ($list as $item)
+            $categories[$item->id] = $item->name;
+        return $categories;
     }
 }

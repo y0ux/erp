@@ -266,7 +266,8 @@ class SiteController extends Controller
             'brand' => $brand,
           ],
           'lists' => [
-            'standsTaken' => Company::getTakenCompanyStands(),
+            'stands_taken' => Company::getTakenCompanyStands(),
+            'company_types' => Company::getCompanyTypes(),
           ]
       ]);
     }
@@ -300,7 +301,8 @@ class SiteController extends Controller
                 'brand' => $brand,
               ],
               'lists' => [
-                'standsTaken' => Company::getTakenCompanyStands(),
+                'stands_taken' => Company::getTakenCompanyStands(),
+                'company_types' => Company::getCompanyTypes(),
               ]
           ]);
         }

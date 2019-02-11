@@ -30,17 +30,19 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
     <p>Por favor, llena estos datos para poder registrarte:</p>
 
     <div class="row">
-        <div class="">
+        <div class="col-lg-12">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
             <h3>Datos de la Empresa</h3>
-                <?= $form->field($model['company'], 'legal_name')->textInput(['autofocus' => true])->label('Nombre Legal') ?>
+                <?= $form->field($model['company'], 'legal_name')->textInput(['autofocus' => true])->label(null, ['class' => 'required-field']) ?>
+
+                <?= $form->field($model['company'], 'company_type_id')->inline(true)->radioList($lists['company_types'])->label('Tipo de Empresa', ['class' => 'required-field']); ?>
 
             <h3>Datos de Conciliacion</h3>
-                <?= $form->field($model['company'], 'nit')->label('NIT') ?>
-                <?= $form->field($model['company'], 'address_1')->label('Direccion') ?>
-                <?= $form->field($model['company'], 'address_2')->label('Direccion (Apto, Edificio, etc)') ?>
+                <?= $form->field($model['company'], 'nit')->label(null, ['class' => 'required-field']) ?>
+                <?= $form->field($model['company'], 'address_1')->label(null, ['class' => 'required-field']) ?>
+                <?= $form->field($model['company'], 'address_2')->label(null, ['class' => 'optional-field']) ?>
                 <div class='form-group'>
-                  <label class="control-label" for="Company[city]">Ciudad</label>
+                  <label class="control-label required-field" for="Company[city]">Ciudad</label>
                   <?= Html::input('text', 'Company[city]', !empty($companyDetails) && property_exists($companyDetails,'city')? $companyDetails->city : null ,['class' => 'form-control', 'required' => true]) ?>
                 </div>
                 <!--div class='form-group'>
@@ -61,20 +63,22 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                     10 => 'Bantrab'];
                  ?>
 
-                <?= $form->field($model['bank_account'], 'bank_id')->dropDownList($bank_list,['prompt' => 'Selecciona...', 'options' => ['value' => 'none', 'class' => 'prompt', 'label' => 'Select']])->label('Nombre del Banco') ?>
-                <?= $form->field($model['bank_account'], 'beneficiary')->label('Beneficiario') ?>
-                <?= $form->field($model['bank_account'], 'account_number')->label('Numero de Cuenta') ?>
-                <?= $form->field($model['bank_account'], 'type')->dropDownList([0 => 'Monetaria', 1 => 'Ahorro'])->label('Tipo de Cuenta') ?>
+                <?= $form->field($model['bank_account'], 'bank_id')
+                  ->dropDownList($bank_list,['prompt' => 'Selecciona...', 'options' => ['value' => 'none', 'class' => 'prompt', 'label' => 'Select']])
+                  ->label(\Yii::t('eventplanner.company', 'Bank Name'), ['class' => 'required-field']) ?>
+                <?= $form->field($model['bank_account'], 'beneficiary')->label(null, ['class' => 'required-field']) ?>
+                <?= $form->field($model['bank_account'], 'account_number')->label(null, ['class' => 'required-field']) ?>
+                <?= $form->field($model['bank_account'], 'type')->dropDownList([0 => 'Monetaria', 1 => 'Ahorro'])->label(null, ['class' => 'required-field']) ?>
                 <h3>Marca</h3>
-                <?= $form->field($model['brand'], 'name')->label('Nombre de la Marca') ?>
+                <?= $form->field($model['brand'], 'name')->label('Nombre de la Marca', ['class' => 'required-field']) ?>
                 <h3>Participacion</h3>
                 <div class='form-group'>
                   <?= Html::checkbox('Company[first-time]', !empty($companyDetails) && property_exists($companyDetails,'firstTime')? $companyDetails->firstTime : false , ['class' => '']) ?>
-                  <?= HTML::label('Primera vez','Company[first-time]',['class' => 'control-label']); ?>
+                  <?= HTML::label('Primera vez','Company[first-time]',['class' => 'control-label optional-field']); ?>
                 </div>
                 <div class='form-group'>
                   <?= Html::radio('Company[cost-compromise]', !empty($companyDetails) && property_exists($companyDetails,'costCompromise')? $companyDetails->costCompromise : false, ['class' => '', 'required'=>true]) ?>
-                  <label class="control-label" for="Company[cost-compromise]">Me comprometo con el costo de participacion</label>
+                  <label class="control-label required-field" for="Company[cost-compromise]">Me comprometo con el costo de participacion</label>
                 </div>
                 <?php
                   $stands = [
@@ -98,13 +102,13 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                     18 => '18',
                     //19 => '19',
                   ];
-                  foreach ($lists['standsTaken'] as $key => $taken) {
+                  foreach ($lists['stands_taken'] as $key => $taken) {
                     if ($key <> $model['company']->stand && in_array($key, $stands))
                       unset($stands[$key]);
                   }
                 ?>
 
-                <?= $form->field($model['company'], 'stand')->label('Stand')->dropDownList($stands, ['class' => 'form-control', 'required'=>true,  'prompt' => 'Selecciona...', 'options' => ['value' => 'none', 'class' => 'prompt', 'label' => 'Select']]) ?>
+                <?= $form->field($model['company'], 'stand')->label('Stand',['class' => 'required-field'])->dropDownList($stands, ['class' => 'form-control', 'required'=>true,  'prompt' => 'Selecciona...', 'options' => ['value' => 'none', 'class' => 'prompt', 'label' => 'Select']]) ?>
                 <div class='row'>
                   <div class='col-sm-6 col-md-6 '>
                     <div class='form-group'>
@@ -119,13 +123,13 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                     <ol>
                       <h4>Cervecerias</h4>
                       <?php
-                      $keys = array_keys($lists['standsTaken']);
+                      $keys = array_keys($lists['stands_taken']);
                       for ($i = 1; $i < 19; $i++) {
                         if (in_array($i, $keys)) {
                           if ($i == $model['company']->stand)
-                            echo '<li style="color: #2ecc71; font-weight: bold;">'.$lists['standsTaken'][$i].'</li>';
+                            echo '<li style="color: #2ecc71; font-weight: bold;">'.$lists['stands_taken'][$i].'</li>';
                           else
-                            echo '<li style="color: #ccc;">'.($i == 1 || $i == 13 || $i == 18? 'Reservado' : $lists['standsTaken'][$i]).'</li>';
+                            echo '<li style="color: #ccc;">'.($i == 1 || $i == 13 || $i == 18? 'Reservado' : $lists['stands_taken'][$i]).'</li>';
                         }
                         else
                           echo '<li>Disponible</li>';

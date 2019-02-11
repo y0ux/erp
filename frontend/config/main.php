@@ -51,7 +51,7 @@ return [
         */
         'i18n' => [
             'translations' => [
-                'event-planner*' => [
+                'eventplanner*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
                     'basePath' => '@frontend/messages',
                     'sourceLanguage' => 'en-US',

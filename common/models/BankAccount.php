@@ -50,13 +50,13 @@ class BankAccount extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'beneficiary' => 'Beneficiary',
-            'account_number' => 'Account Number',
-            'type' => 'Type',
-            'bank_id' => 'Bank ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'id' => Yii::t('eventplanner.company', 'ID'),
+            'beneficiary' => Yii::t('eventplanner.company', 'Beneficiary'),
+            'account_number' => Yii::t('eventplanner.company', 'Account Number'),
+            'type' => Yii::t('eventplanner.company', 'Account Type'),
+            'bank_id' => Yii::t('eventplanner.company', 'Bank ID'),
+            'created_at' => Yii::t('eventplanner.company', 'Created At'),
+            'updated_at' => Yii::t('eventplanner.company', 'Updated At'),
         ];
     }
 

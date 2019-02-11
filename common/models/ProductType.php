@@ -6,23 +6,24 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 
 /**
- * This is the model class for table "bank".
+ * This is the model class for table "product_type".
  *
  * @property string $id
  * @property string $name
+ * @property string $details
  * @property string $created_at
  * @property string $updated_at
  *
- * @property BankAccount[] $bankAccounts
+ * @property Product[] $products
  */
-class Bank extends \yii\db\ActiveRecord
+class ProductType extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'bank';
+        return 'product_type';
     }
 
     /**
@@ -32,9 +33,9 @@ class Bank extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
+            [['details'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 255],
-            [['name'], 'unique'],
         ];
     }
 
@@ -44,10 +45,11 @@ class Bank extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('eventplanner.company', 'ID'),
-            'name' => Yii::t('eventplanner.company', 'Name'),
-            'created_at' => Yii::t('eventplanner.company', 'Created At'),
-            'updated_at' => Yii::t('eventplanner.company', 'Updated At'),
+            'id' => 'ID',
+            'name' => 'Name',
+            'details' => 'Details',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 
@@ -67,8 +69,8 @@ class Bank extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBankAccounts()
+    public function getProducts()
     {
-        return $this->hasMany(BankAccount::className(), ['bank_id' => 'id']);
+        return $this->hasMany(Product::className(), ['product_type_id' => 'id']);
     }
 }

@@ -114,6 +114,47 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+      * @return Array[\yii\db\ActiveQuery]
+      */
+    public function getCompanyList()
+    {
+        $companies = [];
+        foreach ($this->companies as $company) {
+          $companies[$company->id] = $company->legal_name;
+        }
+        return $companies;
+    }
+
+    /**
+      * @return \yii\db\ActiveQuery
+      */
+    public function getBrands()
+    {
+        $brands = [];
+        foreach ($this->companies as $company) {
+          if (!empty($company->brands))
+            array_push($brands, $company->brands);
+        }
+        return $brands;
+    }
+
+    /**
+      * @return \yii\db\ActiveQuery
+      */
+    public function getBrandList()
+    {
+        $brands = [];
+        foreach ($this->companies as $company) {
+          if (!empty($company->brands))
+            foreach ($company->brands as $item) {
+              if (!array_key_exists($item->id, $brands))
+                $brands[$item->id] = $item->name;
+            }
+        }
+        return $brands;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public static function findIdentity($id)

@@ -6,23 +6,27 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 
 /**
- * This is the model class for table "bank".
+ * This is the model class for table "staff".
  *
  * @property string $id
+ * @property string $company_id
  * @property string $name
+ * @property int $gender
+ * @property int $document_type
+ * @property string $document_number
  * @property string $created_at
  * @property string $updated_at
  *
- * @property BankAccount[] $bankAccounts
+ * @property Company $company
  */
-class Bank extends \yii\db\ActiveRecord
+class Staff extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'bank';
+        return 'staff';
     }
 
     /**
@@ -31,10 +35,11 @@ class Bank extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['company_id', 'name', 'gender', 'document_type', 'document_number'], 'required'],
+            [['company_id', 'gender', 'document_type'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['name'], 'string', 'max' => 255],
-            [['name'], 'unique'],
+            [['name', 'document_number'], 'string', 'max' => 255],
+            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['company_id' => 'id']],
         ];
     }
 
@@ -45,7 +50,11 @@ class Bank extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('eventplanner.company', 'ID'),
+            'company_id' => Yii::t('eventplanner.company', 'Company ID'),
             'name' => Yii::t('eventplanner.company', 'Name'),
+            'gender' => Yii::t('eventplanner.company', 'Gender'),
+            'document_type' => Yii::t('eventplanner.company', 'Document Type'),
+            'document_number' => Yii::t('eventplanner.company', 'Document Number'),
             'created_at' => Yii::t('eventplanner.company', 'Created At'),
             'updated_at' => Yii::t('eventplanner.company', 'Updated At'),
         ];
@@ -67,8 +76,8 @@ class Bank extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBankAccounts()
+    public function getCompany()
     {
-        return $this->hasMany(BankAccount::className(), ['bank_id' => 'id']);
+        return $this->hasOne(Company::className(), ['id' => 'company_id']);
     }
 }

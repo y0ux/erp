@@ -47,6 +47,13 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));?
               'label' => 'Nombre Legal',
               'attribute' => 'legal_name'
             ],
+            [
+              'label' => \Yii::t('eventplanner.company', 'Company Type'),
+              'attribute' => 'company_type_id',
+              'value' => function ($data) {
+                return \Yii::t('eventplanner.company', $data->company_types[$data->company_type_id]);
+              }
+            ],
             'nit',
             [
               'label' => 'Direccion',
@@ -81,13 +88,6 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));?
               //'attribute' => 'accepted_currency_id',
               'value' => function ($data) {
                 return empty($data->firstBankAccount)? null : ($data->firstBankAccount->type? 'Monetaria' : 'Ahorro');
-              }
-            ],
-            [
-              'label' => 'Marca',
-              //'attribute' => 'accepted_currency_id',
-              'value' => function ($data) {
-                return empty($data->brand)? null : $data->brand->name;
               }
             ],
             [

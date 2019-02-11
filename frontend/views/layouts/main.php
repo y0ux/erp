@@ -21,7 +21,23 @@ if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
     $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
 } else {
-    $menuItems[] = ['label' => 'Registro', 'url' => ['/site/register']];
+    $menuItems[] = ['label' => 'Dashboard', 'url' => ['/site/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    $menuItems[] = ['label' => 'Registro', 'url' => ['/site/register'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    $menuItems[] = ['label' => 'Productos', 'url' => ['/product/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    $menuItems[] = ['label' => 'Personal', 'url' => ['/staff/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    $menuItems[] = ['label' => 'Vehiculos', 'url' => ['/vehicle/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    $menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    /*$menuItems[] = [
+      'label' => 'Perfil',
+      'items' => [
+           //'<li class="divider"></li>',
+           //'<li class="dropdown-header">Adicionales</li>',
+           ['label' => 'Personal', 'url' => ['/staff/index'], 'options' => ['class' => '']],
+           ['label' => 'Vehiculos', 'url' => ['/vehicle/index','#' => '']],
+           ['label' => 'Ventas', 'url' => ['/sales/index']],
+      ],
+      'options' => ['class' => 'hidden-lg hidden-md'],
+    ];*/
     $menuItems[] = '<li>'
         . Html::beginForm(['/site/logout'], 'post')
         . Html::submitButton(
@@ -69,18 +85,21 @@ if (Yii::$app->user->isGuest) {
           <?php
             $currentUrl = Url::current();
             $menuItems = [];
-            $menuItems[] = ['label' => 'Inicio', 'url' => ['/site/index']];
+            //$menuItems[] = ['label' => 'Inicio', 'url' => ['/site/index']];
             // check if is already registered
             $company = Yii::$app->user->identity->company;
+            $menuItems[] = ['label' => 'Dashboard', 'url' => ['/site/index']];
             if (empty($company)) {
               $menuItems[] = ['label' => 'Registro', 'url' => ['/site/register']];
             } else {
               $menuItems[] = ['label' => 'Registro', 'url' => ['/site/view', 'id' => $company->id]];
             }
-            //$menuItems[] = ['label' => 'Marca', 'url' => ['/tag/index']];
-            $menuItems[] = ['label' => 'Productos (Soon)', 'url' => ['/site/index','#' => '']];
-            $menuItems[] = ['label' => 'Personal (Soon)', 'url' => ['/site/index','#' => '']];
-            $menuItems[] = ['label' => 'Vehiculos (Soon)', 'url' => ['/site/index','#' => '']];
+            $menuItems[] = ['label' => 'Marcas', 'url' => ['/brand/index']];
+            $menuItems[] = ['label' => 'Productos', 'url' => ['/product/index']];
+            $menuItems[] = ['label' => 'Personal', 'url' => ['/staff/index']];
+            $menuItems[] = ['label' => 'Vehiculos', 'url' => ['/vehicle/index','#' => '']];
+            $menuItems[] = ['label' => 'Ventas', 'url' => ['/sale/index']];
+            $menuItems[] = ['label' => 'Categorias', 'url' => ['/category']];
           ?>
             <div class="list-group">
                 <?php

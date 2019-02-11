@@ -15,8 +15,11 @@ $this->title = 'Festival de Cerveza Artesanal 2019 - Antigua Guatemala';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Hola!</h1>
-
+        <?php if(!\Yii::$app->user->isGuest) : ?>
+          <h1>Hola <?= Yii::$app->user->identity->username ?>!</h1>
+        <?php else : ?>
+          <h1>Hola!</h1>
+        <?php endif; ?>
         <p class="lead">Bienvenido al sistema de registro del Festival de Cerveza Artesanal 2019 - Antigua</p>
 
     </div>

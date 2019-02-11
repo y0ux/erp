@@ -10,6 +10,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property string $id
  * @property string $legal_name
+ * @property string $company_type_id
  * @property string $nit
  * @property string $address_1
  * @property string $address_2
@@ -29,6 +30,12 @@ use yii\behaviors\TimestampBehavior;
  */
 class Company extends \yii\db\ActiveRecord
 {
+
+    const BREWERY = 1;
+    const SUPPLIER = 2;
+    const RESTAURANT = 3;
+    const OTHER = 4;
+    public $company_types = [1 => 'Brewery', 2 => 'Supplier', 3 => 'Restaurant', 4 => 'Other'];
     /**
      * {@inheritdoc}
      */
@@ -43,8 +50,8 @@ class Company extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['legal_name', 'nit', 'address_1', 'stand'], 'required'],
-            [['stand'], 'integer'],
+            [['legal_name', 'company_type_id', 'nit', 'address_1', 'stand'], 'required'],
+            [['company_type_id', 'stand'], 'integer'],
             [['details'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['legal_name', 'nit', 'address_1', 'address_2'], 'string', 'max' => 255],
@@ -60,15 +67,16 @@ class Company extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'legal_name' => 'Legal Name',
-            'nit' => 'NIT',
-            'address_1' => 'Address 1',
-            'address_2' => 'Address 2',
-            'stand' => 'Stand',
-            'details' => 'Details',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'id' => Yii::t('eventplanner.company', 'ID'),
+            'legal_name' => Yii::t('eventplanner.company', 'Legal Name'),
+            'company_type_id' => Yii::t('eventplanner.company', 'Company Type Id'),
+            'nit' => Yii::t('eventplanner.company', 'NIT'),
+            'address_1' => Yii::t('eventplanner.company', 'Address 1'),
+            'address_2' => Yii::t('eventplanner.company', 'Address 2'),
+            'stand' => Yii::t('eventplanner.company', 'Stand'),
+            'details' => Yii::t('eventplanner.company', 'Details'),
+            'created_at' => Yii::t('eventplanner.company', 'Created At'),
+            'updated_at' => Yii::t('eventplanner.company', 'Updated At'),
         ];
     }
 
@@ -111,7 +119,7 @@ class Company extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return Array[\yii\db\ActiveQuery]
      */
     public function getBrands()
     {
@@ -188,5 +196,18 @@ class Company extends \yii\db\ActiveRecord
         foreach ($list as $item)
           $stands[$item->stand] = $item->legal_name;
         return $stands;
+    }
+
+    /**
+     * @return Array
+     */
+    public static function getCompanyTypes()
+    {
+        return [
+          self::BREWERY => \Yii::t('eventplanner.company', 'Brewery'),
+          self::SUPPLIER => \Yii::t('eventplanner.company', 'Supplier'),
+          self::RESTAURANT => \Yii::t('eventplanner.company', 'Restaurant'),
+          self::OTHER => \Yii::t('eventplanner.company', 'Other'),
+        ];
     }
 }
