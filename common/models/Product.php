@@ -26,6 +26,7 @@ use yii\behaviors\TimestampBehavior;
  * @property ProductType $productType
  * @property Company $company
  * @property ProductPrice[] $productPrices
+ * @property Sales[] $sales
  */
 class Product extends \yii\db\ActiveRecord
 {
@@ -152,5 +153,13 @@ class Product extends \yii\db\ActiveRecord
     public function getProductPrice()
     {
         return $this->hasOne(ProductPrice::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSales()
+    {
+        return $this->hasMany(Sales::className(), ['product_id' => 'id']);
     }
 }

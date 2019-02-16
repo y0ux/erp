@@ -9,7 +9,7 @@ use yii\grid\GridView;
 /* @var $model common\models\Beer */
 
 $this->title = $model['product']->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('eventplanner.company', 'Beers'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('eventplanner.company', 'Products'), 'url' => ['product/index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -159,14 +159,34 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
     <h3>Precios</h3>
+    <p>
+    <?= Html::a(\Yii::t('eventplanner.company','Add Price'), ['/product-price/create', 'product_id' => $model['product']->id], ['class' => 'btn btn-success']) ?>
+    </p>
     <?= GridView::widget([
         'dataProvider' => $model['dataProvider'],
         //'filterModel' => $searchModel,
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
             'sku',
-            'presentation',
+            //'presentation',
+            [
+              'attribute' => 'presentation',
+              'value' => function ($data) {
+                return Html::a(
+                  $data->presentation,
+                  Url::toRoute((['/product-price/view','id'=>$data->id])), ['data' => ['pjax' => '0'], 'class' => 'item-update']
+                );
+              },
+              'format' => ['raw']
+            ],
             'price',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'visibleButtons' => [
+                    'update' => false,
+                    'view' => false,
+                ]
+            ],
         ],
         'tableOptions' => ['class' => 'table table-striped']
     ]); ?>

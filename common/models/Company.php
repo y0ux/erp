@@ -21,12 +21,16 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property Brand $brand
  * @property Brand[] $brands
+ * @property Business[] $businesses
  * @property CompanyBankAccount[] $companyBankAccounts
  * @property firstBankAccount $firstBankAccount
  * @property BankAccount[] $bankAccounts
+ * @property Product[] $products
+ * @property Staff[] $staff
  * @property UserCompany[] $userCompanies
  * @property User[] $users
  * @property User $user
+ * @property Vehicle[] $vehicles
  */
 class Company extends \yii\db\ActiveRecord
 {
@@ -69,8 +73,8 @@ class Company extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('eventplanner.company', 'ID'),
             'legal_name' => Yii::t('eventplanner.company', 'Legal Name'),
-            'company_type_id' => Yii::t('eventplanner.company', 'Company Type Id'),
-            'nit' => Yii::t('eventplanner.company', 'NIT'),
+            'company_type_id' => Yii::t('eventplanner.company', 'Company Type ID'),
+            'nit' => Yii::t('eventplanner.company', 'Nit'),
             'address_1' => Yii::t('eventplanner.company', 'Address 1'),
             'address_2' => Yii::t('eventplanner.company', 'Address 2'),
             'stand' => Yii::t('eventplanner.company', 'Stand'),
@@ -113,18 +117,26 @@ class Company extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getBrands()
+    {
+        return $this->hasMany(Brand::className(), ['company_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getBrand()
     {
         return $this->hasOne(Brand::className(), ['company_id' => 'id']);
     }
 
     /**
-     * @return Array[\yii\db\ActiveQuery]
+     * @return \yii\db\ActiveQuery
      */
-    public function getBrands()
-    {
-        return $this->hasMany(Brand::className(), ['company_id' => 'id']);
-    }
+     public function getBusinesses()
+     {
+        return $this->hasMany(Business::className(), ['company_id' => 'id']);
+     }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -153,6 +165,21 @@ class Company extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getProducts()
+    {
+        return $this->hasMany(Product::className(), ['company_id' => 'id']);
+    }
+    /**
+    * @return \yii\db\ActiveQuery
+    */
+    public function getStaff()
+    {
+        return $this->hasMany(Staff::className(), ['company_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUserCompanies()
     {
         return $this->hasMany(UserCompany::className(), ['company_id' => 'id']);
@@ -172,6 +199,14 @@ class Company extends \yii\db\ActiveRecord
     public function getUsers()
     {
         return $this->hasMany(User::className(), ['id' => 'user_id'])->viaTable('user_company', ['company_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVehicles()
+    {
+        return $this->hasMany(Vehicle::className(), ['company_id' => 'id']);
     }
 
     /**

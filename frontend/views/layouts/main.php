@@ -27,8 +27,8 @@ if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => 'Productos', 'url' => ['/product/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
     $menuItems[] = ['label' => 'Personal', 'url' => ['/staff/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
     $menuItems[] = ['label' => 'Vehiculos', 'url' => ['/vehicle/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    $menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    $menuItems[] = ['label' => 'Categorias', 'url' => ['/category/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    //$menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    //s$menuItems[] = ['label' => 'Categorias', 'url' => ['/category/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
     /*$menuItems[] = [
       'label' => 'Perfil',
       'items' => [
@@ -100,8 +100,8 @@ if (Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => 'Productos', 'url' => ['/product/index']];
             $menuItems[] = ['label' => 'Personal', 'url' => ['/staff/index']];
             $menuItems[] = ['label' => 'Vehiculos', 'url' => ['/vehicle/index','#' => '']];
-            $menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index']];
-            $menuItems[] = ['label' => 'Categorias', 'url' => ['/category/index']];
+            //$menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index']];
+            //$menuItems[] = ['label' => 'Categorias', 'url' => ['/category/index']];
           ?>
             <div class="list-group">
                 <?php

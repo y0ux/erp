@@ -46,6 +46,20 @@ body {
   font-size: 1.5em;
   vertical-align: middle;
 }
+.item-update:hover {
+  position: relative;
+}
+.item-update:hover::after {
+  content: "\270f";
+  font-family: "Glyphicons Halflings";
+  color: #337ab7;
+  font-size: 1.2em;
+  display: block;
+  position: absolute;
+  right: -1.5em;
+  top: -50%;
+  transition: display 5s;
+}
 @media (min-width: 768px) {
   .sidebar {
     position: fixed;

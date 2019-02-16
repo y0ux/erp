@@ -61,6 +61,19 @@ class Sales extends \yii\db\ActiveRecord
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            [
+              'class' => TimestampBehavior::className(),
+              'value' => date('Y-m-d H:i:s',time()),
+            ],
+        ];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getProduct()
