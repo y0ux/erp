@@ -90,10 +90,10 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));?
                 return empty($data->firstBankAccount)? null : ($data->firstBankAccount->type? 'Monetaria' : 'Ahorro');
               }
             ],
-            [
+            /*[
               'label' => 'Stand',
               'attribute' => 'stand'
-            ],
+            ],*/
             [
               'label' => 'Primera vez?',
               'value' => function ($data) {

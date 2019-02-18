@@ -1,5 +1,8 @@
 <?php
 
+use yii\helpers\Html;
+use yii\helpers\Url;
+
 /* @var $this yii\web\View */
 
 $this->title = 'Festival de Cerveza Artesanal 2019 - Antigua Guatemala';
@@ -15,8 +18,62 @@ $this->title = 'Festival de Cerveza Artesanal 2019 - Antigua Guatemala';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Hola!</h1>
+        <h1>Hola <?= Yii::$app->user->identity->username ?>!</h1>
         <p class="lead">Bienvenido al sistema de registro del Festival de Cerveza Artesanal 2019 - Antigua</p>
+    </div>
+
+    <div class=row>
+      <div class="col-lg-8 col-md-6">
+        <?= Html::img(Url::to('@web/images/santa-isabel-jardin-espacios-short-final.jpg'),['style' => 'max-width: 95%;']) ?>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <h3>Cervecerias</h3>
+          <ol>
+            <li value="2">Cadejo</li>
+            <li>Anchor Brewing Co.</li>
+            <li>Bilste S.A.</li>
+            <li>Pantera</li>
+            <li>Sapiens</li>
+            <li>Gúin</li>
+            <li>El Zapote</li>
+            <li>Ave Indiana</li>
+            <li>Tajumulco</li>
+            <li>El Principe Gris</li>
+            <li value="14">Reservado</li>
+            <li>Cerveceria 14</li>
+            <li>Bodega Cervecera</li>
+            <li>Xaman</li>
+            <li>Antigua Cerveza</li>
+            <?php /* foreach($breweries as $stand => $brewery) : ?>
+              <li value="<?= $stand ?>"><?= $brewery->legal_name ?></li>
+            <?php endforeach; */ ?>
+          </ol>
+          <!--pre>
+            <?php // print_r($breweries) ?>
+          </pre-->
+        <h3>Restaurantes</h3>
+          <ol>
+            <li value="20">Producto Artesanal</li>
+            <li>Chez Christophe</li>
+            <li>Chermol</li>
+            <li>Fruta Madre</li>
+            <li>Cafeina</li>
+            <li>Pappy's BBQ</li>
+            <li>XQ No?</li>
+            <li>Chermol</li>
+            <li>Fridas</li>
+          </ol>
+        <h3>Cockteleria</h3>
+          <ol>
+            <li value="30">Simoneta</li>
+            <li value="31">Chermol</li>
+          </ol>
+        <h3>Otros</h3>
+          <ol>
+            <li>Alimentos Exclusivos Artesanales</li>
+            <li value="21">Los Patojos</li>
+          </ol>
+      </div>
     </div>
 
     <!--div class="body-content">

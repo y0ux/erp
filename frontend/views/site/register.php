@@ -81,7 +81,8 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                   <label class="control-label required-field" for="Company[cost-compromise]">Me comprometo con el costo de participacion</label>
                 </div>
                 <?php
-                  $stands = [
+                  if (!Html::submitButton($model['company']->isNewRecord)) :
+                  /*$stands = [
                     1 => '1',
                     2 => '2',
                     3 => '3',
@@ -138,6 +139,7 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                     </ol>
                   </div>
                 </div>
+              <?php */ endif; ?>
 
                 <div class="form-group">
                     <?= Html::submitButton($model['company']->isNewRecord? 'Registrar' : 'Actualizar', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>

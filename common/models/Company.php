@@ -54,14 +54,14 @@ class Company extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['legal_name', 'company_type_id', 'nit', 'address_1', 'stand'], 'required'],
+            [['legal_name', 'company_type_id', 'nit', 'address_1'], 'required'],
             [['company_type_id', 'stand'], 'integer'],
             [['details'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['legal_name', 'nit', 'address_1', 'address_2'], 'string', 'max' => 255],
             [['legal_name'], 'unique'],
             [['nit'], 'unique'],
-            [['stand'], 'unique'],
+            //[['stand'], 'unique'],
         ];
     }
 
@@ -244,5 +244,31 @@ class Company extends \yii\db\ActiveRecord
           self::RESTAURANT => \Yii::t('eventplanner.company', 'Restaurant'),
           self::OTHER => \Yii::t('eventplanner.company', 'Other'),
         ];
+    }
+
+    /**
+     * @return Array
+     */
+    public static function getCompaniesByType($type)
+    {
+        $companies = self::find()->all();
+        $list = [];
+        foreach($companies as $company)
+          if ($company->company_type_id == $type)
+            $list[$company->id] = $company;
+        //sort($list, SORT_NUMERIC);
+        return $list;
+    }
+
+    /**
+     * @return Array
+     */
+    public static function getCompaniesByTypeByStand($type)
+    {
+        $companies = self::getCompaniesByType($type);
+        $list = [];
+        foreach($companies as $company)
+            $list[$company->stand] = $company;
+        return $list;
     }
 }
