@@ -54,7 +54,7 @@ $this->title = 'Festival de Cerveza Artesanal 2019 - Antigua Guatemala';
         <h3>Restaurantes</h3>
           <ol>
             <li value="20">Producto Artesanal</li>
-            <li>Chez Christophe</li>
+            <li value="22">Chez Christophe</li>
             <li>Chermol</li>
             <li>Fruta Madre</li>
             <li>Cafeina</li>
