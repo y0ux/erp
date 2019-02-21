@@ -65,6 +65,12 @@ class VehicleController extends Controller
      */
     public function actionCreate()
     {
+        $company_type_id = Yii::$app->user->identity->company->company_type_id;
+        $event_limits = \Yii::$app->params['event.limits'][$company_type_id];
+        $vehicles = Yii::$app->user->identity->company->vehicles;
+        if (count($vehicles) >= $event_limits['vehicles'])
+            return $this->redirect(['index']);
+
         $model = new Vehicle();
         $model->company_id = Yii::$app->user->identity->company->id;
 

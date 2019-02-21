@@ -65,6 +65,12 @@ class StaffController extends Controller
      */
     public function actionCreate()
     {
+        $company_type_id = Yii::$app->user->identity->company->company_type_id;
+        $event_limits = \Yii::$app->params['event.limits'][$company_type_id];
+        $staff = Yii::$app->user->identity->company->staff;
+        if (count($staff) >= $event_limits['staff'])
+            return $this->redirect(['index']);
+
         $model = new Staff();
         $model->company_id = Yii::$app->user->identity->company->id;
 
