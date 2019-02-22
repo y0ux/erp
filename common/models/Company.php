@@ -271,4 +271,17 @@ class Company extends \yii\db\ActiveRecord
             $list[$company->stand] = $company;
         return $list;
     }
+
+    /**
+     * @return Array
+     */
+    public function getCompanyLimits()
+    {
+      $event_limits = null;
+      if (!empty(Yii::$app->params['event.limits']['custom'][$this->id])) {
+        $event_limits = Yii::$app->params['event.limits']['custom'][$this->id];
+      } else
+        $event_limits = Yii::$app->params['event.limits'][$this->company_type_id];
+      return $event_limits;
+    }
 }

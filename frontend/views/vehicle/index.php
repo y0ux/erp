@@ -11,8 +11,7 @@ use yii\widgets\Pjax;
 $this->title = Yii::t('eventplanner.company', 'Vehicles');
 $this->params['breadcrumbs'][] = $this->title;
 
-$company_type_id = Yii::$app->user->identity->company->company_type_id;
-$event_limits = \Yii::$app->params['event.limits'][$company_type_id];
+$event_limits = Yii::$app->user->identity->company->companyLimits;
 $vehicles = Yii::$app->user->identity->company->vehicles;
 ?>
 <div class="vehicle-index">

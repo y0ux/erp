@@ -19,10 +19,14 @@ return [
         'staff' => 8,
         'vehicles' => 2,
       ],
-      'specific' => [
-        'set_here_company_id' => [
-          'staff' => 3,
-          'vehicles' => 1,
+      'custom' => [
+        21 => [
+          'staff' => 1,
+          'vehicles' => 2,
+        ],
+        39 => [ // BILSTE
+          'staff' => 16,
+          'vehicles' => 4,
         ]
       ]
     ]
