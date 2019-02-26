@@ -44,13 +44,13 @@ class BeerController extends Controller
         $searchModel = new BeerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $products = Product::find()->all();
+        /*$products = Product::find()->all();
         foreach ($products as $product){
           if (!empty($product->beer)) {
             $product->product_type_id = Product::BEER;
             $product->save();
           }
-        }
+        }*/
 
         return $this->render('index', [
             'searchModel' => $searchModel,
