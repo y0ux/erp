@@ -44,6 +44,14 @@ class BeerController extends Controller
         $searchModel = new BeerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $products = Product::find()->all();
+        foreach ($products as $product){
+          if (!empty($product->beer)) {
+            $product->product_type_id = Product::BEER;
+            $product->save();
+          }
+        }
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -84,7 +92,7 @@ class BeerController extends Controller
     public function actionCreate()
     {
         $product = new Product();
-        $product->product_type_id = Product::OTHER;
+        $product->product_type_id = Product::BEER;
         $product->company_id = Yii::$app->user->identity->company->id;
 
         $productPrice = new ProductPrice();
