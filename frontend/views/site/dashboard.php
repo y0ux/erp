@@ -31,7 +31,7 @@ $this->title = 'Festival de Cerveza Artesanal 2019 - Antigua Guatemala';
           <ol>
             <li value="2">Cadejo</li>
             <li>Anchor Brewing Co.</li>
-            <li>Bilste S.A.</li>
+            <li>Goose Island</li>
             <li>Pantera</li>
             <li>Sapiens</li>
             <li>Gúin</li>
@@ -39,7 +39,7 @@ $this->title = 'Festival de Cerveza Artesanal 2019 - Antigua Guatemala';
             <li>Ave Indiana</li>
             <li>Tajumulco</li>
             <li>El Principe Gris</li>
-            <li value="14">Reservado</li>
+            <li value="14">Bilste S.A.</li>
             <li>Cerveceria 14</li>
             <li>Bodega Cervecera</li>
             <li>Xaman</li>
@@ -53,11 +53,11 @@ $this->title = 'Festival de Cerveza Artesanal 2019 - Antigua Guatemala';
           </pre-->
         <h3>Restaurantes</h3>
           <ol>
-            <li value="20">Producto Artesanal</li>
+            <li value="20">Salsipuedes</li>
             <li value="22">Chez Christophe</li>
             <li>Chermol</li>
-            <li>Fruta Madre</li>
-            <li>Cafeina</li>
+            <li>Ni-fu Ni-fa</li>
+            <li>Fruta Madre y Cafeina</li>
             <li>Pappy's BBQ</li>
             <li>XQ No?</li>
             <li>Chermol</li>
