@@ -171,7 +171,11 @@ class SiteController extends Controller
                 $authorRole = $auth->getRole('author');
                 $auth->assign($authorRole, $user->getId());
                 if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
+                  Yii::$app->user->logout();
+                    //return $this->goHome();
+                    return $this->render('signup', [
+                        'model' => $model,
+                    ]);
                 }
             }
         }
