@@ -16,7 +16,7 @@ $this->title = 'Festival de Cerveza Artesanal 2019 - Antigua Guatemala';
 
     <div class="jumbotron">
         <h1>Hola!</h1>
-        <p class="lead">Bienvenido al sistema de registro del Festival de Cerveza Artesanal 2019 - Antigua</p>
+        <p class="lead">El registro para el Festival de Cerveza Artesanal 2019 - Antigua se cerro, te esperamos en la proxima edicion!</p>
     </div>
 
     <!--div class="body-content">
