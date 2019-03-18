@@ -9,6 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'name' => 'Event Planner 1.0',
+    'version' => '1.0',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
@@ -41,14 +42,14 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
-        'urlManager' => [
+
+        /*'urlManager' => [
             'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            'showScriptName' => true,
             'rules' => [
             ],
-        ],
-        */
+        ],*/
+
         'i18n' => [
             'translations' => [
                 'eventplanner*' => [
@@ -76,7 +77,7 @@ return [
                 'allow' => true,
             ],
             [
-                'actions' => ['login','signup'],
+                'actions' => ['login'],//'signup'],
                 'allow' => true,
                 'roles' => ['?'],
             ],
@@ -86,6 +87,14 @@ return [
             ],
         ],
     ],
+    // logout everybody!
+    'on beforeRequest' => function ($event) {
+        if(!\Yii::$app->user->isGuest) {
+          Yii::$app->user->logout();
+          Yii::$app->getResponse()->redirect(['site/index'])->send();
+          return;
+        }
+    },
 
     'params' => $params,
 ];
