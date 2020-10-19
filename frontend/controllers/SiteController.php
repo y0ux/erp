@@ -84,7 +84,7 @@ class SiteController extends Controller
       if(\Yii::$app->user->isGuest)
         return $this->render('index');
       return $this->render('dashboard', [
-        'breweries' => Company::getCompaniesByTypeByStand(Company::BREWERY),
+        //'breweries' => Company::getCompaniesByTypeByStand(Company::BREWERY),
       ]);
     }
 
@@ -274,8 +274,8 @@ class SiteController extends Controller
             'brand' => $brand,
           ],
           'lists' => [
-            'stands_taken' => Company::getTakenCompanyStands(),
-            'company_types' => Company::getCompanyTypes(),
+            //'stands_taken' => Company::getTakenCompanyStands(),
+            //'company_types' => Company::getCompanyTypes(),
           ]
       ]);
     }
@@ -309,8 +309,8 @@ class SiteController extends Controller
                 'brand' => $brand,
               ],
               'lists' => [
-                'stands_taken' => Company::getTakenCompanyStands(),
-                'company_types' => Company::getCompanyTypes(),
+                //'stands_taken' => Company::getTakenCompanyStands(),
+                //'company_types' => Company::getCompanyTypes(),
               ]
           ]);
         }

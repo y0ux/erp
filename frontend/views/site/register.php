@@ -35,12 +35,12 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
             <h3>Datos de la Empresa</h3>
                 <?= $form->field($model['company'], 'legal_name')->textInput(['autofocus' => true])->label(null, ['class' => 'required-field']) ?>
 
-                <?= $form->field($model['company'], 'company_type_id')->inline(true)->radioList($lists['company_types'])->label('Tipo de Empresa', ['class' => 'required-field']); ?>
+                <?php //= $form->field($model['company'], 'company_type_id')->inline(true)->radioList($lists['company_types'])->label('Tipo de Empresa', ['class' => 'required-field']); ?>
 
             <h3>Datos de Conciliacion</h3>
                 <?= $form->field($model['company'], 'nit')->label(null, ['class' => 'required-field']) ?>
-                <?= $form->field($model['company'], 'address_1')->label(null, ['class' => 'required-field']) ?>
-                <?= $form->field($model['company'], 'address_2')->label(null, ['class' => 'optional-field']) ?>
+                <?php //= $form->field($model['company'], 'address_1')->label(null, ['class' => 'required-field']) ?>
+                <?php //= $form->field($model['company'], 'address_2')->label(null, ['class' => 'optional-field']) ?>
                 <div class='form-group'>
                   <label class="control-label required-field" for="Company[city]">Ciudad</label>
                   <?= Html::input('text', 'Company[city]', !empty($companyDetails) && property_exists($companyDetails,'city')? $companyDetails->city : null ,['class' => 'form-control', 'required' => true]) ?>

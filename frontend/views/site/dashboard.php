@@ -5,7 +5,7 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 
-$this->title = 'Festival de Cerveza Artesanal 2019 - Antigua Guatemala';
+$this->title = 'Chermol - ERP';
 ?>
 <?php
   if (!empty($flash_messages)) :
@@ -17,62 +17,17 @@ $this->title = 'Festival de Cerveza Artesanal 2019 - Antigua Guatemala';
 ?>
 <div class="site-index">
 
-    <div class="jumbotron">
-        <h1>Hola <?= Yii::$app->user->identity->username ?>!</h1>
-        <p class="lead">Bienvenido al sistema de registro del Festival de Cerveza Artesanal 2019 - Antigua</p>
+    <div class="text-center">
+        <h1 class="lead">Chermol, S.A.<br><small>Sistema de ERP</small></h1>
+        <p>Hola <?= Yii::$app->user->identity->username ?>!</p>
     </div>
 
     <div class=row>
       <div class="col-lg-8 col-md-6">
-        <?= Html::img(Url::to('@web/images/santa-isabel-jardin-espacios-short-final.jpg'),['style' => 'max-width: 95%;']) ?>
+        LADO Aloja
       </div>
       <div class="col-lg-4 col-md-6">
-        <h3>Cervecerias</h3>
-          <ol>
-            <li value="2">Cadejo</li>
-            <li>Anchor Brewing Co.</li>
-            <li>Goose Island</li>
-            <li>Pantera</li>
-            <li>Sapiens</li>
-            <li>Gúin</li>
-            <li>El Zapote</li>
-            <li>Ave Indiana</li>
-            <li>Tajumulco</li>
-            <li>El Principe Gris</li>
-            <li value="14">Bilste S.A.</li>
-            <li>Cerveceria 14</li>
-            <li>Bodega Cervecera</li>
-            <li>Xaman</li>
-            <li>Antigua Cerveza</li>
-            <?php /* foreach($breweries as $stand => $brewery) : ?>
-              <li value="<?= $stand ?>"><?= $brewery->legal_name ?></li>
-            <?php endforeach; */ ?>
-          </ol>
-          <!--pre>
-            <?php // print_r($breweries) ?>
-          </pre-->
-        <h3>Restaurantes</h3>
-          <ol>
-            <li value="20">Salsipuedes</li>
-            <li value="22">Chez Christophe</li>
-            <li>Chermol</li>
-            <li>Ni-fu Ni-fa</li>
-            <li>Fruta Madre y Cafeina</li>
-            <li>Pappy's BBQ</li>
-            <li>XQ No?</li>
-            <li>Chermol</li>
-            <li>Fridas</li>
-          </ol>
-        <h3>Cockteleria</h3>
-          <ol>
-            <li value="30">Simoneta</li>
-            <li value="31">Chermol</li>
-          </ol>
-        <h3>Otros</h3>
-          <ol>
-            <li>Alimentos Exclusivos Artesanales</li>
-            <li value="21">Los Patojos</li>
-          </ol>
+        LADO Baby
       </div>
     </div>
 

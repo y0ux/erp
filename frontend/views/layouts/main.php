@@ -83,31 +83,44 @@ if (Yii::$app->user->isGuest) {
     <div id="main-container" class="container-fluid">
       <div class="row">
         <?php if (!Yii::$app->user->isGuest) : ?>
-        <div class="col-sm-3 col-md-2 sidebar">
+        <div class="col-sm-3 col-md-3 sidebar">
           <?php
             $currentUrl = Url::current();
             $menuItems = [];
             //$menuItems[] = ['label' => 'Inicio', 'url' => ['/site/index']];
             // check if is already registered
             $company = Yii::$app->user->identity->company;
-            $menuItems[] = ['label' => 'Dashboard', 'url' => ['/site/index']];
-            if (empty($company)) {
+            $menuItems[] = ['label' => ' Dashboard', 'url' => ['/site/index'], 'icon' => 'dashboard'];
+
+            $menuItems[] = ['label' => ' Pedidos', 'url' => ['/order/index'], 'icon' => 'shopping-cart'];
+            $menuItems[] = ['label' => ' Cierre de Caja', 'url' => ['/cashbox/index'], 'icon' => 'off'];
+            $menuItems[] = ['label' => ' Inventario', 'url' => ['/inventory/index'], 'icon' => 'barcode'];
+            $menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], 'icon' => 'time'];
+
+            //$menuItems[] = ['label' => 'Cash Flow', 'url' => ['/cash/index']];
+            //$menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index']];
+            //$menuItems[] = ['label' => 'Categorias', 'url' => ['/category/index']];
+
+
+            /*if (empty($company)) {
               $menuItems[] = ['label' => 'Registro', 'url' => ['/site/register']];
             } else {
               $menuItems[] = ['label' => 'Registro', 'url' => ['/site/view', 'id' => $company->id]];
-            }
-            $menuItems[] = ['label' => 'Marcas', 'url' => ['/brand/index']];
-            $menuItems[] = ['label' => 'Productos', 'url' => ['/product/index']];
-            $menuItems[] = ['label' => 'Personal', 'url' => ['/staff/index']];
-            $menuItems[] = ['label' => 'Vehiculos', 'url' => ['/vehicle/index','#' => '']];
+            }*/
+            //$menuItems[] = ['label' => 'Marcas', 'url' => ['/brand/index']];
+            //$menuItems[] = ['label' => 'Productos', 'url' => ['/product/index']];
+            //$menuItems[] = ['label' => 'Personal', 'url' => ['/staff/index']];
+            //$menuItems[] = ['label' => 'Vehiculos', 'url' => ['/vehicle/index','#' => '']];
             //$menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index']];
-            //$menuItems[] = ['label' => 'Categorias', 'url' => ['/category/index']];
+
           ?>
             <div class="list-group">
                 <?php
                 foreach ($menuItems as $menuitem) {
                     //print_r($menuitem);
-                    $label = '<i class="glyphicon glyphicon-chevron-right"></i>' . Html::encode($menuitem['label']);
+                    //$label = '<i class="glyphicon glyphicon-chevron-right"></i>' . Html::encode($menuitem['label']);
+                    $label = (!empty($menuitem['icon'])? '<i class="glyphicon glyphicon-'.$menuitem['icon'].' glyphicon-leftside"></i> ' : '') .
+                    '<i class="glyphicon glyphicon-chevron-right"></i>' . Html::encode($menuitem['label']);
                     echo Html::a($label, $menuitem['url'], [
                         'class' => Url::to($menuitem['url']) == $currentUrl ? 'list-group-item active' : 'list-group-item',
                     ]);
@@ -122,7 +135,7 @@ if (Yii::$app->user->isGuest) {
             ?>
         </div>
         <?php endif; ?>
-        <div class="<?= (Yii::$app->user->isGuest? "col-sm-12" : "col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2") ?> main">
+        <div class="<?= (Yii::$app->user->isGuest? "col-sm-12" : "col-sm-9 col-sm-offset-3 col-md-9 col-md-offset-3") ?> main">
           <?= Breadcrumbs::widget([
               'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
           ]) ?>

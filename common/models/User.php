@@ -13,17 +13,23 @@ use yii\web\IdentityInterface;
  *
  * @property integer $id
  * @property string $username
+ * @property string $password write-only password
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
  * @property string $auth_key
- * @property integer $status
+ * @property string $status
  * @property string $created_at
  * @property string $updated_at
- * @property string $password write-only password
  *
+ * @property CashBoxLog[] $cashBoxLogs
+ * @property CashFlowTransaction[] $cashFlowTransactions
+ * @property UserAddress[] $userAddresses
+ * @property Address[] $addresses
  * @property UserCompany[] $userCompanies
  * @property Company[] $companies
+ * @property UserInvitation[] $userInvitations
+ * @property UserProfile $userProfile
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -45,7 +51,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'email'], 'required'],
+            [['username', 'email', 'status'], 'required'],
             [['password_reset_token', 'auth_key'], 'string'],
             [['status'], 'integer'],
             /*[['created_at', 'updated_at'], 'safe'],*/
@@ -63,16 +69,16 @@ class User extends ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('event-planner', 'ID'),
-            'username' => Yii::t('event-planner', 'Username'),
-            'password' => Yii::t('event-planner', 'Password'),
-            'password_hash' => Yii::t('event-planner', 'Password Hash'),
-            'password_reset_token' => Yii::t('event-planner', 'Password Reset Token'),
-            'email' => Yii::t('event-planner', 'Email'),
-            'auth_key' => Yii::t('event-planner', 'Auth Key'),
-            'status' => Yii::t('event-planner', 'Status'),
-            'created_at' => Yii::t('event-planner', 'Created At'),
-            'updated_at' => Yii::t('event-planner', 'Updated At'),
+            'id' => Yii::t('sys.erp', 'ID'),
+            'username' => Yii::t('sys.erp', 'Username'),
+            'password' => Yii::t('sys.erp', 'Password'),
+            'password_hash' => Yii::t('sys.erp', 'Password Hash'),
+            'password_reset_token' => Yii::t('sys.erp', 'Password Reset Token'),
+            'email' => Yii::t('sys.erp', 'Email'),
+            'auth_key' => Yii::t('sys.erp', 'Auth Key'),
+            'status' => Yii::t('sys.erp', 'Status'),
+            'created_at' => Yii::t('sys.erp', 'Created At'),
+            'updated_at' => Yii::t('sys.erp', 'Updated At'),
         ];
     }
 
@@ -92,17 +98,49 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserCompanies()
+    public function getCashBoxLogs()
     {
-       return $this->hasMany(UserCompany::className(), ['user_id' => 'id']);
+        return $this->hasMany(CashBoxLog::className(), ['user_id' => 'id']);
     }
 
     /**
-      * @return \yii\db\ActiveQuery
-      */
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCashFlowTransactions()
+    {
+        return $this->hasMany(CashFlowTransaction::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserAddresses()
+    {
+        return $this->hasMany(UserAddress::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAddresses()
+    {
+        return $this->hasMany(Address::className(), ['id' => 'address_id'])->viaTable('user_address', ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserCompanies()
+    {
+        return $this->hasMany(UserCompany::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCompanies()
     {
-       return $this->hasMany(Company::className(), ['id' => 'company_id'])->viaTable('user_company', ['user_id' => 'id']);
+        return $this->hasMany(Company::className(), ['id' => 'company_id'])->viaTable('user_company', ['user_id' => 'id']);
     }
 
     /**
@@ -123,6 +161,36 @@ class User extends ActiveRecord implements IdentityInterface
           $companies[$company->id] = $company->legal_name;
         }
         return $companies;
+    }
+
+    /**
+      * @return Array[\yii\db\ActiveQuery]
+      */
+    public function getVenueList()
+    {
+        $venues = [];
+        foreach ($this->companies as $company) {
+            foreach ($company->venues as $venue) {
+                $venues[$venue->id] = $venue->legal_name;
+            }
+        }
+        return $venues;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserInvitations()
+    {
+        return $this->hasMany(UserInvitation::className(), ['invited_by' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserProfile()
+    {
+        return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
     }
 
     /**

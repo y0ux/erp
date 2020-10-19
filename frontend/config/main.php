@@ -8,8 +8,8 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
-    'name' => 'Event Planner 1.0',
-    'version' => '1.0',
+    'name' => 'ERP 0.1',
+    'version' => 'Alpha 0.1',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
@@ -52,9 +52,9 @@ return [
 
         'i18n' => [
             'translations' => [
-                'eventplanner*' => [
+                'sys*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@frontend/messages',
+                    'basePath' => '@common/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [
                         'app' => 'app.php',
@@ -88,13 +88,13 @@ return [
         ],
     ],
     // logout everybody!
-    'on beforeRequest' => function ($event) {
+    /*'on beforeRequest' => function ($event) {
         if(!\Yii::$app->user->isGuest) {
           Yii::$app->user->logout();
           Yii::$app->getResponse()->redirect(['site/index'])->send();
           return;
         }
-    },
+    },*/
 
     'params' => $params,
 ];

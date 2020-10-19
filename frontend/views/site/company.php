@@ -47,28 +47,28 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));?
               'label' => 'Nombre Legal',
               'attribute' => 'legal_name'
             ],
-            [
+            /*[
               'label' => \Yii::t('eventplanner.company', 'Company Type'),
               'attribute' => 'company_type_id',
               'value' => function ($data) {
                 return \Yii::t('eventplanner.company', $data->company_types[$data->company_type_id]);
               }
-            ],
+            ],*/
             'nit',
-            [
+            /*[
               'label' => 'Direccion',
               'value' => function ($data) {
                   $details = empty($data->details)? null : json_decode($data->details);
                   $city =  !empty($details) && property_exists($details, 'city')?  $details->city : '' ;
                   return $data->address_1.' '.$data->address_2.', '.$city;
               }
-            ],
-            [
+            ],*/
+            /*[
               'label' => 'Banco',
               'value' => function ($data) {
                 return !empty($data->firstBankAccount)? $data->firstBankAccount->bank->name : null;
               },
-            ],
+            ],*/
             [
               'label' => 'Beneficiario',
               //'attribute' => 'accepted_currency_id',
