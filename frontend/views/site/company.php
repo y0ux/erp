@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
-use yii\bootstrap\Alert;
+use yii\bootstrap4\Alert;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\BusinessProfile */

@@ -1,13 +1,13 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
+/* @var $form yii\bootstrap4\ActiveForm */
 /* @var $model \frontend\models\SignupForm */
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap\ActiveForm;
-use yii\bootstrap\Alert;
+use yii\bootstrap4\ActiveForm;
+use yii\bootstrap4\Alert;
 
 $this->title = 'Registro';
 $this->params['breadcrumbs'][] = $this->title;

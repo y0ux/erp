@@ -52,9 +52,9 @@ return [
 
         'i18n' => [
             'translations' => [
-                'sys*' => [
+                'erp*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@common/messages',
+                    //'basePath' => '@common/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [
                         'app' => 'app.php',

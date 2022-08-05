@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'Festival de Cerveza Artesanal 2019 - Antigua Guatemala';
+$this->title = 'Chermol - ERP';
 ?>
 <?php
   if (!empty($flash_messages)) :

@@ -5,8 +5,8 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
+use yii\bootstrap4\Nav;
+use yii\bootstrap4\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
@@ -18,15 +18,16 @@ $menuItems = [
     //['label' => 'Contact', 'url' => ['/site/contact']],
 ];
 if (Yii::$app->user->isGuest) {
-    $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
+    //$menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
     $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
 } else {
-    $menuItems[] = ['label' => 'Dashboard', 'url' => ['/site/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    $menuItems[] = ['label' => 'Registro', 'url' => ['/site/register'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    $menuItems[] = ['label' => 'Marcas', 'url' => ['/brand/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    $menuItems[] = ['label' => 'Productos', 'url' => ['/product/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    $menuItems[] = ['label' => 'Personal', 'url' => ['/staff/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    $menuItems[] = ['label' => 'Vehiculos', 'url' => ['/vehicle/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    //$menuItems[] = ['label' => 'Dashboard', 'url' => ['/site/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    //$menuItems[] = ['label' => ' Cierre de Caja', 'url' => ['/cashbox/index'], 'icon' => 'off'];
+    //$menuItems[] = ['label' => 'Registro', 'url' => ['/site/register'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    //$menuItems[] = ['label' => 'Marcas', 'url' => ['/brand/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    //$menuItems[] = ['label' => 'Productos', 'url' => ['/product/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    //$menuItems[] = ['label' => 'Personal', 'url' => ['/staff/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+    //$menuItems[] = ['label' => 'Vehiculos', 'url' => ['/vehicle/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
     //$menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
     //s$menuItems[] = ['label' => 'Categorias', 'url' => ['/category/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
     /*$menuItems[] = [
@@ -41,7 +42,11 @@ if (Yii::$app->user->isGuest) {
       'options' => ['class' => 'hidden-lg hidden-md'],
     ];*/
     $menuItems[] = '<li>'
-        . Html::beginForm(['/site/logout'], 'post')
+        . Html::beginForm(
+            ['/site/logout'],
+            'post',
+            ['class' => 'form-inline']
+        )
         . Html::submitButton(
             'Logout (' . Yii::$app->user->identity->username . ')',
             ['class' => 'btn btn-link logout']
@@ -70,11 +75,11 @@ if (Yii::$app->user->isGuest) {
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar navbar-expand-md navbar sticky-top navbar-light bg-light',
         ],
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+        'options' => ['class' => 'navbar-nav mr-auto mt-2 mt-lg-0'],
         'items' => $menuItems,
     ]);
     NavBar::end();
@@ -83,7 +88,7 @@ if (Yii::$app->user->isGuest) {
     <div id="main-container" class="container-fluid">
       <div class="row">
         <?php if (!Yii::$app->user->isGuest) : ?>
-        <div class="col-sm-3 col-md-3 sidebar">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <?php
             $currentUrl = Url::current();
             $menuItems = [];
@@ -92,10 +97,11 @@ if (Yii::$app->user->isGuest) {
             $company = Yii::$app->user->identity->company;
             $menuItems[] = ['label' => ' Dashboard', 'url' => ['/site/index'], 'icon' => 'dashboard'];
 
-            $menuItems[] = ['label' => ' Pedidos', 'url' => ['/order/index'], 'icon' => 'shopping-cart'];
-            $menuItems[] = ['label' => ' Cierre de Caja', 'url' => ['/cashbox/index'], 'icon' => 'off'];
-            $menuItems[] = ['label' => ' Inventario', 'url' => ['/inventory/index'], 'icon' => 'barcode'];
-            $menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], 'icon' => 'time'];
+            //$menuItems[] = ['label' => ' Pedidos', 'url' => ['/order/index'], 'icon' => 'shopping-cart'];
+            $menuItems[] = ['label' => ' Cierre Diario', 'url' => ['/cashbox/index'], 'icon' => 'off'];
+            $menuItems[] = ['label' => ' Facturas', 'url' => ['/factura/index'], 'icon' => 'off'];
+            //$menuItems[] = ['label' => ' Inventario', 'url' => ['/inventory/index'], 'icon' => 'barcode'];
+            //$menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], 'icon' => 'time'];
 
             //$menuItems[] = ['label' => 'Cash Flow', 'url' => ['/cash/index']];
             //$menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index']];
@@ -114,38 +120,37 @@ if (Yii::$app->user->isGuest) {
             //$menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index']];
 
           ?>
-            <div class="list-group">
+            <ul class="nav flex-column">
                 <?php
                 foreach ($menuItems as $menuitem) {
                     //print_r($menuitem);
                     //$label = '<i class="glyphicon glyphicon-chevron-right"></i>' . Html::encode($menuitem['label']);
                     $label = (!empty($menuitem['icon'])? '<i class="glyphicon glyphicon-'.$menuitem['icon'].' glyphicon-leftside"></i> ' : '') .
                     '<i class="glyphicon glyphicon-chevron-right"></i>' . Html::encode($menuitem['label']);
+                    $active = Url::to($menuitem['url']) == $currentUrl;
+                    echo Html::beginTag('li',['class' => 'nav-item']);
                     echo Html::a($label, $menuitem['url'], [
-                        'class' => Url::to($menuitem['url']) == $currentUrl ? 'list-group-item active' : 'list-group-item',
+                        'class' => 'nav-link' . ($active ?  ' active': ''),
                     ]);
+                    echo Html::endTag('li',['class' => 'nav-item']);
                 }
                 ?>
-            </div>
+            </ul>
           <?php
             /*echo Nav::widget([
                 'options' => ['class' => 'nav nav-sidebar'],
                 'items' => $menuItems,
             ]);*/
             ?>
-        </div>
+        </nav>
         <?php endif; ?>
-        <div class="<?= (Yii::$app->user->isGuest? "col-sm-12" : "col-sm-9 col-sm-offset-3 col-md-9 col-md-offset-3") ?> main">
+        <main role="main" class="<?= (Yii::$app->user->isGuest? "col-sm-12" : "col-md-9 ml-sm-auto col-lg-10 px-4") ?> main">
           <?= Breadcrumbs::widget([
               'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
           ]) ?>
           <?= Alert::widget() ?>
           <?= $content ?>
-        </div>
-      </div>
-
-      <div class="container">
-
+        </main>
       </div>
     </div>
 </div>

@@ -4,8 +4,11 @@
 * Translation map for es-GT
 */
 return [
-
+    // Cierre Caja
     'Closure' => 'Cierre de Caja',
+    'Submit' => 'Enviar',
+
+
     // COMPANY
     'Company' => 'Empresa',
     'Company Type' => 'Tipo de Empresa',
