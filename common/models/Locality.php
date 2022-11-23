@@ -58,19 +58,19 @@ class Locality extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('sys.erp', 'ID'),
-            'short_name' => Yii::t('sys.erp', 'Short Name'),
-            'long_name' => Yii::t('sys.erp', 'Long Name'),
-            'short_name_en' => Yii::t('sys.erp', 'Short Name En'),
-            'long_name_en' => Yii::t('sys.erp', 'Long Name En'),
-            'administritative_level_area_1_id' => Yii::t('sys.erp', 'Administritative Level Area 1 ID'),
-            'administritative_level_area_2_id' => Yii::t('sys.erp', 'Administritative Level Area 2 ID'),
-            'type' => Yii::t('sys.erp', 'Type'),
-            'postal_code' => Yii::t('sys.erp', 'Postal Code'),
-            'latitude' => Yii::t('sys.erp', 'Latitude'),
-            'longitude' => Yii::t('sys.erp', 'Longitude'),
-            'created_at' => Yii::t('sys.erp', 'Created At'),
-            'updated_at' => Yii::t('sys.erp', 'Updated At'),
+            'id' => Yii::t('erp.sys', 'ID'),
+            'short_name' => Yii::t('erp.sys', 'Short Name'),
+            'long_name' => Yii::t('erp.sys', 'Long Name'),
+            'short_name_en' => Yii::t('erp.sys', 'Short Name En'),
+            'long_name_en' => Yii::t('erp.sys', 'Long Name En'),
+            'administritative_level_area_1_id' => Yii::t('erp.sys', 'Administritative Level Area 1 ID'),
+            'administritative_level_area_2_id' => Yii::t('erp.sys', 'Administritative Level Area 2 ID'),
+            'type' => Yii::t('erp.sys', 'Type'),
+            'postal_code' => Yii::t('erp.sys', 'Postal Code'),
+            'latitude' => Yii::t('erp.sys', 'Latitude'),
+            'longitude' => Yii::t('erp.sys', 'Longitude'),
+            'created_at' => Yii::t('erp.sys', 'Created At'),
+            'updated_at' => Yii::t('erp.sys', 'Updated At'),
         ];
     }
 

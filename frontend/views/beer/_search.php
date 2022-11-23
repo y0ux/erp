@@ -1,11 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstra4\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\BeerSearch */
-/* @var $form yii\widgets\ActiveForm */
+/* @var $form yii\bootstra4\ActiveForm */
 ?>
 
 <div class="beer-search">

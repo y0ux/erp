@@ -57,18 +57,18 @@ class AdministrativeLevelArea1 extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('sys.erp', 'ID'),
-            'short_name' => Yii::t('sys.erp', 'Short Name'),
-            'long_name' => Yii::t('sys.erp', 'Long Name'),
-            'short_name_en' => Yii::t('sys.erp', 'Short Name En'),
-            'long_name_en' => Yii::t('sys.erp', 'Long Name En'),
-            'iso3166_2' => Yii::t('sys.erp', 'Iso3166 2'),
-            'country_id' => Yii::t('sys.erp', 'Country ID'),
-            'type' => Yii::t('sys.erp', 'Type'),
-            'latitude' => Yii::t('sys.erp', 'Latitude'),
-            'longitude' => Yii::t('sys.erp', 'Longitude'),
-            'created_at' => Yii::t('sys.erp', 'Created At'),
-            'updated_at' => Yii::t('sys.erp', 'Updated At'),
+            'id' => Yii::t('erp.sys', 'ID'),
+            'short_name' => Yii::t('erp.sys', 'Short Name'),
+            'long_name' => Yii::t('erp.sys', 'Long Name'),
+            'short_name_en' => Yii::t('erp.sys', 'Short Name En'),
+            'long_name_en' => Yii::t('erp.sys', 'Long Name En'),
+            'iso3166_2' => Yii::t('erp.sys', 'Iso3166 2'),
+            'country_id' => Yii::t('erp.sys', 'Country ID'),
+            'type' => Yii::t('erp.sys', 'Type'),
+            'latitude' => Yii::t('erp.sys', 'Latitude'),
+            'longitude' => Yii::t('erp.sys', 'Longitude'),
+            'created_at' => Yii::t('erp.sys', 'Created At'),
+            'updated_at' => Yii::t('erp.sys', 'Updated At'),
         ];
     }
 

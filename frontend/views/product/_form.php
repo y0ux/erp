@@ -1,12 +1,12 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstra4\ActiveForm;
 use yii\bootstrap4\Alert;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
-/* @var $form yii\widgets\ActiveForm */
+/* @var $form yii\bootstra4\ActiveForm */
 ?>
 
 <?php

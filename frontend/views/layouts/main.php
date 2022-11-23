@@ -5,15 +5,21 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap4\Nav;
+use common\widgets\Nav;
 use yii\bootstrap4\NavBar;
-use yii\widgets\Breadcrumbs;
+use yii\bootstrap4\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+
+
+$cashboxMenuItem = ['label' => ' Cajero', 'url' => ['/cashbox/index']];
+$receiptMenuItem = ['label' => ' Facturas', 'url' => ['/factura/index']];
 
 AppAsset::register($this);
 $menuItems = [
     ['label' => 'Inicio', 'url' => ['/site/index']],
+    $cashboxMenuItem + ["options" => ["class" => "d-md-none"]],
+    $receiptMenuItem + ["options" => ["class" => "d-md-none"]],
     //['label' => 'About', 'url' => ['/site/about']],
     //['label' => 'Contact', 'url' => ['/site/contact']],
 ];
@@ -41,6 +47,7 @@ if (Yii::$app->user->isGuest) {
       ],
       'options' => ['class' => 'hidden-lg hidden-md'],
     ];*/
+    $logoutName = Yii::$app->user->identity->userProfile? Yii::$app->user->identity->userProfile->first_name : Yii::$app->user->identity->username;
     $menuItems[] = '<li>'
         . Html::beginForm(
             ['/site/logout'],
@@ -48,7 +55,7 @@ if (Yii::$app->user->isGuest) {
             ['class' => 'form-inline']
         )
         . Html::submitButton(
-            'Logout (' . Yii::$app->user->identity->username . ')',
+            'Logout (' . $logoutName . ')',
             ['class' => 'btn btn-link logout']
         )
         . Html::endForm()
@@ -65,6 +72,7 @@ if (Yii::$app->user->isGuest) {
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -75,11 +83,11 @@ if (Yii::$app->user->isGuest) {
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar navbar-expand-md navbar sticky-top navbar-light bg-light',
+            'class' => 'navbar-expand-md navbar sticky-top navbar-light bg-light',
         ],
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav mr-auto mt-2 mt-lg-0'],
+        'options' => ['class' => 'navbar-nav ml-auto mt-2 mt-lg-0'],
         'items' => $menuItems,
     ]);
     NavBar::end();
@@ -88,18 +96,22 @@ if (Yii::$app->user->isGuest) {
     <div id="main-container" class="container-fluid">
       <div class="row">
         <?php if (!Yii::$app->user->isGuest) : ?>
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <!--nav class="col-md-2 d-none d-md-block bg-light sidebar"-->
           <?php
             $currentUrl = Url::current();
             $menuItems = [];
             //$menuItems[] = ['label' => 'Inicio', 'url' => ['/site/index']];
             // check if is already registered
-            $company = Yii::$app->user->identity->company;
-            $menuItems[] = ['label' => ' Dashboard', 'url' => ['/site/index'], 'icon' => 'dashboard'];
+            //$company = Yii::$app->user->identity->company;
+            $menuItems[] = [
+                'label' => ' Inicio',
+                'url' => ['/site/index'],
+                'icon' => 'fa-solid fa-gauge'
+            ];
 
             //$menuItems[] = ['label' => ' Pedidos', 'url' => ['/order/index'], 'icon' => 'shopping-cart'];
-            $menuItems[] = ['label' => ' Cierre Diario', 'url' => ['/cashbox/index'], 'icon' => 'off'];
-            $menuItems[] = ['label' => ' Facturas', 'url' => ['/factura/index'], 'icon' => 'off'];
+            $menuItems[] = $cashboxMenuItem + ['icon' => 'fa-solid fa-cash-register'];
+            $menuItems[] = $receiptMenuItem + ['icon' => 'fa-solid fa-receipt'];
             //$menuItems[] = ['label' => ' Inventario', 'url' => ['/inventory/index'], 'icon' => 'barcode'];
             //$menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], 'icon' => 'time'];
 
@@ -120,22 +132,50 @@ if (Yii::$app->user->isGuest) {
             //$menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index']];
 
           ?>
-            <ul class="nav flex-column">
+            <!--ul class="nav flex-column">
                 <?php
-                foreach ($menuItems as $menuitem) {
+                /*foreach ($menuItems as $menuitem) {
                     //print_r($menuitem);
                     //$label = '<i class="glyphicon glyphicon-chevron-right"></i>' . Html::encode($menuitem['label']);
-                    $label = (!empty($menuitem['icon'])? '<i class="glyphicon glyphicon-'.$menuitem['icon'].' glyphicon-leftside"></i> ' : '') .
-                    '<i class="glyphicon glyphicon-chevron-right"></i>' . Html::encode($menuitem['label']);
+                    $label = (!empty($menuitem['icon'])? '<i class="'.$menuitem['icon'].'"></i> ' : '') .
+                    '<i class="fa-solid fa-chevron-right"></i>' . Html::encode($menuitem['label']);
                     $active = Url::to($menuitem['url']) == $currentUrl;
-                    echo Html::beginTag('li',['class' => 'nav-item']);
+                    echo Html::beginTag('li',['class' => 'nav-item' . ($active ?  ' active': '') ]);
                     echo Html::a($label, $menuitem['url'], [
-                        'class' => 'nav-link' . ($active ?  ' active': ''),
+                        'class' => 'nav-link',
                     ]);
                     echo Html::endTag('li',['class' => 'nav-item']);
-                }
+                }*/
                 ?>
-            </ul>
+            </ul-->
+
+            <?php
+              echo Nav::widget([
+                'items' => $menuItems,
+                /*[
+                    [
+                        'label' => 'Home',
+                        'url' => ['site/index'],
+                        'linkOptions' => [...],
+                    ],
+                    [
+                        'label' => 'Dropdown',
+                        'items' => [
+                             ['label' => 'Level 1 - Dropdown A', 'url' => '#'],
+                             '<div class="dropdown-divider"></div>',
+                             '<div class="dropdown-header">Dropdown Header</div>',
+                             ['label' => 'Level 1 - Dropdown B', 'url' => '#'],
+                        ],
+                    ],
+                    [
+                        'label' => 'Login',
+                        'url' => ['site/login'],
+                        'visible' => Yii::$app->user->isGuest
+                    ],
+                ],*/
+                'options' => ['class' =>'col-md-2 d-none d-md-block bg-light sidebar'], // set this to nav-tabs to get tab-styled navigation
+            ]);
+          ?>
           <?php
             /*echo Nav::widget([
                 'options' => ['class' => 'nav nav-sidebar'],

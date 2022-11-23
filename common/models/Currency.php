@@ -60,20 +60,20 @@ class Currency extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('sys.erp', 'ID'),
-            'short_name' => Yii::t('sys.erp', 'Short Name'),
-            'long_name' => Yii::t('sys.erp', 'Long Name'),
-            'short_name_en' => Yii::t('sys.erp', 'Short Name En'),
-            'long_name_en' => Yii::t('sys.erp', 'Long Name En'),
-            'type' => Yii::t('sys.erp', 'Type'),
-            'symbol_utf8' => Yii::t('sys.erp', 'Symbol Utf8'),
-            'symbol_unicode' => Yii::t('sys.erp', 'Symbol Unicode'),
-            'iso4217_alpha' => Yii::t('sys.erp', 'Iso4217 Alpha'),
-            'iso4217_numeric' => Yii::t('sys.erp', 'Iso4217 Numeric'),
-            'iso4217_minor_unit' => Yii::t('sys.erp', 'Iso4217 Minor Unit'),
-            'format' => Yii::t('sys.erp', 'Format'),
-            'created_at' => Yii::t('sys.erp', 'Created At'),
-            'updated_at' => Yii::t('sys.erp', 'Updated At'),
+            'id' => Yii::t('erp.sys', 'ID'),
+            'short_name' => Yii::t('erp.sys', 'Short Name'),
+            'long_name' => Yii::t('erp.sys', 'Long Name'),
+            'short_name_en' => Yii::t('erp.sys', 'Short Name En'),
+            'long_name_en' => Yii::t('erp.sys', 'Long Name En'),
+            'type' => Yii::t('erp.sys', 'Type'),
+            'symbol_utf8' => Yii::t('erp.sys', 'Symbol Utf8'),
+            'symbol_unicode' => Yii::t('erp.sys', 'Symbol Unicode'),
+            'iso4217_alpha' => Yii::t('erp.sys', 'Iso4217 Alpha'),
+            'iso4217_numeric' => Yii::t('erp.sys', 'Iso4217 Numeric'),
+            'iso4217_minor_unit' => Yii::t('erp.sys', 'Iso4217 Minor Unit'),
+            'format' => Yii::t('erp.sys', 'Format'),
+            'created_at' => Yii::t('erp.sys', 'Created At'),
+            'updated_at' => Yii::t('erp.sys', 'Updated At'),
         ];
     }
 

@@ -65,18 +65,18 @@ class Address extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('sys.erp', 'ID'),
-            'address_line_1' => Yii::t('sys.erp', 'Address Line 1'),
-            'address_line_2' => Yii::t('sys.erp', 'Address Line 2'),
-            'locality_id' => Yii::t('sys.erp', 'Locality ID'),
-            'administritative_level_area_2' => Yii::t('sys.erp', 'Administritative Level Area 2'),
-            'administritative_level_area_1' => Yii::t('sys.erp', 'Administritative Level Area 1'),
-            'country_id' => Yii::t('sys.erp', 'Country ID'),
-            'latitude' => Yii::t('sys.erp', 'Latitude'),
-            'longitude' => Yii::t('sys.erp', 'Longitude'),
-            'details' => Yii::t('sys.erp', 'Details'),
-            'created_at' => Yii::t('sys.erp', 'Created At'),
-            'updated_at' => Yii::t('sys.erp', 'Updated At'),
+            'id' => Yii::t('erp.sys', 'ID'),
+            'address_line_1' => Yii::t('erp.sys', 'Address Line 1'),
+            'address_line_2' => Yii::t('erp.sys', 'Address Line 2'),
+            'locality_id' => Yii::t('erp.sys', 'Locality ID'),
+            'administritative_level_area_2' => Yii::t('erp.sys', 'Administritative Level Area 2'),
+            'administritative_level_area_1' => Yii::t('erp.sys', 'Administritative Level Area 1'),
+            'country_id' => Yii::t('erp.sys', 'Country ID'),
+            'latitude' => Yii::t('erp.sys', 'Latitude'),
+            'longitude' => Yii::t('erp.sys', 'Longitude'),
+            'details' => Yii::t('erp.sys', 'Details'),
+            'created_at' => Yii::t('erp.sys', 'Created At'),
+            'updated_at' => Yii::t('erp.sys', 'Updated At'),
         ];
     }
 

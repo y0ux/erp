@@ -10,10 +10,13 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\UserProfile;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+
+
 use common\models\Company;
 use common\models\BankAccount;
 use common\models\Bank;
@@ -21,6 +24,8 @@ use common\models\Brand;
 use common\models\Stand;
 use common\models\UserCompany;
 use common\models\CompanyBankAccount;
+
+use common\models\User;
 
 /**
  * Site controller
@@ -83,6 +88,10 @@ class SiteController extends Controller
     {
       if(\Yii::$app->user->isGuest)
         return $this->render('index');
+      if(\Yii::$app->user->identity->status == User::STATUS_CREATED)
+        return $this->redirect(['profile']);
+      if(\Yii::$app->user->identity->status == User::STATUS_UNFINISH)
+        return $this->redirect(['profile']);
       return $this->render('dashboard', [
         //'breweries' => Company::getCompaniesByTypeByStand(Company::BREWERY),
       ]);
@@ -98,13 +107,14 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
+        //Yii::$app->session->setFlash('success', 'We are guest');
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            //Yii::$app->session->setFlash('success', 'Logging in');
             return $this->goBack();
         } else {
             $model->password = '';
-
+            //Yii::$app->session->setFlash('error', 'Can not login');
             return $this->render('login', [
                 'model' => $model,
             ]);
@@ -167,21 +177,23 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 // RBCA
-                $auth = Yii::$app->authManager;
+                /*$auth = Yii::$app->authManager;
                 $authorRole = $auth->getRole('author');
-                $auth->assign($authorRole, $user->getId());
-                if (Yii::$app->getUser()->login($user)) {
-                  Yii::$app->user->logout();
-                    //return $this->goHome();
-                    return $this->render('signup', [
-                        'model' => $model,
-                    ]);
-                }
+                $auth->assign($authorRole, $user->getId());*/
+                //Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+                Yii::$app->session->setFlash('success', 'Thank you for registration.');
+                Yii::$app->user->login($user);
+                // take it home
+                return $this->goHome();
             }
+            //Yii::$app->session->setFlash('error', 'Todo fallo.');
         }
 
+        $invitation_token = Yii::$app->request->getQueryParam("invitation_token","");
+        //Yii::$app->session->setFlash('error', 'Token: '.$invitation_token);
         return $this->render('signup', [
             'model' => $model,
+            'invitation_token' => $invitation_token,
         ]);
     }
 
@@ -225,7 +237,6 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
             Yii::$app->session->setFlash('success', 'New password saved.');
-
             return $this->goHome();
         }
 
@@ -233,6 +244,36 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+    /**
+     * Signs user up.
+     *
+     * @return mixed
+     */
+    public function actionProfile()
+    {
+        $model = new UserProfile();
+        $model->user_id = Yii::$app->user->identity->id;
+        //Yii::$app->session->setFlash('error', 'getting in');
+        if ($model->load(Yii::$app->request->post())) {
+            //Yii::$app->session->setFlash('success', 'information loaded '.print_r($model,true));
+            if ($model->save()) {
+              //  Yii::$app->session->setFlash('success', 'Thank you for finishing.');
+                Yii::$app->user->identity->finishSignup();
+                // take it home
+                return $this->goHome();
+            }
+            //Yii::$app->session->setFlash('error', 'profile failed.');
+        }
+        return $this->render('userProfile', [
+            'model' => $model,
+        ]);
+    }
+
+
+
+
+
 
     /**
      * Displays a single Venue model.
@@ -432,5 +473,18 @@ class SiteController extends Controller
     {
         Company::findOne($id)->delete();
         return $this->redirect(['index']);
+    }
+
+    /**
+     * Logs out the current user.
+     *
+     * @return mixed
+     */
+    public function actionCreateSignupInvitation()
+    {
+      /*  INCOMPLETE ALL */
+        Yii::$app->user->logout();
+
+        return $this->goHome();
     }
 }

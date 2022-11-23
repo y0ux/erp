@@ -8,17 +8,17 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
-/**
+/*
  * User model
  *
- * @property integer $id
+ * @property int $id
  * @property string $username
- * @property string $password write-only password
+ * @property string $email
+ * @property string $phone
+ * @property int $status
+ * @property string $auth_key
  * @property string $password_hash
  * @property string $password_reset_token
- * @property string $email
- * @property string $auth_key
- * @property string $status
  * @property string $created_at
  * @property string $updated_at
  *
@@ -30,11 +30,28 @@ use yii\web\IdentityInterface;
  * @property Company[] $companies
  * @property UserInvitation[] $userInvitations
  * @property UserProfile $userProfile
+ * @property UserProfile[] $userProfiles
+ */
+
+/**
+ * User model
+ *
+ * @property integer $id
+ * @property string $username
+ * @property string $password_hash
+ * @property string $password_reset_token
+ * @property string $email
+ * @property string $auth_key
+ * @property string $status
+ * @property string $created_at
+ * @property string $updated_at
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 10;
+    const STATUS_DISABLED = 0;
+    const STATUS_CREATED = 10; // needs validation using email link
+    const STATUS_UNFINISH = 20;
+    const STATUS_ACTIVE = 30;
 
 
     /**
@@ -51,15 +68,17 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'email', 'status'], 'required'],
+        [[/*'username',*/ 'email'/*, 'status'*/], 'required'],
             [['password_reset_token', 'auth_key'], 'string'],
             [['status'], 'integer'],
-            /*[['created_at', 'updated_at'], 'safe'],*/
-            [['username', 'password'], 'string', 'max' => 150],
-            [['password_hash', 'email'], 'string', 'max' => 250],
+            [['created_at', 'updated_at'], 'safe'],
+            //[['username', 'email', 'password_hash', 'password_reset_token'], 'string', 'max' => 255],
+            [['password_hash', 'email'], 'string', 'max' => 255],
+            [['phone'], 'string', 'max' => 20],
+            [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'default', 'value' => self::STATUS_UNFINISH], // change to STATUS_CREATED when email message function is done
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_UNFINISH, self::STATUS_CREATED, self::STATUS_DISABLED]],
         ];
     }
 
@@ -69,16 +88,21 @@ class User extends ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('sys.erp', 'ID'),
-            'username' => Yii::t('sys.erp', 'Username'),
-            'password' => Yii::t('sys.erp', 'Password'),
-            'password_hash' => Yii::t('sys.erp', 'Password Hash'),
-            'password_reset_token' => Yii::t('sys.erp', 'Password Reset Token'),
-            'email' => Yii::t('sys.erp', 'Email'),
-            'auth_key' => Yii::t('sys.erp', 'Auth Key'),
-            'status' => Yii::t('sys.erp', 'Status'),
-            'created_at' => Yii::t('sys.erp', 'Created At'),
-            'updated_at' => Yii::t('sys.erp', 'Updated At'),
+            'id' => Yii::t('erp.sys', 'ID'),
+            //'username' => Yii::t('erp.sys', 'Username'),
+            //'password' => Yii::t('erp.sys', 'Password'),
+            'username' => Yii::t('erp.sys', 'Username'),
+            'email' => Yii::t('erp.sys', 'Email'),
+            'phone' => Yii::t('erp.sys', 'Phone'),
+            'status' => Yii::t('erp.sys', 'Status'),
+            'auth_key' => Yii::t('erp.sys', 'Auth Key'),
+            'password_hash' => Yii::t('erp.sys', 'Password Hash'),
+            'password_reset_token' => Yii::t('erp.sys', 'Password Reset Token'),
+            'email' => Yii::t('erp.sys', 'Email'),
+            'auth_key' => Yii::t('erp.sys', 'Auth Key'),
+            'status' => Yii::t('erp.sys', 'Status'),
+            'created_at' => Yii::t('erp.sys', 'Created At'),
+            'updated_at' => Yii::t('erp.sys', 'Updated At'),
         ];
     }
 
@@ -96,8 +120,24 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+    * @return \yii\db\ActiveQuery
+    */
+    public function getUserProfiles()
+    {
+        return $this->hasMany(UserProfile::className(), ['user_id' => 'id']);
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
+    public function getUserProfile()
+    {
+        return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
+    }
+
+    /*
+     * @return \yii\db\ActiveQuery
+     * /
     public function getCashBoxLogs()
     {
         return $this->hasMany(CashBoxLog::className(), ['user_id' => 'id']);
@@ -105,7 +145,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @return \yii\db\ActiveQuery
-     */
+     * /
     public function getCashFlowTransactions()
     {
         return $this->hasMany(CashFlowTransaction::className(), ['user_id' => 'id']);
@@ -113,7 +153,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @return \yii\db\ActiveQuery
-     */
+     * /
     public function getUserAddresses()
     {
         return $this->hasMany(UserAddress::className(), ['user_id' => 'id']);
@@ -121,7 +161,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @return \yii\db\ActiveQuery
-     */
+     * /
     public function getAddresses()
     {
         return $this->hasMany(Address::className(), ['id' => 'address_id'])->viaTable('user_address', ['user_id' => 'id']);
@@ -129,7 +169,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @return \yii\db\ActiveQuery
-     */
+     * /
     public function getUserCompanies()
     {
         return $this->hasMany(UserCompany::className(), ['user_id' => 'id']);
@@ -137,7 +177,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @return \yii\db\ActiveQuery
-     */
+     * /
     public function getCompanies()
     {
         return $this->hasMany(Company::className(), ['id' => 'company_id'])->viaTable('user_company', ['user_id' => 'id']);
@@ -145,7 +185,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
       * @return \yii\db\ActiveQuery
-      */
+      * /
     public function getCompany()
     {
        return $this->hasOne(Company::className(), ['id' => 'company_id'])->viaTable('user_company', ['user_id' => 'id']);
@@ -153,7 +193,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
       * @return Array[\yii\db\ActiveQuery]
-      */
+      * /
     public function getCompanyList()
     {
         $companies = [];
@@ -165,7 +205,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
       * @return Array[\yii\db\ActiveQuery]
-      */
+      * /
     public function getVenueList()
     {
         $venues = [];
@@ -179,7 +219,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @return \yii\db\ActiveQuery
-     */
+     * /
     public function getUserInvitations()
     {
         return $this->hasMany(UserInvitation::className(), ['invited_by' => 'id']);
@@ -187,7 +227,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @return \yii\db\ActiveQuery
-     */
+     * /
     public function getUserProfile()
     {
         return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
@@ -195,7 +235,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
       * @return \yii\db\ActiveQuery
-      */
+      * /
     public function getBrands()
     {
         $brands = [];
@@ -208,7 +248,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
       * @return \yii\db\ActiveQuery
-      */
+      * /
     public function getBrandList()
     {
         $brands = [];
@@ -221,13 +261,23 @@ class User extends ActiveRecord implements IdentityInterface
         }
         return $brands;
     }
+    */
+
+    /**
+     * {@inheritdoc}
+     */
+    public function finishSignup()
+    {
+      $this->status = self::STATUS_ACTIVE;
+      $this->save();
+    }
 
     /**
      * {@inheritdoc}
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['id' => $id, 'status' => [self::STATUS_ACTIVE, self::STATUS_UNFINISH, self::STATUS_CREATED]]);
     }
 
     /**
@@ -246,7 +296,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['username' => $username, 'status' => [self::STATUS_ACTIVE, self::STATUS_UNFINISH, self::STATUS_CREATED]]);
     }
 
     /**
@@ -263,7 +313,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         return static::findOne([
             'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
+            'status' => [self::STATUS_ACTIVE, self::STATUS_UNFINISH, self::STATUS_CREATED],
         ]);
     }
 

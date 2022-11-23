@@ -35,6 +35,8 @@ class FacturaController extends Controller
      */
     public function actionIndex()
     {
+        return $this->redirect(['site/index']);
+        /*
         $searchModel = new StaffSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->query->andWhere(['company_id' => array_keys(Yii::$app->user->identity->companyList)]);
@@ -42,7 +44,7 @@ class FacturaController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
+        ]);*/
     }
 
     /**

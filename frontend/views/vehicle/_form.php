@@ -1,11 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstra4\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Vehicle */
-/* @var $form yii\widgets\ActiveForm */
+/* @var $form yii\bootstra4\ActiveForm */
 ?>
 
 <div class="vehicle-form">

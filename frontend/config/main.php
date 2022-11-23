@@ -24,7 +24,10 @@ return [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+            //'enableAutoLogin' => false,
+            //'authTimeout' => 600,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
@@ -54,7 +57,7 @@ return [
             'translations' => [
                 'erp*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    //'basePath' => '@common/messages',
+                    'basePath' => '@common/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [
                         'app' => 'app.php',
@@ -77,7 +80,7 @@ return [
                 'allow' => true,
             ],
             [
-                'actions' => ['login'],//'signup'],
+                'actions' => ['login','signup'],
                 'allow' => true,
                 'roles' => ['?'],
             ],

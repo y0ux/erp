@@ -19,8 +19,8 @@
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "wbraganca/yii2-dynamicform": "dev-master",
-        "yiisoft/yii2-bootstrap4": "^2.0",
-        "square/square": "8.1.0.20210121"
+        "square/square": "8.1.0.20210121",
+        "yiisoft/yii2-bootstrap4": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
@@ -33,6 +33,9 @@
         "process-timeout": 1800,
         "fxp-asset": {
             "enabled": false
+        },
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
         }
     },
     "repositories": [

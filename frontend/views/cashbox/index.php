@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 //$this->title = \Yii::t('erp.cashbox','Closure');
-$this->title =  \Yii::t('erp.cashbox','Closure');
+$this->title =  \Yii::t('erp.cashbox','Cajero');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="brand-index">
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
       <div class="form-row">
         <div class="form-group col-md">
           <!--label for="name">Nombre </label-->
-          <select name="name" class="form-control form-control-sm" required>
+          <!--select name="name" class="form-control form-control-sm" required>
             <option value="">Nombre...</option>
             <option value="Sandra Argueta">Sandra Argueta</option>
             <option value="Paco Rivera">Paco Rivera</option>
@@ -30,7 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <option value="Juan Carlor Perez">Juanka Perez</option>
             <option value="Cindy Vasquez">Cindy Vasquez</option>
             <option value="Aura Vasquez">Aury Vasquez</option>
-          </select>
+          </select-->
+          <input name="name" placeholder="Suma total" value="<?= \Yii::$app->user->identity->userProfile? \Yii::$app->user->identity->userProfile->fullName() : \Yii::$app->user->identity->username ?>" readonly="true" class="form-control form-control-sm">
         </div>
         <div class="form-group col-md">
           <!--label for="type">Tipo de Cierre </label-->
@@ -292,7 +293,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
-  <script>  
+  <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbyUdMohe81s49hdIUnD3g6nLCKm-NeoJSi176lC-A6ZEdru9r56/exec'
     const form = document.forms['submit-to-google-sheet']
 

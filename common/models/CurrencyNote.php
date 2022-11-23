@@ -47,12 +47,12 @@ class CurrencyNote extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('sys.erp', 'ID'),
-            'note_type' => Yii::t('sys.erp', 'Note Type'),
-            'value' => Yii::t('sys.erp', 'Value'),
-            'currency_id' => Yii::t('sys.erp', 'Currency ID'),
-            'created_at' => Yii::t('sys.erp', 'Created At'),
-            'updated_at' => Yii::t('sys.erp', 'Updated At'),
+            'id' => Yii::t('erp.sys', 'ID'),
+            'note_type' => Yii::t('erp.sys', 'Note Type'),
+            'value' => Yii::t('erp.sys', 'Value'),
+            'currency_id' => Yii::t('erp.sys', 'Currency ID'),
+            'created_at' => Yii::t('erp.sys', 'Created At'),
+            'updated_at' => Yii::t('erp.sys', 'Updated At'),
         ];
     }
 
