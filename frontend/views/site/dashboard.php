@@ -19,7 +19,7 @@ $this->title = 'Chermol - ERP';
 
     <div class="text-center">
         <h1 class="lead">Chermol, S.A.<br><small>Sistema de ERP</small></h1>
-        <p>Hola <?= Yii::$app->user->identity->username ?>!</p>
+        <p>Hola <?= Yii::$app->user->identity->userProfile? Yii::$app->user->identity->userProfile->first_name : Yii::$app->user->identity->username ?>!</p>
     </div>
 
     <div class=row>

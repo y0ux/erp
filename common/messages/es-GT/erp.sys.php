@@ -107,7 +107,9 @@ return [
     'Yes' => 'Si',
     'No' => 'No',
 
-
+    // USER PROFILE
+    'First Name' => 'Nombre',
+    'Last Name' => 'Apellido',
 
 
 ];

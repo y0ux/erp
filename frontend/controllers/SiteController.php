@@ -93,7 +93,6 @@ class SiteController extends Controller
       if(\Yii::$app->user->identity->status == User::STATUS_UNFINISH)
         return $this->redirect(['profile']);
       return $this->render('dashboard', [
-        //'breweries' => Company::getCompaniesByTypeByStand(Company::BREWERY),
       ]);
     }
 

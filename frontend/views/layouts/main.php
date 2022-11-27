@@ -10,6 +10,7 @@ use yii\bootstrap4\NavBar;
 use yii\bootstrap4\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use common\models\User;
 
 
 $cashboxMenuItem = ['label' => ' Cajero', 'url' => ['/cashbox/index']];
@@ -18,35 +19,37 @@ $receiptMenuItem = ['label' => ' Facturas', 'url' => ['/factura/index']];
 AppAsset::register($this);
 $menuItems = [
     ['label' => 'Inicio', 'url' => ['/site/index']],
-    $cashboxMenuItem + ["options" => ["class" => "d-md-none"]],
-    $receiptMenuItem + ["options" => ["class" => "d-md-none"]],
     //['label' => 'About', 'url' => ['/site/about']],
     //['label' => 'Contact', 'url' => ['/site/contact']],
 ];
 if (Yii::$app->user->isGuest) {
-    //$menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
+    $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
     $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
 } else {
-    //$menuItems[] = ['label' => 'Dashboard', 'url' => ['/site/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    //$menuItems[] = ['label' => ' Cierre de Caja', 'url' => ['/cashbox/index'], 'icon' => 'off'];
-    //$menuItems[] = ['label' => 'Registro', 'url' => ['/site/register'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    //$menuItems[] = ['label' => 'Marcas', 'url' => ['/brand/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    //$menuItems[] = ['label' => 'Productos', 'url' => ['/product/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    //$menuItems[] = ['label' => 'Personal', 'url' => ['/staff/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    //$menuItems[] = ['label' => 'Vehiculos', 'url' => ['/vehicle/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    //$menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    //s$menuItems[] = ['label' => 'Categorias', 'url' => ['/category/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
-    /*$menuItems[] = [
-      'label' => 'Perfil',
-      'items' => [
-           //'<li class="divider"></li>',
-           //'<li class="dropdown-header">Adicionales</li>',
-           ['label' => 'Personal', 'url' => ['/staff/index'], 'options' => ['class' => '']],
-           ['label' => 'Vehiculos', 'url' => ['/vehicle/index','#' => '']],
-           ['label' => 'Ventas', 'url' => ['/sales/index']],
-      ],
-      'options' => ['class' => 'hidden-lg hidden-md'],
-    ];*/
+    if (Yii::$app->user->identity->status == User::STATUS_ACTIVE) {
+      $menuItems[] = $cashboxMenuItem + ["options" => ["class" => "d-md-none"]];
+      $menuItems[] = $receiptMenuItem + ["options" => ["class" => "d-md-none"]];
+      //$menuItems[] = ['label' => 'Dashboard', 'url' => ['/site/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+      //$menuItems[] = ['label' => ' Cierre de Caja', 'url' => ['/cashbox/index'], 'icon' => 'off'];
+      //$menuItems[] = ['label' => 'Registro', 'url' => ['/site/register'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+      //$menuItems[] = ['label' => 'Marcas', 'url' => ['/brand/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+      //$menuItems[] = ['label' => 'Productos', 'url' => ['/product/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+      //$menuItems[] = ['label' => 'Personal', 'url' => ['/staff/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+      //$menuItems[] = ['label' => 'Vehiculos', 'url' => ['/vehicle/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+      //$menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+      //s$menuItems[] = ['label' => 'Categorias', 'url' => ['/category/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
+      /*$menuItems[] = [
+        'label' => 'Perfil',
+        'items' => [
+             //'<li class="divider"></li>',
+             //'<li class="dropdown-header">Adicionales</li>',
+             ['label' => 'Personal', 'url' => ['/staff/index'], 'options' => ['class' => '']],
+             ['label' => 'Vehiculos', 'url' => ['/vehicle/index','#' => '']],
+             ['label' => 'Ventas', 'url' => ['/sales/index']],
+        ],
+        'options' => ['class' => 'hidden-lg hidden-md'],
+      ];*/
+    }
     $logoutName = Yii::$app->user->identity->userProfile? Yii::$app->user->identity->userProfile->first_name : Yii::$app->user->identity->username;
     $menuItems[] = '<li>'
         . Html::beginForm(
@@ -95,7 +98,7 @@ if (Yii::$app->user->isGuest) {
 
     <div id="main-container" class="container-fluid">
       <div class="row">
-        <?php if (!Yii::$app->user->isGuest) : ?>
+        <?php if (!Yii::$app->user->isGuest && \Yii::$app->user->identity->status == User::STATUS_ACTIVE) : ?>
         <!--nav class="col-md-2 d-none d-md-block bg-light sidebar"-->
           <?php
             $currentUrl = Url::current();
@@ -109,9 +112,12 @@ if (Yii::$app->user->isGuest) {
                 'icon' => 'fa-solid fa-gauge'
             ];
 
-            //$menuItems[] = ['label' => ' Pedidos', 'url' => ['/order/index'], 'icon' => 'shopping-cart'];
             $menuItems[] = $cashboxMenuItem + ['icon' => 'fa-solid fa-cash-register'];
             $menuItems[] = $receiptMenuItem + ['icon' => 'fa-solid fa-receipt'];
+
+
+            //$menuItems[] = ['label' => ' Pedidos', 'url' => ['/order/index'], 'icon' => 'shopping-cart'];
+
             //$menuItems[] = ['label' => ' Inventario', 'url' => ['/inventory/index'], 'icon' => 'barcode'];
             //$menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], 'icon' => 'time'];
 
@@ -182,9 +188,9 @@ if (Yii::$app->user->isGuest) {
                 'items' => $menuItems,
             ]);*/
             ?>
-        </nav>
+        <!--/nav-->
         <?php endif; ?>
-        <main role="main" class="<?= (Yii::$app->user->isGuest? "col-sm-12" : "col-md-9 ml-sm-auto col-lg-10 px-4") ?> main">
+        <main role="main" class="<?= (Yii::$app->user->isGuest || Yii::$app->user->identity->status != User::STATUS_ACTIVE? "col-sm-12" : "col-md-9 ml-sm-auto col-lg-10 px-4") ?> main">
           <?= Breadcrumbs::widget([
               'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
           ]) ?>

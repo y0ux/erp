@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-userprofile">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please finish your profile by filling these fields to continue:</p>
+    <p><?= \Yii::t('erp.sys', 'Please finish your profile by filling these fields to continue:') ?></p>
 
     <div class="row">
         <div class="col-lg-5">
