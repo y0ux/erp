@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a763bbf4ef3c8d0c2cb196e4ef7862c",
+    "content-hash": "7601695a7cb415bc664225d65dadb58d",
     "packages": [
         {
             "name": "apimatic/jsonmapper",
@@ -549,28 +549,28 @@
         },
         {
             "name": "square/square",
-            "version": "8.1.0.20210121",
+            "version": "17.2.0.20220216",
             "source": {
                 "type": "git",
                 "url": "https://github.com/square/square-php-sdk.git",
-                "reference": "9afc33f6152626b35e7572df27133545b1108364"
+                "reference": "5b8ae82cd6f760a7ec5d4b241f00e1a454ab5d69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/square/square-php-sdk/zipball/9afc33f6152626b35e7572df27133545b1108364",
-                "reference": "9afc33f6152626b35e7572df27133545b1108364",
+                "url": "https://api.github.com/repos/square/square-php-sdk/zipball/5b8ae82cd6f760a7ec5d4b241f00e1a454ab5d69",
+                "reference": "5b8ae82cd6f760a7ec5d4b241f00e1a454ab5d69",
                 "shasum": ""
             },
             "require": {
-                "apimatic/jsonmapper": "^2.0.1",
-                "apimatic/unirest-php": "^2.0",
+                "apimatic/jsonmapper": "^2.0.2",
+                "apimatic/unirest-php": "^2.1",
                 "ext-curl": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.1"
+                "php": ">=7.2 <8.1"
             },
             "require-dev": {
-                "phan/phan": "^2.5",
+                "phan/phan": "5.3.1",
                 "phpunit/phpunit": "^7.5 || ^8.5",
                 "squizlabs/php_codesniffer": "^3.5"
             },
@@ -600,9 +600,9 @@
             ],
             "support": {
                 "issues": "https://github.com/square/square-php-sdk/issues",
-                "source": "https://github.com/square/square-php-sdk/tree/8.1.0.20210121"
+                "source": "https://github.com/square/square-php-sdk/tree/17.2.0.20220216"
             },
-            "time": "2021-01-21T18:18:38+00:00"
+            "time": "2022-02-15T22:24:46+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

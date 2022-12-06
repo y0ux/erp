@@ -7,28 +7,21 @@ use Yii;
 /**
  * This is the model class for table "country".
  *
- * @property string $id
+ * @property int $id
  * @property string $short_name
- * @property string $long_name
- * @property string $short_name_en
- * @property string $long_name_en
- * @property string $iso3166_1_a2
- * @property string $iso3166_1_a3
- * @property int $iso3166_1_numeric
- * @property int $itut_e164 phone country code
- * @property string $cctld
- * @property string $currency_id
- * @property string $language_name
- * @property string $language_name_en
- * @property string $language_iso639
- * @property double $latitude
- * @property double $longitude
+ * @property string $spanish_short_name
+ * @property string $local_name
+ * @property string $full_name
+ * @property string $iso_3166_1_alpha_2_code
+ * @property string $iso_3166_1_alpha_3_code
+ * @property int $iso_3166_1_numeric
+ * @property string $phone_code
+ * @property string $postal_code_regex
  * @property string $created_at
  * @property string $updated_at
  *
- * @property Address[] $addresses
- * @property AdministrativeLevelArea1[] $administrativeLevelArea1s
- * @property Currency $currency
+ * @property CountryCurrency[] $countryCurrencies
+ * @property Currency[] $currencies
  */
 class Country extends \yii\db\ActiveRecord
 {
@@ -46,15 +39,17 @@ class Country extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['short_name', 'long_name', 'short_name_en', 'long_name_en'], 'required'],
-            [['iso3166_1_numeric', 'itut_e164', 'currency_id'], 'integer'],
-            [['latitude', 'longitude'], 'number'],
+            [['short_name', 'spanish_short_name', 'iso_3166_1_alpha_2_code', 'iso_3166_1_alpha_3_code', 'iso_3166_1_numeric', 'created_at'], 'required'],
+            [['iso_3166_1_numeric'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['short_name', 'long_name', 'long_name_en', 'language_name', 'language_name_en'], 'string', 'max' => 255],
-            [['short_name_en'], 'string', 'max' => 80],
-            [['iso3166_1_a2', 'cctld', 'language_iso639'], 'string', 'max' => 2],
-            [['iso3166_1_a3'], 'string', 'max' => 3],
-            [['currency_id'], 'exist', 'skipOnError' => true, 'targetClass' => Currency::className(), 'targetAttribute' => ['currency_id' => 'id']],
+            [['short_name', 'spanish_short_name', 'local_name'], 'string', 'max' => 255],
+            [['full_name'], 'string', 'max' => 512],
+            [['iso_3166_1_alpha_2_code'], 'string', 'max' => 2],
+            [['iso_3166_1_alpha_3_code'], 'string', 'max' => 3],
+            [['phone_code', 'postal_code_regex'], 'string', 'max' => 20],
+            [['short_name'], 'unique'],
+            [['iso_3166_1_alpha_2_code'], 'unique'],
+            [['iso_3166_1_alpha_3_code'], 'unique'],
         ];
     }
 
@@ -66,20 +61,14 @@ class Country extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('erp.sys', 'ID'),
             'short_name' => Yii::t('erp.sys', 'Short Name'),
-            'long_name' => Yii::t('erp.sys', 'Long Name'),
-            'short_name_en' => Yii::t('erp.sys', 'Short Name En'),
-            'long_name_en' => Yii::t('erp.sys', 'Long Name En'),
-            'iso3166_1_a2' => Yii::t('erp.sys', 'Iso3166 1 A2'),
-            'iso3166_1_a3' => Yii::t('erp.sys', 'Iso3166 1 A3'),
-            'iso3166_1_numeric' => Yii::t('erp.sys', 'Iso3166 1 Numeric'),
-            'itut_e164' => Yii::t('erp.sys', 'Itut E164'),
-            'cctld' => Yii::t('erp.sys', 'Cctld'),
-            'currency_id' => Yii::t('erp.sys', 'Currency ID'),
-            'language_name' => Yii::t('erp.sys', 'Language Name'),
-            'language_name_en' => Yii::t('erp.sys', 'Language Name En'),
-            'language_iso639' => Yii::t('erp.sys', 'Language Iso639'),
-            'latitude' => Yii::t('erp.sys', 'Latitude'),
-            'longitude' => Yii::t('erp.sys', 'Longitude'),
+            'spanish_short_name' => Yii::t('erp.sys', 'Spanish Short Name'),
+            'local_name' => Yii::t('erp.sys', 'Local Name'),
+            'full_name' => Yii::t('erp.sys', 'Full Name'),
+            'iso_3166_1_alpha_2_code' => Yii::t('erp.sys', 'Iso 3166 1 Alpha 2 Code'),
+            'iso_3166_1_alpha_3_code' => Yii::t('erp.sys', 'Iso 3166 1 Alpha 3 Code'),
+            'iso_3166_1_numeric' => Yii::t('erp.sys', 'Iso 3166 1 Numeric'),
+            'phone_code' => Yii::t('erp.sys', 'Phone Code'),
+            'postal_code_regex' => Yii::t('erp.sys', 'Postal Code Regex'),
             'created_at' => Yii::t('erp.sys', 'Created At'),
             'updated_at' => Yii::t('erp.sys', 'Updated At'),
         ];
@@ -88,24 +77,16 @@ class Country extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAddresses()
+    public function getCountryCurrencies()
     {
-        return $this->hasMany(Address::className(), ['country_id' => 'id']);
+        return $this->hasMany(CountryCurrency::className(), ['country_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAdministrativeLevelArea1s()
+    public function getCurrencies()
     {
-        return $this->hasMany(AdministrativeLevelArea1::className(), ['country_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCurrency()
-    {
-        return $this->hasOne(Currency::className(), ['id' => 'currency_id']);
+        return $this->hasMany(Currency::className(), ['id' => 'currency_id'])->viaTable('country_currency', ['country_id' => 'id']);
     }
 }

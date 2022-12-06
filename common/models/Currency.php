@@ -7,25 +7,23 @@ use Yii;
 /**
  * This is the model class for table "currency".
  *
- * @property string $id
- * @property string $short_name
- * @property string $long_name
- * @property string $short_name_en
- * @property string $long_name_en
- * @property int $type 0 = none, 1 = iso, 2 = non-iso, 3 = unofficial, 4 = crypto
- * @property string $symbol_utf8
+ * @property int $id
+ * @property string $name
+ * @property int $status
+ * @property string $denominations
+ * @property string $iso_4217_alphabetic_code
+ * @property int $iso_4217_numberic_code
+ * @property int $iso_4217_minor_unit
+ * @property string $symbol
+ * @property string $symbol_name
  * @property string $symbol_unicode
- * @property string $iso4217_alpha
- * @property int $iso4217_numeric
- * @property int $iso4217_minor_unit
- * @property string $format
  * @property string $created_at
  * @property string $updated_at
  *
- * @property CashBoxDetail[] $cashBoxDetails
- * @property CashFlowTransaction[] $cashFlowTransactions
+ * @property CountryCurrency[] $countryCurrencies
  * @property Country[] $countries
- * @property CurrencyNote[] $currencyNotes
+ * @property ExchangeRate[] $exchangeRates
+ * @property ExchangeRate[] $exchangeRates0
  */
 class Currency extends \yii\db\ActiveRecord
 {
@@ -43,14 +41,15 @@ class Currency extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['short_name', 'long_name', 'type'], 'required'],
-            [['type', 'iso4217_numeric', 'iso4217_minor_unit'], 'integer'],
+            [['name', 'denominations', 'iso_4217_alphabetic_code', 'iso_4217_numberic_code', 'created_at'], 'required'],
+            [['status', 'iso_4217_numberic_code', 'iso_4217_minor_unit'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['short_name', 'short_name_en'], 'string', 'max' => 80],
-            [['long_name', 'long_name_en', 'format'], 'string', 'max' => 255],
-            [['symbol_utf8'], 'string', 'max' => 4],
+            [['name', 'denominations'], 'string', 'max' => 255],
+            [['iso_4217_alphabetic_code'], 'string', 'max' => 3],
+            [['symbol'], 'string', 'max' => 5],
+            [['symbol_name'], 'string', 'max' => 20],
             [['symbol_unicode'], 'string', 'max' => 6],
-            [['iso4217_alpha'], 'string', 'max' => 3],
+            [['iso_4217_alphabetic_code', 'iso_4217_numberic_code'], 'unique', 'targetAttribute' => ['iso_4217_alphabetic_code', 'iso_4217_numberic_code']],
         ];
     }
 
@@ -61,17 +60,15 @@ class Currency extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('erp.sys', 'ID'),
-            'short_name' => Yii::t('erp.sys', 'Short Name'),
-            'long_name' => Yii::t('erp.sys', 'Long Name'),
-            'short_name_en' => Yii::t('erp.sys', 'Short Name En'),
-            'long_name_en' => Yii::t('erp.sys', 'Long Name En'),
-            'type' => Yii::t('erp.sys', 'Type'),
-            'symbol_utf8' => Yii::t('erp.sys', 'Symbol Utf8'),
+            'name' => Yii::t('erp.sys', 'Name'),
+            'status' => Yii::t('erp.sys', 'Status'),
+            'denominations' => Yii::t('erp.sys', 'Denominations'),
+            'iso_4217_alphabetic_code' => Yii::t('erp.sys', 'Iso 4217 Alphabetic Code'),
+            'iso_4217_numberic_code' => Yii::t('erp.sys', 'Iso 4217 Numberic Code'),
+            'iso_4217_minor_unit' => Yii::t('erp.sys', 'Iso 4217 Minor Unit'),
+            'symbol' => Yii::t('erp.sys', 'Symbol'),
+            'symbol_name' => Yii::t('erp.sys', 'Symbol Name'),
             'symbol_unicode' => Yii::t('erp.sys', 'Symbol Unicode'),
-            'iso4217_alpha' => Yii::t('erp.sys', 'Iso4217 Alpha'),
-            'iso4217_numeric' => Yii::t('erp.sys', 'Iso4217 Numeric'),
-            'iso4217_minor_unit' => Yii::t('erp.sys', 'Iso4217 Minor Unit'),
-            'format' => Yii::t('erp.sys', 'Format'),
             'created_at' => Yii::t('erp.sys', 'Created At'),
             'updated_at' => Yii::t('erp.sys', 'Updated At'),
         ];
@@ -80,17 +77,9 @@ class Currency extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCashBoxDetails()
+    public function getCountryCurrencies()
     {
-        return $this->hasMany(CashBoxDetail::className(), ['currency_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCashFlowTransactions()
-    {
-        return $this->hasMany(CashFlowTransaction::className(), ['currency_id' => 'id']);
+        return $this->hasMany(CountryCurrency::className(), ['currency_id' => 'id']);
     }
 
     /**
@@ -98,31 +87,30 @@ class Currency extends \yii\db\ActiveRecord
      */
     public function getCountries()
     {
-        return $this->hasMany(Country::className(), ['currency_id' => 'id']);
+        return $this->hasMany(Country::className(), ['id' => 'country_id'])->viaTable('country_currency', ['currency_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCurrencyNotes()
+    public function getExchangeRates()
     {
-        return $this->hasMany(CurrencyNote::className(), ['currency_id' => 'id']);
+        return $this->hasMany(ExchangeRate::className(), ['from_currency_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public static function getCurrencyList($as_object = false)
+    public function getExchangeRates0()
     {
-        $currencies = self::find()->all();
-        $list = [];
-        foreach($currencies as $currency) {
-            if ($as_object)
-                $list[$currency->id] = $currency;
-            else
-                $list[$currency->id] = $currency->short_name;
-        }
-        return $list;
+        return $this->hasMany(ExchangeRate::className(), ['to_currency_id' => 'id']);
+    }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public static function findCurrencyByISO($iso)
+    {
+        return Currency::find()->where(['iso_4217_alphabetic_code' => $iso])->one();
     }
 }

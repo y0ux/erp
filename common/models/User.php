@@ -30,7 +30,6 @@ use yii\web\IdentityInterface;
  * @property Company[] $companies
  * @property UserInvitation[] $userInvitations
  * @property UserProfile $userProfile
- * @property UserProfile[] $userProfiles
  */
 
 /**
@@ -45,6 +44,8 @@ use yii\web\IdentityInterface;
  * @property string $status
  * @property string $created_at
  * @property string $updated_at
+ *
+ * @property UserProfile $userProfile
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -120,19 +121,20 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-    * @return \yii\db\ActiveQuery
-    */
-    public function getUserProfiles()
-    {
-        return $this->hasMany(UserProfile::className(), ['user_id' => 'id']);
-    }
-
-    /**
      * @return \yii\db\ActiveQuery
      */
     public function getUserProfile()
     {
         return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFullName()
+    {
+        $profile = $this->userProfile;
+        return empty($profile)? $this->username : $profile->fullName();
     }
 
     /*

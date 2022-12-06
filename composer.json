@@ -19,7 +19,7 @@
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "wbraganca/yii2-dynamicform": "dev-master",
-        "square/square": "8.1.0.20210121",
+        "square/square": "*",
         "yiisoft/yii2-bootstrap4": "^2.0"
     },
     "require-dev": {

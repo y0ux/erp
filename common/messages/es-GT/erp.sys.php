@@ -106,10 +106,25 @@ return [
     'Other' => 'Otro',
     'Yes' => 'Si',
     'No' => 'No',
+    'Login' => 'Ingresar',
+    'Logout' => 'Salir',
+    'Signup' => 'Registrarse',
+    'Send' => 'Enviar',
 
     // USER PROFILE
     'First Name' => 'Nombre',
     'Last Name' => 'Apellido',
 
+
+    // Cashier
+    'Opening' => 'Apertura',
+    'Closing' => 'Cierre',
+    'Cashier' => 'Cajero',
+    'Record Type' => 'Tipo de Cierre',
+    'Cash Q' => 'Efectivo Q',
+    'Cash $' => 'Efectivo $',
+    'Card' => 'Tarjetas',
+    'Transfer' => 'Transferencias',
+    'Gift Card' => 'Tarjeta Regalo',
 
 ];

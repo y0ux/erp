@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\ProductSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = \Yii::t('erp.company','Factura FEL');
+$this->title = \Yii::t('erp.sys','Factura FEL');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="factura-index">
@@ -16,9 +16,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <h2>Result</h2>
+    <pre>
+      <?php if ($result) {
+        $orders = $result->getOrders();
+        echo "conteo: ".count($orders)."\n";
+        foreach($orders as $order)
+          print_r($order);
+        }
+      ?>
+    </pre>
 
-    <p>
-        <?php if($sellsBeer) : ?>
+    <h2>Error</h2>
+    <pre>
+      <?php print_r($errors); ?>
+    </pre>
+
+    <!--p-->
+        <?php /* if($sellsBeer) : ?>
           <?= Html::a(\Yii::t('erp.company','create_beer_btn'), ['/beer/create'], ['class' => 'btn btn-success']) ?>
         <?php endif; ?>
         <?= Html::a(\Yii::t('erp.company','create_product_btn'), ['create'], ['class' => 'btn btn-primary']) ?>
@@ -96,5 +111,5 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'tableOptions' => ['class' => 'table table-striped']
     ]); ?>
-    <?php Pjax::end(); ?>
+    <?php Pjax::end(); */ ?>
 </div>
