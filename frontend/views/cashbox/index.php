@@ -497,7 +497,7 @@ $template_cash_input = '<div class="row">{label} <div class="col">{input}{error}
           var input_value = $(this).val();
           console.log("input value: "+input_value);
           if (/^\d+$/.test(input_value)) {// .match(/^\d$/i) )
-              updateNoteTotal($(this),input_value);
+            updateNoteTotal($(this),input_value);
           }
           else {
             updateNoteTotal($(this), 0, true);

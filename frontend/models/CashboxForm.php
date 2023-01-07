@@ -125,6 +125,15 @@ class CashboxForm extends Model
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function init()
+    {
+        parent::init();
+        
+    }
+
+    /**
      * Signs user up.
      *
      * @return CashierRecord|null the saved model or null if saving fails

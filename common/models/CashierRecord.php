@@ -98,6 +98,9 @@ class CashierRecord extends \yii\db\ActiveRecord
         return $this->hasMany(CashierTransaction::className(), ['cashier_record_id' => 'id']);
     }
 
+    /**
+     * @return array
+     */
     public static function getRecordTypes()
     {
         return [
@@ -105,4 +108,12 @@ class CashierRecord extends \yii\db\ActiveRecord
           self::RECORD_CLOSING => Yii::t('erp.sys','Closing'),
         ];
     }
+
+    /* *
+     * @return \yii\db\ActiveQuery
+     * /
+    public static function getTodayOpening()
+    {
+        return self::find()->where(['record_type' => self::RECORD_OPENING, 'created_at' => []])->all();
+    }*/
 }

@@ -13,4 +13,5 @@ return [
             'class' => 'yii\rbac\DbManager',
         ],
     ],
+    'timeZone' => 'America/Guatemala',
 ];
