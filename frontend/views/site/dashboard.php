@@ -24,7 +24,11 @@ $this->title = 'Chermol - ERP';
 
     <div class=row>
       <div class="col-lg-8 col-md-6">
-        LADO Aloja
+        <?php
+        echo date('Y-m-d H:i');
+        echo '<br>';
+        echo date_default_timezone_get();
+        ?>
       </div>
       <div class="col-lg-4 col-md-6">
         LADO Baby
