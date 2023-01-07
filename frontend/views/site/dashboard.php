@@ -23,14 +23,52 @@ $this->title = 'Chermol - ERP';
     </div>
 
     <div class=row>
-      <div class="col-lg-8 col-md-6">
+      <div class="col-lg-6 col-md-6">
+        <h3><i class="fas fa-cash-register"></i> Caja Chica</h3>
         <?php
         echo date('Y-m-d H:i');
         echo '<br>';
         echo date_default_timezone_get();
+        $record_list = \common\models\CashierRecord::getCurrentOpening();
+        if (count($record_list) > 0) {
+
+          ?>
+          <div class="" style="margin: 10px 0"><?= Html::a("Cerrar Caja",Url::to(['/cashbox/index']), ["class" => "btn btn-danger"]) ?></div>
+
+          <h4>Datos Ingresados</h4>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Hora</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">tipo</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              foreach ($record_list as $i => $record) {
+                ?>
+                <tr>
+                  <td><?= date("g:i a", strtotime($record->created_at)) ?></td>
+                  <td><?= $record->created_by_full_name ?></td>
+                  <td><?= $record->getRecordTypeText() ?></td>
+                  <td><?= Yii::$app->formatter->asDecimal($record->cashbox_total,2) ?></td>
+                </tr>
+              <?php
+              }
+              ?>
+            </tbody>
+          </table>
+        <?php
+        }
+        else { ?>
+          <div class="" style="margin: 10px 0"><?= Html::a("Aperturar Caja",Url::to(['/cashbox/index']), ["class" => "btn btn-success"]) ?></div>
+        <?php
+        }
         ?>
       </div>
-      <div class="col-lg-4 col-md-6">
+      <div class="col-lg-6 col-md-6">
         LADO Baby
       </div>
     </div>

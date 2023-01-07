@@ -27,6 +27,11 @@ class CashierRecord extends \yii\db\ActiveRecord
     const RECORD_OPENING = 10;
     const RECORD_CLOSING = 20;
 
+    const type_list = [
+      self::RECORD_OPENING => 'Opening',
+      self::RECORD_CLOSING => 'Closing'
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -101,19 +106,24 @@ class CashierRecord extends \yii\db\ActiveRecord
     /**
      * @return array
      */
-    public static function getRecordTypes()
+    public function getRecordTypeText()
     {
-        return [
-          self::RECORD_OPENING => Yii::t('erp.sys','Opening'),
-          self::RECORD_CLOSING => Yii::t('erp.sys','Closing'),
-        ];
+        return Yii::t('erp.sys',self::type_list[$this->record_type]);
     }
 
-    /* *
-     * @return \yii\db\ActiveQuery
-     * /
-    public static function getTodayOpening()
+    /**
+     * @return array
+     */
+    public static function getRecordTypes()
     {
-        return self::find()->where(['record_type' => self::RECORD_OPENING, 'created_at' => []])->all();
-    }*/
+        return self::type_list;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public static function getCurrentOpening()
+    {
+        return self::find()->where(['record_type' => self::RECORD_OPENING])->andWhere('created_at >= CURDATE()')->all();
+    }
 }
