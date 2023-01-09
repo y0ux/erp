@@ -126,4 +126,12 @@ class CashierRecord extends \yii\db\ActiveRecord
     {
         return self::find()->where(['record_type' => self::RECORD_OPENING])->andWhere('created_at >= CURDATE()')->all();
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public static function getCurrentClosing()
+    {
+        return self::find()->where(['record_type' => self::RECORD_CLOSING])->andWhere('created_at >= CURDATE()')->all();
+    }
 }
