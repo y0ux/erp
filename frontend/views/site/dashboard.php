@@ -91,7 +91,7 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
           </div>
         </div>
         <?php
-        if (count($open_list) > 0 || count($close_list) > 0) :
+        if ($is_open > 0 || $is_close) :
           ?>
           <h4>Datos Ingresados</h4>
           <table class="table">
@@ -120,13 +120,64 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
             </tbody>
           </table>
         <?php
+          if ($is_close) : ?>
+          <h4>Cierre del Día</h4>
+            <?php
+            if (!empty($result)) :
+              $order_list = $result->getOrders();
+              $sum_totals = [
+                'third_party_card' => 0,
+                'cash' => 0,
+                'other' => 0,
+                'subtotal' => 0,
+                'tax' => 0,
+                'total' => 0
+              ];
+              foreach ($order_list as $list_item) :
+                $tender_types = [];
+                $tenders = $list_item->getTenders();
+                foreach ($tenders as $tender) {
+                  $type = strtolower($tender->getType());
+                  $value = intval($tender->getAmountMoney()->getAmount());
+                  $sum_totals[$type] += $value;
+                  $sum_totals['total'] += $value;
+
+                  if (isset($tender_types[$type])) {
+                    $tender_types[$type]['sum'] += intval($tender->getAmountMoney()->getAmount());
+                    $tender_types[$type]['count'] ++;
+                  }
+                  else {
+                    $tender_types[$type] = [
+                      'sum' => intval($tender->getAmountMoney()->getAmount()),
+                      'count' => 1,
+                      //'theme' => $tenderTheme[strtolower($tender->getType())]
+                    ];
+                  }
+                }
+                //$sum_totals['tax'] += intval($tender->getTaxes()->getAmount());
+
+              ?>
+              <pre>
+                <?php print_r($list_item->getTaxes()); ?>
+              </pre>
+
+
+
+              <?php
+              endforeach;
+              ?><pre><?php
+              print_r($sum_totals);
+              //print_r($)
+              ?></pre><?php
+            endif;
+          endif;
         endif;
         ?>
       </div>
       <div class="col-lg-6 col-md-6">
         <h3><i class="fas fa-tablet-alt"></i> Sistema Square</h3>
         <?php
-        if (!empty($result)) :
+        if (!empty($result) && !empty($result->getOrders())) :
           $order_list = $result->getOrders();
           ?>
           <div>

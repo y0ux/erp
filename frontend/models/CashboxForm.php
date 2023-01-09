@@ -52,38 +52,45 @@ class CashboxForm extends Model
         'cash_gtq' => [
             'flow' => CashierTransaction::FLOW_IN,
             'type' => CashierTransaction::TYPE_CASH_GTQ,
-            'currency' => 'gtq' // create base currency
+            'currency' => 'gtq', // create base currency
+            'multiplier' => 100
         ],
         'cash_usd' => [
             'flow' => CashierTransaction::FLOW_IN,
             'type' => CashierTransaction::TYPE_CASH_USD,
             'currency' => 'usd',
+            'multiplier' => 100,
             'exhange_rate' => 7
         ],
         'card' => [
             'flow' => CashierTransaction::FLOW_IN,
             'type' => CashierTransaction::TYPE_CARD,
-            'currency' => 'gtq'
+            'currency' => 'gtq',
+            'multiplier' => 100
         ],
         'transfer' => [
             'flow' => CashierTransaction::FLOW_IN,
             'type' => CashierTransaction::TYPE_TRANSFER,
-            'currency' => 'gtq'
+            'currency' => 'gtq',
+            'multiplier' => 100
         ],
         'gift_card' => [
             'flow' => CashierTransaction::FLOW_IN,
             'type' => CashierTransaction::TYPE_GIFT,
-            'currency' => 'gtq'
+            'currency' => 'gtq',
+            'multiplier' => 100
         ],
         'other' => [
             'flow' => CashierTransaction::FLOW_IN,
             'type' => CashierTransaction::TYPE_OTHER,
-            'currency' => 'gtq'
+            'currency' => 'gtq',
+            'multiplier' => 100
         ],
         'spent' => [
             'flow' => CashierTransaction::FLOW_OUT,
             'type' => CashierTransaction::TYPE_CASH_GTQ,
-            'currency' => 'gtq'
+            'currency' => 'gtq',
+            'multiplier' => 100
         ],
     ];
 
@@ -258,7 +265,7 @@ class CashboxForm extends Model
                                 $transaction_var->currency_id = $currency_obj->id;
                                 $transaction_var->currency_name = $currency_obj->name;
                                 $transaction_var->currency_symbol = $currency_obj->symbol;
-                                $transaction_var->total_amount = $this->$var_name * ($var_name == 'cash_gtq' || $var_name == 'cash_usd' ? 100 : 1 );
+                                $transaction_var->total_amount = $this->$var_name * $var_config['multiplier'];
                                 if (isset($var_config['exchange_rate'])) {
                                     $transaction_var->exhange_rate_value = $var_config['exchange_rate'];
                                     $transaction_var->total_rated = $var_config['exchange_rate'] * $this->$var_name;
