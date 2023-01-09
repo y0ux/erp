@@ -190,7 +190,7 @@ if (Yii::$app->user->isGuest) {
             ?>
         <!--/nav-->
         <?php endif; ?>
-        <main role="main" class="<?= (Yii::$app->user->isGuest || Yii::$app->user->identity->status != User::STATUS_ACTIVE? "col-sm-12" : "col-md-9 ml-sm-auto col-lg-10 px-4") ?> main">
+        <main role="main" class="<?= (Yii::$app->user->isGuest || Yii::$app->user->identity->status != User::STATUS_ACTIVE? "col-sm-12" : "col-md-10 ml-sm-auto col-lg-10 px-4") ?> main">
           <?= Breadcrumbs::widget([
               'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
           ]) ?>

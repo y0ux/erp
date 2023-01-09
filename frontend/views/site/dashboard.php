@@ -50,9 +50,14 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
   endif;
 ?>
 <style>
-  .sale-item {
+  .order-item {
     padding: 10px 0;
     border-top: 1px solid #ccc;
+  }
+  .order-line-items {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
 </style>
@@ -166,25 +171,37 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
                   ];
               }
               ?>
-          <div class="row sale-item">
-            <div class="col-2">
+          <div class="order-item">
+            <div class="row">
+              <div class="col-4">
               <?php foreach ($tender_types as $name => $details) : ?>
-              <div class="">
-                <span class="<?= $details["theme"]["icon"] ?>"></span> <span class="badge badge-<?= $details["theme"]["color"] ?>"><?= $details["count"] ?></span>
-              </div>
+                <div style="display: inline-block;">
+                  <span class="<?= $details["theme"]["icon"] ?>"></span> <span class="badge badge-<?= $details["theme"]["color"] ?>"><?= $details["count"] ?></span>
+                </div>
               <?php endforeach; ?>
-            </div>
-            <div class="col-6">
-              <div>
-                <b><?= $order_item->getTotalMoney()->getAmount() / 100 ?></b>
               </div>
-              <div>
-                <?= count($order_item->getLineItems()) ?> items
+              <div class="col-4">
+                <b><sup><?= \common\models\Currency::findCurrencyByISO($order_item->getTotalMoney()->getCurrency())->symbol ?></sup> <?= Yii::$app->formatter->asDecimal($order_item->getTotalMoney()->getAmount() / 100,2) ?></b>
+              </div>
+              <div class="col-4">
+                <?= date("g:i a" ,strtotime($order_item->getClosedAt())) ?>
+                <a href="#"><span class="fas fa-chevron-right"></span></a>
               </div>
             </div>
-            <div class="col-4">
-              <?= date("g:i a" ,strtotime($order_item->getClosedAt())) ?>
-              <a href="#"><span class="fas fa-chevron-right"></span></a>
+            <div class="order-line-items">
+              <?php
+              $line_items = $order_item->getLineItems();
+              $order_items = [];
+              $i = 0;
+              foreach($line_items as $line_item) {
+                $order_items[$line_item->getName()] = 1;
+                $i++;
+                if ($i > 4)
+                  break;
+              }
+              $itmeStr = implode(", ", array_keys($order_items));
+              ?>
+              <?= $itmeStr ?>
             </div>
           </div>
           <?php
