@@ -98,7 +98,7 @@ class CashboxForm extends Model
         ]
     ];
     private $significant_decimal = 2;
-    public $base_cashbox = 3000;
+    public $base_cashbox = 300000;
     private $totals = [
         'totals' => ['cash_gtq', 'cash_usd', 'card', 'transfer', 'gift_card', 'other', 'spent'],
     ];
@@ -130,7 +130,7 @@ class CashboxForm extends Model
     public function init()
     {
         parent::init();
-        
+
     }
 
     /**
@@ -167,17 +167,17 @@ class CashboxForm extends Model
             foreach ($note_list as $var_name => $note_value) {
                 if (!empty($this->$var_name) && $this->{$var_name} > 0) {
                     if ($exchange_rate != 1)    // remove if totalBase exist
-                        $cashbox [$currency]['total'.$currency] = $this->$var_name * $note_value / 100;
-                    $cashbox [$currency][$var_name] = $this->$var_name * $note_value * $exchange_rate / 100;
+                        $cashbox [$currency]['total'.$currency] = $this->$var_name * $note_value; // / 100;
+                    $cashbox [$currency][$var_name] = $this->$var_name * $note_value * $exchange_rate; // / 100;
                     $cashbox [$currency]['totalGTQ'] += $cashbox [$currency][$var_name]; // change to totalBase
                     // create object
                     $cd = new CashboxDetail();
                     $cd->currency_id = $currency_obj->id;
                     $cd->currency_name = $currency_obj->name;
                     $cd->currency_symbol = $currency_obj->symbol;
-                    $cd->currency_value = $note_value/100;
+                    $cd->currency_value = $note_value; // /100;
                     $cd->quantity = $this->$var_name;
-                    $cd->total_value = $this->$var_name * $note_value / 100; // create variable totalBase
+                    $cd->total_value = $this->$var_name * $note_value; // / 100; // create variable totalBase
                     $cd->exchange_rate_id = null;
                     $cd->exhange_rate_value = $exchange_rate;
                     $cd->total_rated = $cashbox [$currency][$var_name];
@@ -258,7 +258,7 @@ class CashboxForm extends Model
                                 $transaction_var->currency_id = $currency_obj->id;
                                 $transaction_var->currency_name = $currency_obj->name;
                                 $transaction_var->currency_symbol = $currency_obj->symbol;
-                                $transaction_var->total_amount = $this->$var_name;
+                                $transaction_var->total_amount = $this->$var_name * ($var_name == 'cash_gtq' || $var_name == 'cash_usd' ? 100 : 1 );
                                 if (isset($var_config['exchange_rate'])) {
                                     $transaction_var->exhange_rate_value = $var_config['exchange_rate'];
                                     $transaction_var->total_rated = $var_config['exchange_rate'] * $this->$var_name;

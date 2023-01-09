@@ -112,7 +112,7 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
                   <td><?= date("g:i a", strtotime($record->created_at)) ?></td>
                   <td><?= $record->created_by_full_name ?></td>
                   <td><?= $record->getRecordTypeText() ?></td>
-                  <td><?= Yii::$app->formatter->asDecimal($record->cashbox_total,2) ?></td>
+                  <td><?= Yii::$app->formatter->asDecimal($record->cashbox_total/100,2) ?></td>
                 </tr>
               <?php
               }
@@ -130,7 +130,7 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
           $order_list = $result->getOrders();
           ?>
           <div>
-            entries <?= count($order_list); ?>
+            Ventas: <?= count($order_list); ?> ordenes
           </div>
 
           <?php

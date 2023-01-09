@@ -15,12 +15,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $template_hor_input = '<div class="row">{label} <div class="col-sm-8">{input}{error}{hint}</div></div>';
 $template_cash_input = '<div class="row">{label} <div class="col">{input}{error}{hint}</div></div>';
-$record_list = CashierRecord::getCurrentOpening();
-$is_open = count($record_list) > 0;
+$open_list = CashierRecord::getCurrentOpening();
+$is_open = count($open_list) > 0;
+$close_list = CashierRecord::getCurrentClosing();
+$is_close = count($close_list) > 0;
 ?>
 <div class="cashbox-index">
   <div class="container-fluid">
     <h1><?= Html::encode($this->title) ?></h1>
+
+    <?php if (!$is_close) : ?>
 
     <div class="product-form">
 
@@ -143,7 +147,7 @@ $is_open = count($record_list) > 0;
 
       <!--section id="form-cash-section" class="collapse-section collapse"-->
       <section id="form-cash-section" class="">
-        <h3>Efectivo  <small class="badge badge-info"><sup>Q</sup><span id="initial-cash" data-value="<?= $model->base_cashbox ?>"><?= number_format($model->base_cashbox) ?></span></small> - <small class="badge badge-secondary"><sup>Q</sup><span id="total-cash">0</span></small> = <small class="badge"><sup>Q</sup><span id="difference-cash">0</span></small></h3>
+        <h3>Efectivo  <small class="badge badge-info"><sup>Q</sup><span id="initial-cash" data-value="<?php echo $model->base_cashbox; ?>"><?= number_format($model->base_cashbox/100) ?></span></small> - <small class="badge badge-secondary"><sup>Q</sup><span id="total-cash">0</span></small> = <small class="badge"><sup>Q</sup><span id="difference-cash">0</span></small></h3>
 
         <h4>Quetzales <small class="badge badge-dark"><sup>Q</sup><span id="currency-total-q">0</span></small></h4>
         <div class="row">
@@ -160,7 +164,7 @@ $is_open = count($record_list) > 0;
 
               </div>
               <div class="col-4">
-                 = <strong name="total-q200" class="currency-quetzal" data-value="200" data-exchangerate="1">0</strong>
+                 = <strong name="total-q200" class="currency-quetzal" data-value="20000" data-total="0" data-exchangerate="1">0</strong>
               </div>
             </div>
             <div class="row">
@@ -174,7 +178,7 @@ $is_open = count($record_list) > 0;
                 <input name="q100" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-q100" class="currency-quetzal" data-value="100" data-exchangerate="1">0</strong>
+                = <strong name="total-q100" class="currency-quetzal" data-value="10000" data-total="0" data-exchangerate="1">0</strong>
               </div>
             </div>
             <div class="row">
@@ -188,7 +192,7 @@ $is_open = count($record_list) > 0;
                 <input name="q50" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-q50" class="currency-quetzal" data-value="50" data-exchangerate="1">0</strong>
+                = <strong name="total-q50" class="currency-quetzal" data-value="5000" data-total="0" data-exchangerate="1">0</strong>
               </div>
             </div>
             <div class="row">
@@ -202,7 +206,7 @@ $is_open = count($record_list) > 0;
                 <input name="q20" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-q20" class="currency-quetzal" data-value="20" data-exchangerate="1">0</strong>
+                = <strong name="total-q20" class="currency-quetzal" data-value="2000" data-total="0" data-exchangerate="1">0</strong>
               </div>
             </div>
           </div>
@@ -218,7 +222,7 @@ $is_open = count($record_list) > 0;
                 <input name="q10" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-q10" class="currency-quetzal" data-value="10" data-exchangerate="1">0</strong>
+                = <strong name="total-q10" class="currency-quetzal" data-value="1000" data-total="0" data-exchangerate="1">0</strong>
               </div>
             </div>
             <div class="row">
@@ -232,7 +236,7 @@ $is_open = count($record_list) > 0;
                 <input name="q5" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-q5" class="currency-quetzal" data-value="5" data-exchangerate="1">0</strong>
+                = <strong name="total-q5" class="currency-quetzal" data-value="500" data-total="0" data-exchangerate="1">0</strong>
               </div>
             </div>
             <div class="row">
@@ -246,7 +250,7 @@ $is_open = count($record_list) > 0;
                 <input name="q1" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-q1" class="currency-quetzal" data-value="1" data-exchangerate="1">0</strong>
+                = <strong name="total-q1" class="currency-quetzal" data-value="100" data-total="0" data-exchangerate="1">0</strong>
               </div>
             </div>
             <div class="row">
@@ -260,7 +264,7 @@ $is_open = count($record_list) > 0;
                 <input name="q05" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-q05" class="currency-quetzal" data-value="0.5" data-exchangerate="1">0</strong>
+                = <strong name="total-q05" class="currency-quetzal" data-value="50" data-total="0" data-exchangerate="1">0</strong>
               </div>
             </div>
           </div>
@@ -276,7 +280,7 @@ $is_open = count($record_list) > 0;
                 <input name="q025" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-q025" class="currency-quetzal" data-value=".25" data-exchangerate="1">0</strong>
+                = <strong name="total-q025" class="currency-quetzal" data-value="25" data-total="0" data-exchangerate="1">0</strong>
               </div>
             </div>
             <div class="row">
@@ -290,7 +294,7 @@ $is_open = count($record_list) > 0;
                 <input name="q010" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-q01" class="currency-quetzal" data-value=".1" data-exchangerate="1">0</strong>
+                = <strong name="total-q01" class="currency-quetzal" data-value="10" data-total="0" data-exchangerate="1">0</strong>
               </div>
             </div>
             <div class="row">
@@ -304,7 +308,7 @@ $is_open = count($record_list) > 0;
                 <input name="q005" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-q005" class="currency-quetzal" data-value=".05" data-exchangerate="1">0</strong>
+                = <strong name="total-q005" class="currency-quetzal" data-value="5" data-total="0" data-exchangerate="1">0</strong>
               </div>
             </div>
             <div class="row">
@@ -318,7 +322,7 @@ $is_open = count($record_list) > 0;
                 <input name="q001" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-q001" class="currency-quetzal" data-value=".01" data-exchangerate="1">0</strong>
+                = <strong name="total-q001" class="currency-quetzal" data-value="1" data-total="0" data-exchangerate="1">0</strong>
               </div>
             </div>
           </div>
@@ -338,7 +342,7 @@ $is_open = count($record_list) > 0;
                 <input name="d100" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-d100" class="currency-usdollar" data-value="100" data-exchangerate="7">0</strong>
+                = <strong name="total-d100" class="currency-usdollar" data-value="10000" data-total="0" data-exchangerate="7">0</strong>
               </div>
             </div>
             <div class="row">
@@ -352,7 +356,7 @@ $is_open = count($record_list) > 0;
                 <input name="d50" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-d50" class="currency-usdollar" data-value="50" data-exchangerate="7">0</strong>
+                = <strong name="total-d50" class="currency-usdollar" data-value="5000" data-total="0" data-exchangerate="7">0</strong>
               </div>
             </div>
             <div class="row">
@@ -366,7 +370,7 @@ $is_open = count($record_list) > 0;
                 <input name="d20" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-d20" class="currency-usdollar" data-value="20" data-exchangerate="7">0</strong>
+                = <strong name="total-d20" class="currency-usdollar" data-value="2000" data-total="0" data-exchangerate="7">0</strong>
               </div>
             </div>
           </div>
@@ -382,7 +386,7 @@ $is_open = count($record_list) > 0;
                 <input name="d10" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-d10" class="currency-usdollar" data-value="10" data-exchangerate="7">0</strong>
+                = <strong name="total-d10" class="currency-usdollar" data-value="1000" data-total="0" data-exchangerate="7">0</strong>
               </div>
             </div>
             <div class="row">
@@ -396,7 +400,7 @@ $is_open = count($record_list) > 0;
                 <input name="d5" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-d5" class="currency-usdollar" data-value="5" data-exchangerate="7">0</strong>
+                = <strong name="total-d5" class="currency-usdollar" data-value="500" data-total="0" data-exchangerate="7">0</strong>
               </div>
             </div>
             <div class="form-group row">
@@ -410,7 +414,7 @@ $is_open = count($record_list) > 0;
                 <input name="d1" type="number" placeholder="Cantidad" class="form-control form-control-sm cash-needs-total">
               </div-->
               <div class="col-4">
-                = <strong name="total-d1" class="currency-usdollar" data-value="1" data-exchangerate="7">0</strong>
+                = <strong name="total-d1" class="currency-usdollar" data-value="100" data-total="0" data-exchangerate="7">0</strong>
               </div>
             </div>
           </div>
@@ -425,7 +429,11 @@ $is_open = count($record_list) > 0;
 
     </div>
 
+    <?php $this->registerJsFile(Yii::$app->request->baseUrl.'/js/cashform.js',['depends' => [\yii\web\JqueryAsset::className()]]); ?>
+    <?php else: ?>
+      <p class="lead">La caja chica esta cerrada. Nos vemos mañana!</p>
+    <?php endif; ?>
+
   </div>
 
-  <?php $this->registerJsFile(Yii::$app->request->baseUrl.'/js/cashform.js',['depends' => [\yii\web\JqueryAsset::className()]]); ?>
 </div>
