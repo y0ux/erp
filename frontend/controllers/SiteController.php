@@ -87,6 +87,7 @@ class SiteController extends Controller
      * Displays homepage.
      *
      * @return mixed
+     * @throws NotFoundHttpException if api call fails
      */
     public function actionIndex()
     {
@@ -97,6 +98,10 @@ class SiteController extends Controller
       if(\Yii::$app->user->identity->status == User::STATUS_UNFINISH)
         return $this->redirect(['profile']);
 
+      $result = null;
+      $errors = null;
+
+      /*
       $client = new SquareClient([
           'accessToken' => Yii::$app->params['SQUARE_ACCESS_TOKEN'],
           'environment' => Environment::PRODUCTION,
@@ -106,10 +111,9 @@ class SiteController extends Controller
           'accessToken' => Yii::$app->params['SQUARE_ACCESS_TOKEN_SANDBOX'],
           'environment' => Environment::SANDBOX,
           'sslVerification' => false,
-      ]);*/
+      ]);* /
 
-      $result = null;
-      $errors = null;
+
 
       $location_ids = ['14M2PH4P0XV7W'];
       $created_at = new \Square\Models\TimeRange();
@@ -140,7 +144,7 @@ class SiteController extends Controller
           }
       } catch (ApiException $e) {
           throw new NotFoundHttpException(Yii::t('erp.sys', 'ApiException occurred: '.$e->getMessage() ));
-      }
+      }*/
       return $this->render('dashboard', [
         'result' => $result,
         'errors' => $errors

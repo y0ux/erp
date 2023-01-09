@@ -121,151 +121,153 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
       <div class="col-lg-6 col-md-6">
         <h3><i class="fas fa-tablet-alt"></i> Sistema Square</h3>
         <?php
-        $order_list = $result->getOrders();
-        ?>
-        <div>
-          entries <?= count($order_list); ?>
-        </div>
-
-        <?php
-        $tenderTheme = [
-          'cash' => [
-            'color' => 'success',
-            'icon' => "fas fa-money-bill"
-          ],
-          'third_party_card' => [
-            'color' => 'primary',
-            'icon' => "fas fa-credit-card"
-          ],
-          'no_sale' => [
-            'color' => 'light',
-            'icon' => "fas fa-money-check"
-          ],
-          'other' => [
-            'color' => 'secondary',
-            'icon' => "fas fa-money-check"
-          ],
-          'default' => [
-            'color' => 'warning',
-            'icon' => "fas fa-wallet"
-          ],
-        ];
-        $i = 0;
-        foreach ($order_list as $order_item) :
-            $tender_types = [];
-            $tenders = $order_item->getTenders();
-            foreach ($tenders as $tender) {
-              $type = strtolower($tender->getType());
-              if (isset($tender_types[$type]))
-                $tender_types[$type]['count']++;
-              else
-                $tender_types[$type] = [
-                  'count' => 1,
-                  'theme' => $tenderTheme[strtolower($tender->getType())]
-                ];
-            }
-            ?>
-        <div class="row sale-item">
-          <div class="col-2">
-            <?php foreach ($tender_types as $name => $details) : ?>
-            <div class="">
-              <span class="<?= $details["theme"]["icon"] ?>"></span> <span class="badge badge-<?= $details["theme"]["color"] ?>"><?= $details["count"] ?></span>
-            </div>
-            <?php endforeach; ?>
+        if (!empty($result)) :
+          $order_list = $result->getOrders();
+          ?>
+          <div>
+            entries <?= count($order_list); ?>
           </div>
-          <div class="col-6">
-            <div>
-              <b><?= $order_item->getTotalMoney()->getAmount() / 100 ?></b>
-            </div>
-            <div>
-              <?= count($order_item->getLineItems()) ?> items
-            </div>
-          </div>
-          <div class="col-4">
-            <?= date("g:i a" ,strtotime($order_item->getClosedAt())) ?>
-            <a href="#"><span class="fas fa-chevron-right"></span></a>
-          </div>
-        </div>
-        <?php
-        $i++;
-        //if ($i > 3)
-        //break;
-        endforeach; ?>
 
-
-        <!--table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Tipo</th>
-              <!- - th scope="col">Creada</th>
-              <th scope="col">Actualizada</th - ->
-              <th scope="col">Cerrada</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Tax</th>
-              <th scope="col">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-            /*$i = 0;
-            foreach ($order_list as $order_item) :
+          <?php
+          $tenderTheme = [
+            'cash' => [
+              'color' => 'success',
+              'icon' => "fas fa-money-bill"
+            ],
+            'third_party_card' => [
+              'color' => 'primary',
+              'icon' => "fas fa-credit-card"
+            ],
+            'no_sale' => [
+              'color' => 'light',
+              'icon' => "fas fa-money-check"
+            ],
+            'other' => [
+              'color' => 'secondary',
+              'icon' => "fas fa-money-check"
+            ],
+            'default' => [
+              'color' => 'warning',
+              'icon' => "fas fa-wallet"
+            ],
+          ];
+          $i = 0;
+          foreach ($order_list as $order_item) :
               $tender_types = [];
               $tenders = $order_item->getTenders();
               foreach ($tenders as $tender) {
-                if (isset($tender_types[$tender->getType()]))
-                  $tender_types[$tender->getType()]++;
+                $type = strtolower($tender->getType());
+                if (isset($tender_types[$type]))
+                  $tender_types[$type]['count']++;
                 else
-                  $tender_types[$tender->getType()] = 1;
+                  $tender_types[$type] = [
+                    'count' => 1,
+                    'theme' => $tenderTheme[strtolower($tender->getType())]
+                  ];
               }
               ?>
+          <div class="row sale-item">
+            <div class="col-2">
+              <?php foreach ($tender_types as $name => $details) : ?>
+              <div class="">
+                <span class="<?= $details["theme"]["icon"] ?>"></span> <span class="badge badge-<?= $details["theme"]["color"] ?>"><?= $details["count"] ?></span>
+              </div>
+              <?php endforeach; ?>
+            </div>
+            <div class="col-6">
+              <div>
+                <b><?= $order_item->getTotalMoney()->getAmount() / 100 ?></b>
+              </div>
+              <div>
+                <?= count($order_item->getLineItems()) ?> items
+              </div>
+            </div>
+            <div class="col-4">
+              <?= date("g:i a" ,strtotime($order_item->getClosedAt())) ?>
+              <a href="#"><span class="fas fa-chevron-right"></span></a>
+            </div>
+          </div>
+          <?php
+          $i++;
+          //if ($i > 3)
+          //break;
+          endforeach; ?>
+
+
+          <!--table class="table">
+            <thead>
               <tr>
-                <!- -td><?php // $order_item->getId() ?></td-->
-                <!--td><?php // $order_item->getCreatedAt() ?></td>
-                <td><?php // $order_item->getUpdatedAt() ?></td- ->
-                <td><?= json_encode($tender_types) ?></td>
-                <td><?= $order_item->getClosedAt() ?></td>
-                <td><?= $order_item->getState() ?></td>
-                <td><?= $order_item->getTotalTaxMoney()->getAmount() / 100 ?></td>
-                <td><?= $order_item->getTotalMoney()->getAmount() / 100 ?></td>
+                <th scope="col">Tipo</th>
+                <!- - th scope="col">Creada</th>
+                <th scope="col">Actualizada</th - ->
+                <th scope="col">Cerrada</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Tax</th>
+                <th scope="col">Total</th>
               </tr>
-            <?php
-            $i++;
-            if ($i > 3)
-            break;
-          endforeach; */?>
-          </tbody>
-        </table-->
+            </thead>
+            <tbody>
+              <?php
+              /*$i = 0;
+              foreach ($order_list as $order_item) :
+                $tender_types = [];
+                $tenders = $order_item->getTenders();
+                foreach ($tenders as $tender) {
+                  if (isset($tender_types[$tender->getType()]))
+                    $tender_types[$tender->getType()]++;
+                  else
+                    $tender_types[$tender->getType()] = 1;
+                }
+                ?>
+                <tr>
+                  <!- -td><?php // $order_item->getId() ?></td-->
+                  <!--td><?php // $order_item->getCreatedAt() ?></td>
+                  <td><?php // $order_item->getUpdatedAt() ?></td- ->
+                  <td><?= json_encode($tender_types) ?></td>
+                  <td><?= $order_item->getClosedAt() ?></td>
+                  <td><?= $order_item->getState() ?></td>
+                  <td><?= $order_item->getTotalTaxMoney()->getAmount() / 100 ?></td>
+                  <td><?= $order_item->getTotalMoney()->getAmount() / 100 ?></td>
+                </tr>
+              <?php
+              $i++;
+              if ($i > 3)
+              break;
+            endforeach; */?>
+            </tbody>
+          </table-->
 
-        <pre>
-        <?php
-        /*$j = 0;
-        foreach ($order_list as $order_item) :
+          <pre>
+          <?php
+          /*$j = 0;
+          foreach ($order_list as $order_item) :
 
-          echo "<br>Tenders:<br>";
-          print_r($order_item->getTenders());
-          echo "<br>Metadata:<br>";
-          print_r($order_item->getMetadata());
-          echo "<br>Discounts<br>";
-          print_r($order_item->getDiscounts());
-          echo "<br>Fulfillments:<br>";
-          print_r($order_item->getFulfillments());
+            echo "<br>Tenders:<br>";
+            print_r($order_item->getTenders());
+            echo "<br>Metadata:<br>";
+            print_r($order_item->getMetadata());
+            echo "<br>Discounts<br>";
+            print_r($order_item->getDiscounts());
+            echo "<br>Fulfillments:<br>";
+            print_r($order_item->getFulfillments());
 
 
 
-          echo "\n Other:";
-          echo "<br>";
-          print_r(get_object_vars($order_item));
-          if($j++ > 3)
-            break;
-        endforeach;*/
-        ?>
+            echo "\n Other:";
+            echo "<br>";
+            print_r(get_object_vars($order_item));
+            if($j++ > 3)
+              break;
+          endforeach;*/
+          ?>
 
-        </pre>
-        <pre>
-          <?php //print_r($order_list) ?>
-        </pre>
-
+          </pre>
+          <pre>
+            <?php //print_r($order_list) ?>
+          </pre>
+        <?php endif; ?>
       </div>
+
     </div>
 
     <!--div class="body-content">
