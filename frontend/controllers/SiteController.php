@@ -101,7 +101,6 @@ class SiteController extends Controller
       $result = null;
       $errors = null;
 
-      /*
       $client = new SquareClient([
           'accessToken' => Yii::$app->params['SQUARE_ACCESS_TOKEN'],
           'environment' => Environment::PRODUCTION,
@@ -111,7 +110,7 @@ class SiteController extends Controller
           'accessToken' => Yii::$app->params['SQUARE_ACCESS_TOKEN_SANDBOX'],
           'environment' => Environment::SANDBOX,
           'sslVerification' => false,
-      ]);* /
+      ]);*/
 
 
 
@@ -144,7 +143,7 @@ class SiteController extends Controller
           }
       } catch (ApiException $e) {
           throw new NotFoundHttpException(Yii::t('erp.sys', 'ApiException occurred: '.$e->getMessage() ));
-      }*/
+      }
       return $this->render('dashboard', [
         'result' => $result,
         'errors' => $errors
