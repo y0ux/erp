@@ -71,29 +71,33 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
     <div class=row>
       <div class="col-lg-6 col-md-6">
         <h3><i class="fas fa-cash-register"></i> Caja Chica <span class="badge badge-<?= $statusTheme[$boxStatus]['color'] ?>"><?= $statusTheme[$boxStatus]['text'] ?></span></h3>
-        <div class="row" style="padding-top: 20px; padding-bottom: 20px;">
-          <div class="col-6">
-            <?php
-            echo date('Y-m-d H:i');
-            echo '<br>';
-            echo date_default_timezone_get();
-            ?>
-          </div>
-          <div class="col-6">
-            <?php
-            if (isset($statusTheme[$boxStatus]['next'])) {
-              $nextStep = $statusTheme[$boxStatus]['next'];
-              ?>
-                <?= Html::a($statusTheme[$nextStep]['verb']." ".Html::tag("span", "", ["class" => "fas fa-chevron-right"]), Url::to(['/cashbox/index']), ["class" => "btn btn-".$statusTheme[$nextStep]['color']]) ?>
-              <?php
-            }
-            ?>
+        <div class="card mb-4">
+          <div class="flex-column align-items-start card-body pt-4 pb-4">
+            <div class="d-flex w-100 justify-content-between">
+              <div class="">
+                <?php
+                echo date('Y-m-d H:i');
+                echo '<br>';
+                echo date_default_timezone_get();
+                ?>
+              </div>
+              <div class="col-6">
+                <?php
+                if (isset($statusTheme[$boxStatus]['next'])) {
+                  $nextStep = $statusTheme[$boxStatus]['next'];
+                  ?>
+                    <?= Html::a($statusTheme[$nextStep]['verb']." ".Html::tag("span", "", ["class" => "fas fa-chevron-right"]), Url::to(['/cashbox/index']), ["class" => "btn btn-".$statusTheme[$nextStep]['color']]) ?>
+                  <?php
+                }
+                ?>
+              </div>
+            </div>
           </div>
         </div>
         <?php
         if ($is_open > 0 || $is_close) :
           ?>
-          <h4>Datos Ingresados</h4>
+          <h4><i class="fa-regular fa-rectangle-list"></i> Datos Ingresados</h4>
           <table class="table">
             <thead>
               <tr>
@@ -120,56 +124,218 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
             </tbody>
           </table>
         <?php
-          if ($is_close) : ?>
-          <h4>Cierre del Día</h4>
+          if ($is_close) :
+            ?>
+          <h4><i class="fa-solid fa-arrows-split-up-and-left"></i> Cierre del Día</h4>
             <?php
-            if (!empty($result)) :
+            if (!empty($result) && !empty($result->getOrders())) :
               $order_list = $result->getOrders();
               $sum_totals = [
                 'third_party_card' => 0,
                 'cash' => 0,
                 'other' => 0,
                 'subtotal' => 0,
+                'discount' => [],
+                'return' => 0,
+                'refund' => 0,
                 'tax' => 0,
                 'total' => 0
               ];
               foreach ($order_list as $list_item) :
+
+                // TENDERS
                 $tender_types = [];
                 $tenders = $list_item->getTenders();
-                foreach ($tenders as $tender) {
-                  $type = strtolower($tender->getType());
-                  $value = intval($tender->getAmountMoney()->getAmount());
-                  $sum_totals[$type] += $value;
-                  $sum_totals['total'] += $value;
+                if (!empty($tenders)) {
+                  foreach ($tenders as $tender) {
+                    $type = strtolower($tender->getType());
+                    $value = intval($tender->getAmountMoney()->getAmount());
+                    $sum_totals[$type] += $value;
+                    $sum_totals['total'] += $value;
 
-                  if (isset($tender_types[$type])) {
-                    $tender_types[$type]['sum'] += intval($tender->getAmountMoney()->getAmount());
-                    $tender_types[$type]['count'] ++;
-                  }
-                  else {
-                    $tender_types[$type] = [
-                      'sum' => intval($tender->getAmountMoney()->getAmount()),
-                      'count' => 1,
-                      //'theme' => $tenderTheme[strtolower($tender->getType())]
-                    ];
+                    if (isset($tender_types[$type])) {
+                      $tender_types[$type]['sum'] += intval($tender->getAmountMoney()->getAmount());
+                      $tender_types[$type]['count'] ++;
+                    }
+                    else {
+                      $tender_types[$type] = [
+                        'sum' => intval($tender->getAmountMoney()->getAmount()),
+                        'count' => 1,
+                        //'theme' => $tenderTheme[strtolower($tender->getType())]
+                      ];
+                    }
                   }
                 }
+
                 //$sum_totals['tax'] += intval($tender->getTaxes()->getAmount());
+                // TAXES
+                if (!empty($list_item->getTaxes())) :
+                  foreach ($list_item->getTaxes() as $index => $tax) {
+                    $sum_totals['tax'] += $tax->getAppliedMoney()->getAmount();
+                    ?>
+                    <!--pre>
+                      <?php //print_r(); ?>
+                    </pre-->
+                    <?php
+                  }
+                endif;
 
-              ?>
-              <pre>
-                <?php print_r($list_item->getTaxes()); ?>
-              </pre>
+                // DISCOUNTS
+                $discounts = $list_item->getDiscounts();
+                if (!empty($discounts)) {
+                  foreach ($discounts as $discount) {
+                    if (!isset($sum_totals['discount'][$discount->getCatalogObjectId()])) :
+                      $sum_totals['discount'][$discount->getCatalogObjectId()] = [
+                        'name' => $discount->getName(),
+                        'type' => $discount->getType(),
+                        'amount' => (
+                          $discount->getType() == \Square\Models\OrderLineItemDiscountType::FIXED_PERCENTAGE || $discount->getType() == \Square\Models\OrderLineItemDiscountType::VARIABLE_PERCENTAGE ?
+                          $discount->getAppliedMoney()->getAmount() :
+                          $discount->getAmountMoney()->getAmount()
+                        ),
+                      ];
+                    else :
+                      $sum_totals['discount'][$discount->getCatalogObjectId()]['amount'] +=
+                        $discount->getType() == \Square\Models\OrderLineItemDiscountType::FIXED_PERCENTAGE || $discount->getType() == \Square\Models\OrderLineItemDiscountType::VARIABLE_PERCENTAGE ? $discount->getAppliedMoney()->getAmount() : $discount->getAmountMoney()->getAmount();
+                    endif;
+                  }
+                }
 
+                // RETURNS
+                $return_list = $list_item->getReturns();
+                if (!empty($return_list)) {
+                  foreach ($return_list as $return_item) {
+                    if (!empty($return_item->getReturnAmounts()))
+                      $sum_totals['return'] -= $return_item->getReturnAmounts()->getTotalAmount();
+                  }
+                }
 
-
-              <?php
+                // REFUNDS
+                $refunds = $list_item->getRefunds();
+                if (!empty($refunds)) {
+                  foreach ($refunds as $refund) {
+                    if (!empty($refund->getAmountMoney()))
+                      $sum_totals['refund'] -= $refund->getAmountMoney()->getAmount();
+                  }
+                }
               endforeach;
+              // CONSOLIDATE
+              if ($sum_totals['return'] <> 0 || $sum_totals['refund'] <> 0)
+                $sum_totals['total'] += $sum_totals['return'] + $sum_totals['refund'];
+
+              if ($is_close) :
+                $opening = $open_list[0];
+                $closing = $close_list[0];
+
+                $box_cash = 0;
+                if (!empty($closing->getCashSales())) {
+                  foreach ($closing->getCashSales() as $sale) {
+                     $box_cash += $sale->total_rated;
+                  }
+                }
+                $box_expenses = !empty($closing->getExpenses()) ? $closing->getExpenses()->total_amount : 0;
+
+                $cash_diference = $sum_totals['cash'] - $box_expenses - $box_cash;
+
+                $box_card = !empty($closing->getCardSales()) ? $closing->getCardSales()->total_amount  : 0 ;
+                $card_diference = $sum_totals['third_party_card'] - $box_card;
+              ?>
+              <table class="table">
+                <thead>
+                  <tr style="text-align: right;">
+                    <th scope="col" style="text-align: left;">Descripcion</th>
+                    <th scope="col"><i class="fa-solid fa-down-long"></i> Ingreso</th>
+                    <th scope="col"><i class="fa-solid fa-up-long"></i> Egreso</th>
+                    <th scope="col"><i class="fa-solid fa-tablet-screen-button"></i> Sistema</th>
+                    <th scope="col">Diferencia</th>
+                  </tr>
+                </thead>
+                <tbody style="text-align: right;">
+                  <tr>
+                    <td style="text-align: left;">Efectivo</td>
+                    <td><?= Yii::$app->formatter->asDecimal($box_cash/100, 2)  ?></td>
+                    <td><?= Yii::$app->formatter->asDecimal($box_expenses/100, 2)  ?></td>
+                    <td><?= Yii::$app->formatter->asDecimal($sum_totals['cash']/100, 2) ?></td>
+                    <td><span class="badge badge-<?= $cash_diference > 0 ? "success" : ($cash_diference < 0 ? "danger" : "primary") ?>" style="font-size: 1em;"><?= Yii::$app->formatter->asDecimal($cash_diference/100, 2) ?></span></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left;">Tarjeta</td>
+                    <td><?= Yii::$app->formatter->asDecimal($box_card/100, 2) ?></td>
+                    <td></td>
+                    <td><?= Yii::$app->formatter->asDecimal($sum_totals['third_party_card']/100, 2) ?></td>
+                    <td><span class="badge badge-<?= $cash_diference > 0 ? "success" : ($card_diference < 0 ? "danger" : "primary") ?>" style="font-size: 1em;"><?= Yii::$app->formatter->asDecimal($card_diference/100, 2) ?></span></td>
+                  </tr>
+                  <tr>
+                    <td class="text-left">Other</td>
+                    <td><?php // Yii::$app->formatter->asDecimal($box_card/100, 2) ?></td>
+                    <td></td>
+                    <td><?= Yii::$app->formatter->asDecimal($sum_totals['other']/100, 2) ?></td>
+                    <td><?php // Yii::$app->formatter->asDecimal($card_diference/100, 2) ?></td>
+                  </tr>
+                  <tr class="font-weight-bold table-<?= "success" ?>">
+                    <td class="text-left">Total</td>
+                    <td><?= Yii::$app->formatter->asDecimal($closing->income_total/100, 2) ?></td>
+                    <td><?= Yii::$app->formatter->asDecimal($closing->outcome_total/100, 2) ?></td>
+                    <td><?= Yii::$app->formatter->asDecimal($sum_totals['total']/100, 2) ?></td>
+                    <td><?php // Yii::$app->formatter->asDecimal($card_diference/100, 2) ?></td>
+                  </tr>
+                </tbody>
+              </table>
+              <?php
+              endif;
+              ?>
+              <h4><i class="fas fa-chart-simple"></i> Reporte Sistema Square</h4>
+              <div class="list-group list-group-flush">
+                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Ventas Totales</h5>
+                    <b><sup>Q</sup><?= Yii::$app->formatter->asDecimal($sum_totals['total']/100, 2) ?></b>
+                  </div>
+                </div>
+                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                    <p class="mb-1">Efectivo</p>
+                    <span><sup>Q</sup><?= Yii::$app->formatter->asDecimal($sum_totals['cash']/100, 2) ?></b>
+                  </div>
+                </div>
+                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                    <p class="mb-1">Tarjeta</p>
+                    <span><sup>Q</sup><?= Yii::$app->formatter->asDecimal($sum_totals['third_party_card']/100, 2) ?></span>
+                  </div>
+                </div>
+                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                    <p class="mb-1">Other</p>
+                    <span><sup>Q</sup><?= Yii::$app->formatter->asDecimal($sum_totals['other']/100, 2) ?></span>
+                  </div>
+                </div>
+                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                    <p class="mb-1">Refund</p>
+                    <span>-<sup>Q</sup><?= Yii::$app->formatter->asDecimal($sum_totals['refund']/100, 2) ?></span>
+                  </div>
+                </div>
+                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                  <b class="mb-1">Descuentos Aplicados</b>
+                  <?php
+                  if (!empty($sum_totals['discount'])) :
+                    foreach ($sum_totals['discount'] as $id => $discount_data) : ?>
+                    <div class="d-flex w-100 justify-content-between">
+                      <p class="mb-1"><?= $discount_data['name'] ?></p>
+                      <span>-<sup>Q</sup><?= Yii::$app->formatter->asDecimal($discount_data['amount']/100, 2) ?></span>
+                    </div>
+                    <?php
+                    endforeach;
+                endif; ?>
+                </div>
+              </div>
+              <?php /*
               ?><pre><?php
               print_r($sum_totals);
-              //print_r($)
-              ?></pre><?php
+              ?></pre><?php */
             endif;
+
           endif;
         endif;
         ?>
@@ -207,19 +373,20 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
               'icon' => "fas fa-wallet"
             ],
           ];
-          $i = 0;
           foreach ($order_list as $order_item) :
               $tender_types = [];
               $tenders = $order_item->getTenders();
-              foreach ($tenders as $tender) {
-                $type = strtolower($tender->getType());
-                if (isset($tender_types[$type]))
-                  $tender_types[$type]['count']++;
-                else
-                  $tender_types[$type] = [
-                    'count' => 1,
-                    'theme' => $tenderTheme[strtolower($tender->getType())]
-                  ];
+              if (!empty($tenders)) {
+                foreach ($tenders as $tender) {
+                  $type = strtolower($tender->getType());
+                  if (isset($tender_types[$type]))
+                    $tender_types[$type]['count']++;
+                  else
+                    $tender_types[$type] = [
+                      'count' => 1,
+                      'theme' => $tenderTheme[strtolower($tender->getType())]
+                    ];
+                }
               }
               ?>
           <div class="order-item">
@@ -230,6 +397,9 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
                   <span class="<?= $details["theme"]["icon"] ?>"></span> <span class="badge badge-<?= $details["theme"]["color"] ?>"><?= $details["count"] ?></span>
                 </div>
               <?php endforeach; ?>
+              <?php if ($order_item->getDiscounts()) : ?>
+                <i class="fa-solid fa-tag"></i>
+              <?php endif; ?>
               </div>
               <div class="col-4">
                 <b><sup><?= \common\models\Currency::findCurrencyByISO($order_item->getTotalMoney()->getCurrency())->symbol ?></sup> <?= Yii::$app->formatter->asDecimal($order_item->getTotalMoney()->getAmount() / 100,2) ?></b>
@@ -243,12 +413,10 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
               <?php
               $line_items = $order_item->getLineItems();
               $order_items = [];
-              $i = 0;
-              foreach($line_items as $line_item) {
-                $order_items[$line_item->getName()] = 1;
-                $i++;
-                if ($i > 4)
-                  break;
+              if (!empty($line_items)) {
+                foreach($line_items as $line_item) {
+                  $order_items[$line_item->getName()] = 1;
+                }
               }
               $itmeStr = implode(", ", array_keys($order_items));
               ?>
@@ -256,122 +424,10 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
             </div>
           </div>
           <?php
-          $i++;
-          //if ($i > 3)
-          //break;
           endforeach; ?>
 
-
-          <!--table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Tipo</th>
-                <!- - th scope="col">Creada</th>
-                <th scope="col">Actualizada</th - ->
-                <th scope="col">Cerrada</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Tax</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-              /*$i = 0;
-              foreach ($order_list as $order_item) :
-                $tender_types = [];
-                $tenders = $order_item->getTenders();
-                foreach ($tenders as $tender) {
-                  if (isset($tender_types[$tender->getType()]))
-                    $tender_types[$tender->getType()]++;
-                  else
-                    $tender_types[$tender->getType()] = 1;
-                }
-                ?>
-                <tr>
-                  <!- -td><?php // $order_item->getId() ?></td-->
-                  <!--td><?php // $order_item->getCreatedAt() ?></td>
-                  <td><?php // $order_item->getUpdatedAt() ?></td- ->
-                  <td><?= json_encode($tender_types) ?></td>
-                  <td><?= $order_item->getClosedAt() ?></td>
-                  <td><?= $order_item->getState() ?></td>
-                  <td><?= $order_item->getTotalTaxMoney()->getAmount() / 100 ?></td>
-                  <td><?= $order_item->getTotalMoney()->getAmount() / 100 ?></td>
-                </tr>
-              <?php
-              $i++;
-              if ($i > 3)
-              break;
-            endforeach; */?>
-            </tbody>
-          </table-->
-
-          <pre>
-          <?php
-          /*$j = 0;
-          foreach ($order_list as $order_item) :
-
-            echo "<br>Tenders:<br>";
-            print_r($order_item->getTenders());
-            echo "<br>Metadata:<br>";
-            print_r($order_item->getMetadata());
-            echo "<br>Discounts<br>";
-            print_r($order_item->getDiscounts());
-            echo "<br>Fulfillments:<br>";
-            print_r($order_item->getFulfillments());
-
-
-
-            echo "\n Other:";
-            echo "<br>";
-            print_r(get_object_vars($order_item));
-            if($j++ > 3)
-              break;
-          endforeach;*/
-          ?>
-
-          </pre>
-          <pre>
-            <?php //print_r($order_list) ?>
-          </pre>
         <?php endif; ?>
       </div>
 
     </div>
-
-    <!--div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
-        </div>
-
-    </div-->
 </div>

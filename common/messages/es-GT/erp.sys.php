@@ -119,7 +119,7 @@ return [
     // Cashier
     'Opening' => 'Apertura',
     'Closing' => 'Cierre',
-    'Cashier' => 'Cajero',
+    'Cashier' => 'Caja Chica',
     'Record Type' => 'Tipo de Cierre',
     'Cash Q' => 'Efectivo Q',
     'Cash $' => 'Efectivo $',

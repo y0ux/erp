@@ -60,7 +60,7 @@ class CashboxForm extends Model
             'type' => CashierTransaction::TYPE_CASH_USD,
             'currency' => 'usd',
             'multiplier' => 100,
-            'exhange_rate' => 7
+            'exchange_rate' => 7
         ],
         'card' => [
             'flow' => CashierTransaction::FLOW_IN,
@@ -186,7 +186,7 @@ class CashboxForm extends Model
                     $cd->quantity = $this->$var_name;
                     $cd->total_value = $this->$var_name * $note_value; // / 100; // create variable totalBase
                     $cd->exchange_rate_id = null;
-                    $cd->exhange_rate_value = $exchange_rate;
+                    $cd->exchange_rate_value = $exchange_rate;
                     $cd->total_rated = $cashbox [$currency][$var_name];
 
                     $cashbox_details[] = $cd;
@@ -215,7 +215,7 @@ class CashboxForm extends Model
         $cashier_record->record_type = $this->record_type;
         $cashier_record->cashbox_total = $cashbox['grand_total'];
         $cashier_record->income_total = ($cashbox['cashbox_difference'] > 0 ? $cashbox['cashbox_difference'] : 0) + $this->card + $this->transfer + $this->gift_card + $this->other;
-        $cashier_record->outcome_total = $this->spent;
+        $cashier_record->outcome_total = $this->spent*100;
         Yii::debug(print_r($cashier_record, true));
 
         $cashier_record_transaction = CashierRecord::getDb()->beginTransaction();
@@ -267,11 +267,11 @@ class CashboxForm extends Model
                                 $transaction_var->currency_symbol = $currency_obj->symbol;
                                 $transaction_var->total_amount = $this->$var_name * $var_config['multiplier'];
                                 if (isset($var_config['exchange_rate'])) {
-                                    $transaction_var->exhange_rate_value = $var_config['exchange_rate'];
-                                    $transaction_var->total_rated = $var_config['exchange_rate'] * $this->$var_name;
+                                    $transaction_var->exchange_rate_value = $var_config['exchange_rate'];
+                                    $transaction_var->total_rated = $var_config['exchange_rate'] * $this->$var_name * $var_config['multiplier'];
                                 }
                                 else {
-                                    $transaction_var->total_rated = $this->$var_name;
+                                    $transaction_var->total_rated = $this->$var_name * $var_config['multiplier'];
                                 }
                                 if ($transaction_var->validate() && $transaction_var->save()) {
                                     Yii::debug('transaction saved '.$var_name);

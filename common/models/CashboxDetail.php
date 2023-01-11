@@ -16,7 +16,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $quantity
  * @property double $total_value
  * @property int $exchange_rate_id
- * @property double $exhange_rate_value
+ * @property double $exchange_rate_value
  * @property double $total_rated
  * @property string $created_at
  * @property string $updated_at
@@ -41,7 +41,7 @@ class CashboxDetail extends \yii\db\ActiveRecord
         return [
             [['cashier_record_id', 'currency_id', 'currency_name', 'currency_symbol', 'currency_value', 'total_rated'], 'required'],
             [['cashier_record_id', 'currency_id', 'quantity', 'exchange_rate_id'], 'integer'],
-            [['currency_value', 'total_value', 'exhange_rate_value', 'total_rated'], 'number'],
+            [['currency_value', 'total_value', 'exchange_rate_value', 'total_rated'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
             [['currency_name'], 'string', 'max' => 91],
             [['currency_symbol'], 'string', 'max' => 5],
@@ -63,7 +63,7 @@ class CashboxDetail extends \yii\db\ActiveRecord
             'quantity' => Yii::t('erp.sys', 'Quantity'),
             'total_value' => Yii::t('erp.sys', 'Total Value'),
             'exchange_rate_id' => Yii::t('erp.sys', 'Exchange Rate ID'),
-            'exhange_rate_value' => Yii::t('erp.sys', 'Exhange Rate Value'),
+            'exchange_rate_value' => Yii::t('erp.sys', 'Exhange Rate Value'),
             'total_rated' => Yii::t('erp.sys', 'Total Rated'),
             'created_at' => Yii::t('erp.sys', 'Created At'),
             'updated_at' => Yii::t('erp.sys', 'Updated At'),

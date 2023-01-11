@@ -134,4 +134,35 @@ class CashierRecord extends \yii\db\ActiveRecord
     {
         return self::find()->where(['record_type' => self::RECORD_CLOSING])->andWhere('created_at >= CURDATE()')->orderBy(['created_at' => SORT_DESC])->all();
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCashSales()
+    {
+        return CashierTransaction::find()->where(['cashier_record_id' => $this->id, 'transaction_flow' => CashierTransaction::FLOW_IN, 'transaction_type' => [CashierTransaction::TYPE_CASH_GTQ, CashierTransaction::TYPE_CASH_USD] ])->all();
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCardSales()
+    {
+      return CashierTransaction::find()->where(['cashier_record_id' => $this->id, 'transaction_flow' => CashierTransaction::FLOW_IN, 'transaction_type' => CashierTransaction::TYPE_CARD ])->one();
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransferSales()
+    {
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getExpenses()
+    {
+        return CashierTransaction::find()->where(['cashier_record_id' => $this->id, 'transaction_flow' => CashierTransaction::FLOW_OUT, 'transaction_type' => CashierTransaction::TYPE_CASH_GTQ ])->one();
+    }
 }

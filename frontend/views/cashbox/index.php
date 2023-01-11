@@ -22,7 +22,7 @@ $is_close = count($close_list) > 0;
 ?>
 <div class="cashbox-index">
   <div class="container-fluid">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><i class="fas fa-cash-register"></i> <?= Html::encode($this->title) ?></h1>
 
     <?php if (!$is_close) : ?>
 
