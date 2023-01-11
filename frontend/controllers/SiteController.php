@@ -98,6 +98,8 @@ class SiteController extends Controller
       if(\Yii::$app->user->identity->status == User::STATUS_UNFINISH)
         return $this->redirect(['profile']);
 
+      $report_date = Yii::$app->request->get('date-search', date("Y-m-d"));
+
       $result = null;
       $errors = null;
 
@@ -116,8 +118,8 @@ class SiteController extends Controller
 
       $location_ids = ['14M2PH4P0XV7W'];
       $created_at = new \Square\Models\TimeRange();
-      $created_at->setStartAt(date("Y-m-d").'T00:00:01-06:00');
-      $created_at->setEndAt(date("Y-m-d").'T23:59:59-06:00');
+      $created_at->setStartAt($report_date.'T00:00:01-06:00');
+      $created_at->setEndAt($report_date.'T23:59:59-06:00');
 
       $date_time_filter = new \Square\Models\SearchOrdersDateTimeFilter();
       $date_time_filter->setCreatedAt($created_at);
@@ -146,7 +148,8 @@ class SiteController extends Controller
       }
       return $this->render('dashboard', [
         'result' => $result,
-        'errors' => $errors
+        'errors' => $errors,
+        'report_date' => $report_date
       ]);
     }
 

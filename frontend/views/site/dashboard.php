@@ -34,12 +34,15 @@ $statusTheme = [
 ];
 
 $this->title = \Yii::t('erp.sys','Chermol - ERP');
-$close_list = \common\models\CashierRecord::getCurrentClosing();
+$daydiff = intval(date("d", time() - strtotime($report_date)));
+$close_list = \common\models\CashierRecord::getClosingData($daydiff);
 $is_close = count($close_list) > 0;
-$open_list = \common\models\CashierRecord::getCurrentOpening();
+$open_list = \common\models\CashierRecord::getOpeningData($daydiff);
 $is_open = count($open_list) > 0;
 
 $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX_OPEN : ($is_close && $is_open ? CBOX_CLOSE : CBOX_UNDEFINED ) );
+
+
 ?>
 <?php
   if (!empty($flash_messages)) :
@@ -63,10 +66,21 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
 </style>
 <div class="site-index">
 
-    <div class="text-center">
-        <h1 class="lead">Chermol, S.A.<br><small>Sistema de ERP</small></h1>
-        <p>Hola <?= Yii::$app->user->identity->userProfile? Yii::$app->user->identity->userProfile->first_name : Yii::$app->user->identity->username ?>!</p>
-    </div>
+    <!--div class="text-center">
+        <h1 class="">Chermol, S.A.<br><small>Sistema de ERP</small></h1>
+        <p>Hola <?php // Yii::$app->user->identity->userProfile? Yii::$app->user->identity->userProfile->first_name : Yii::$app->user->identity->username ?>!</p>
+    </div-->
+
+    <nav class="navbar navbar-light justify-content-between mb-4 pb-3 border-bottom">
+      <div class="navbar-brand"><?= date("D, F d, Y", strtotime($report_date)) ?></div>
+      <form class="form-inline" method="get" action="">
+        <div class="form-group mb-2">
+          <label for="date-search" class="sr-only">Fecha</label>
+          <input type="date" id="date-search" name="date-search" value="<?= $report_date ?>" min="2022-12-07" max="<?= date("Y-m-d") ?>">
+        </div>
+        <button type="submit" class="btn btn-secondary btn-sm mb-2 ml-3">Buscar</button>
+      </form>
+    </nav>
 
     <div class=row>
       <div class="col-lg-6 col-md-6">
@@ -75,10 +89,13 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
           <div class="flex-column align-items-start card-body pt-4 pb-4">
             <div class="d-flex w-100 justify-content-between">
               <div class="">
+                Hora Actual:<br>
                 <?php
                 echo date('Y-m-d H:i');
                 echo '<br>';
-                echo date_default_timezone_get();
+                echo $daydiff;
+
+                //echo date_default_timezone_get();
                 ?>
               </div>
               <div class="col-6">
@@ -223,7 +240,7 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
               if ($sum_totals['return'] <> 0 || $sum_totals['refund'] <> 0)
                 $sum_totals['total'] += $sum_totals['return'] + $sum_totals['refund'];
 
-              if ($is_close) :
+              if ($is_close && $is_open) :
                 $opening = $open_list[0];
                 $closing = $close_list[0];
 
