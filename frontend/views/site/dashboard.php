@@ -35,7 +35,7 @@ $statusTheme = [
 
 $this->title = \Yii::t('erp.sys','Chermol - ERP');
 $daydiff = intval(date("d", time() - strtotime($report_date)));
-$close_list = \common\models\CashierRecord::getClosingData($daydiff);
+$close_list = \common\models\CashierRecord::getClosingData($report_date);
 $is_close = count($close_list) > 0;
 $open_list = \common\models\CashierRecord::getOpeningData($daydiff);
 $is_open = count($open_list) > 0;

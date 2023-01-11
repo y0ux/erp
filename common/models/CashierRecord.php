@@ -122,9 +122,10 @@ class CashierRecord extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public static function getOpeningData($days_ago = 0)
+    public static function getOpeningData($search_date = null)
     {
-        return self::find()->where(['record_type' => self::RECORD_OPENING])->andWhere('created_at >= subdate(curdate(), '.$days_ago.')')->orderBy(['created_at' => SORT_DESC])->all();
+        //return self::find()->where(['record_type' => self::RECORD_OPENING])->andWhere('created_at >= subdate(curdate(), 0)')->orderBy(['created_at' => SORT_DESC])->all();
+        return self::getRecordData(self::RECORD_OPENING, $search_date);
     }
 
     /**
@@ -138,9 +139,19 @@ class CashierRecord extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public static function getClosingData($days_ago = 0)
+    public static function getClosingData($search_date = null)
     {
-        return self::find()->where(['record_type' => self::RECORD_CLOSING])->andWhere('created_at >= subdate(curdate(), '.$days_ago.')')->orderBy(['created_at' => SORT_DESC])->all();
+        return self::getRecordData(self::RECORD_CLOSING, $search_date);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public static function getRecordData($record_type = self::RECORD_OPENING, $search_date = null)
+    {
+        if (empty($search_date))
+          $search_date = date("Y-m-d");
+        return self::find()->where(['record_type' => self::RECORD_CLOSING])->andWhere('date(created_at) = '.$search_date)->orderBy(['created_at' => SORT_DESC])->all();
     }
 
     /**
