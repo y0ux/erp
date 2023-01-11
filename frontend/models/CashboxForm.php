@@ -214,7 +214,7 @@ class CashboxForm extends Model
         $cashier_record->created_by_full_name = Yii::$app->user->identity->getFullName();
         $cashier_record->record_type = $this->record_type;
         $cashier_record->cashbox_total = $cashbox['grand_total'];
-        $cashier_record->income_total = ($cashbox['cashbox_difference'] > 0 ? $cashbox['cashbox_difference'] : 0) + $this->card + $this->transfer + $this->gift_card + $this->other;
+        $cashier_record->income_total = ($cashbox['cashbox_difference'] > 0 ? $cashbox['cashbox_difference'] : 0) + ($this->card + $this->transfer + $this->gift_card + $this->other)*100;
         $cashier_record->outcome_total = $this->spent*100;
         Yii::debug(print_r($cashier_record, true));
 

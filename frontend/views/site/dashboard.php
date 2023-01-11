@@ -235,10 +235,10 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
                 }
                 $box_expenses = !empty($closing->getExpenses()) ? $closing->getExpenses()->total_amount : 0;
 
-                $cash_diference = $sum_totals['cash'] - $box_expenses - $box_cash;
+                $cash_difference = $box_expenses + $box_cash - $sum_totals['cash'];
 
                 $box_card = !empty($closing->getCardSales()) ? $closing->getCardSales()->total_amount  : 0 ;
-                $card_diference = $sum_totals['third_party_card'] - $box_card;
+                $card_difference = $box_card - $sum_totals['third_party_card'];
               ?>
               <table class="table">
                 <thead>
@@ -250,34 +250,34 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
                     <th scope="col">Diferencia</th>
                   </tr>
                 </thead>
-                <tbody style="text-align: right;">
+                <tbody class="text-right">
                   <tr>
-                    <td style="text-align: left;">Efectivo</td>
+                    <td class="text-left">Efectivo</td>
                     <td><?= Yii::$app->formatter->asDecimal($box_cash/100, 2)  ?></td>
                     <td><?= Yii::$app->formatter->asDecimal($box_expenses/100, 2)  ?></td>
                     <td><?= Yii::$app->formatter->asDecimal($sum_totals['cash']/100, 2) ?></td>
-                    <td><span class="badge badge-<?= $cash_diference > 0 ? "success" : ($cash_diference < 0 ? "danger" : "primary") ?>" style="font-size: 1em;"><?= Yii::$app->formatter->asDecimal($cash_diference/100, 2) ?></span></td>
+                    <td><span class="badge badge-<?= $cash_difference > 0 ? "warning" : ($cash_difference < 0 ? "danger" : "success") ?>" style="font-size: 1em;"><?= Yii::$app->formatter->asDecimal($cash_difference/100, 2) ?></span></td>
                   </tr>
                   <tr>
-                    <td style="text-align: left;">Tarjeta</td>
+                    <td class="text-left">Tarjeta</td>
                     <td><?= Yii::$app->formatter->asDecimal($box_card/100, 2) ?></td>
                     <td></td>
                     <td><?= Yii::$app->formatter->asDecimal($sum_totals['third_party_card']/100, 2) ?></td>
-                    <td><span class="badge badge-<?= $cash_diference > 0 ? "success" : ($card_diference < 0 ? "danger" : "primary") ?>" style="font-size: 1em;"><?= Yii::$app->formatter->asDecimal($card_diference/100, 2) ?></span></td>
+                    <td><span class="badge badge-<?= $card_difference > 0 ? "warning" : ($card_difference < 0 ? "danger" : "success") ?>" style="font-size: 1em;"><?= Yii::$app->formatter->asDecimal($card_difference/100, 2) ?></span></td>
                   </tr>
                   <tr>
                     <td class="text-left">Other</td>
                     <td><?php // Yii::$app->formatter->asDecimal($box_card/100, 2) ?></td>
                     <td></td>
                     <td><?= Yii::$app->formatter->asDecimal($sum_totals['other']/100, 2) ?></td>
-                    <td><?php // Yii::$app->formatter->asDecimal($card_diference/100, 2) ?></td>
+                    <td><?php // Yii::$app->formatter->asDecimal($card_difference/100, 2) ?></td>
                   </tr>
-                  <tr class="font-weight-bold table-<?= "success" ?>">
+                  <tr class="font-weight-bold table-<?= $card_difference+$cash_difference > 0 ? "warning" : ($card_difference+$cash_difference < 0 ? "danger" : "success") ?>">
                     <td class="text-left">Total</td>
                     <td><?= Yii::$app->formatter->asDecimal($closing->income_total/100, 2) ?></td>
                     <td><?= Yii::$app->formatter->asDecimal($closing->outcome_total/100, 2) ?></td>
                     <td><?= Yii::$app->formatter->asDecimal($sum_totals['total']/100, 2) ?></td>
-                    <td><?php // Yii::$app->formatter->asDecimal($card_diference/100, 2) ?></td>
+                    <td><span class="badge badge-<?= $card_difference > 0 ? "warning" : ($card_difference+$cash_difference < 0 ? "danger" : "success") ?>" style="font-size: 1em;"><?= Yii::$app->formatter->asDecimal(($card_difference+$cash_difference)/100, 2) ?></span></td>
                   </tr>
                 </tbody>
               </table>
@@ -406,7 +406,7 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
               </div>
               <div class="col-4">
                 <?= date("g:i a" ,strtotime($order_item->getClosedAt())) ?>
-                <a href="#"><span class="fas fa-chevron-right"></span></a>
+                <a href="#"><span class="fas fa-chevron-down"></span></a>
               </div>
             </div>
             <div class="order-line-items">
