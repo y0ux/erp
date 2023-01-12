@@ -35,9 +35,9 @@ $statusTheme = [
 
 $this->title = \Yii::t('erp.sys','Chermol - ERP');
 $daydiff = intval(date("d", time() - strtotime($report_date)));
-$close_list = \common\models\CashierRecord::getClosingData();
+$close_list = \common\models\CashierRecord::getClosingData($report_date);
 $is_close = count($close_list) > 0;
-$open_list = \common\models\CashierRecord::getOpeningData();
+$open_list = \common\models\CashierRecord::getOpeningData($report_date);
 $is_open = count($open_list) > 0;
 
 $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX_OPEN : ($is_close && $is_open ? CBOX_CLOSE : CBOX_UNDEFINED ) );
@@ -93,7 +93,8 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
                 <?php
                 echo date('Y-m-d H:i');
                 echo '<br>';
-                echo date("Y-m-d H-m-s", strtotime(date("Y-m-d").'T00:00:01-06:00'));
+                //echo date("Y-m-d H-m-s", strtotime(date("Y-m-d").'T00:00:01-06:00'));
+                echo $report_date;
 
                 //echo date_default_timezone_get();
                 ?>
@@ -118,7 +119,7 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Hora</th>
+                <th scope="col">Fecha y Hora</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">tipo</th>
                 <th scope="col">Total</th>
@@ -130,7 +131,7 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
               foreach ($cashier_arrays as $i => $record) {
                 ?>
                 <tr>
-                  <td><?= date("g:i a", strtotime($record->created_at)) ?></td>
+                  <td><?= date("Y-m-d g:i a", strtotime($record->created_at)) ?></td>
                   <td><?= $record->created_by_full_name ?></td>
                   <td><?= $record->getRecordTypeText() ?></td>
                   <td><?= Yii::$app->formatter->asDecimal($record->cashbox_total/100,2) ?></td>

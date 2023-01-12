@@ -147,14 +147,13 @@ class CashierRecord extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public static function getRecordData($record_type = self::RECORD_OPENING, $start_date = null, $end_date = null)
+    public static function getRecordData($record_type = self::RECORD_OPENING, $search_date = null)
     {
-        /*if (empty($start_date))
-          $start_date = Yii::$app->formatter->asTimestamp(strtotime(date("Y-m-d").'T00:00:01-06:00'));
-        if (empty($end_date))
-          $end_date = Yii::$app->formatter->asTimestamp(strtotime(date("Y-m-d").'T23:59:59-06:00'));*/
-        //return self::find()->where(['record_type' => self::RECORD_CLOSING])->andWhere(['between', 'created_at', $start_date, $end_date])->orderBy(['created_at' => SORT_DESC])->all();
-        return self::find()->where(['record_type' => $record_type])->andWhere("created_at >= curdate()")->orderBy(['created_at' => SORT_DESC])->all();
+        $start_date = Yii::$app->formatter->asDatetime(strtotime((!empty($search_date)? date("Y-m-d",strtotime($search_date)) : date("Y-m-d")).' 00:00:01'),"php:Y-m-d H:i:s");
+        $end_date = Yii::$app->formatter->asDatetime(strtotime((!empty($search_date)? date("Y-m-d",strtotime($search_date)) : date("Y-m-d")).' 23:59:59'),"php:Y-m-d H:i:s");
+          //$end_date = Yii::$app->formatter->asDatetime(strtotime(date("Y-m-d").' 23:59:59'),"php:Y-m-d H:i:s");
+        return self::find()->where(['record_type' => $record_type])->andWhere(['between', 'created_at', $start_date, $end_date])->orderBy(['created_at' => SORT_DESC])->all();
+        //return self::find()->where(['record_type' => $record_type])->andWhere("created_at >= curdate()")->orderBy(['created_at' => SORT_DESC])->all();
     }
 
     /**
