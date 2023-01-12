@@ -35,9 +35,9 @@ $statusTheme = [
 
 $this->title = \Yii::t('erp.sys','Chermol - ERP');
 $daydiff = intval(date("d", time() - strtotime($report_date)));
-$close_list = \common\models\CashierRecord::getClosingData($report_date);
+$close_list = \common\models\CashierRecord::getClosingData();
 $is_close = count($close_list) > 0;
-$open_list = \common\models\CashierRecord::getOpeningData($daydiff);
+$open_list = \common\models\CashierRecord::getOpeningData();
 $is_open = count($open_list) > 0;
 
 $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX_OPEN : ($is_close && $is_open ? CBOX_CLOSE : CBOX_UNDEFINED ) );
@@ -93,7 +93,7 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
                 <?php
                 echo date('Y-m-d H:i');
                 echo '<br>';
-                echo $daydiff;
+                echo date("Y-m-d H-m-s", strtotime(date("Y-m-d").'T00:00:01-06:00'));
 
                 //echo date_default_timezone_get();
                 ?>
