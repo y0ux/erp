@@ -34,7 +34,7 @@ $statusTheme = [
 ];
 
 $this->title = \Yii::t('erp.sys','Chermol - ERP');
-$daydiff = intval(date("d", time() - strtotime($report_date)));
+$daydiff = round((time() - strtotime($report_date))/ (60 * 60 * 24));
 $close_list = \common\models\CashierRecord::getClosingData($report_date);
 $is_close = count($close_list) > 0;
 $open_list = \common\models\CashierRecord::getOpeningData($report_date);
@@ -94,14 +94,23 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
                 echo date('Y-m-d H:i');
                 echo '<br>';
                 //echo date("Y-m-d H-m-s", strtotime(date("Y-m-d").'T00:00:01-06:00'));
-                echo $report_date;
+                //echo $report_date;
+                /*echo $daydiff;
+                echo "<br>";
+                echo strtotime($report_date);
+                echo "<br>";
+                echo time();
+                echo "<br>";
+                echo time() - strtotime($report_date);
+                echo "<br>";
+                echo round((time() - strtotime($report_date))/ (60 * 60 * 24));*/
 
                 //echo date_default_timezone_get();
                 ?>
               </div>
               <div class="col-6">
                 <?php
-                if (isset($statusTheme[$boxStatus]['next'])) {
+                if ($daydiff == 0 && isset($statusTheme[$boxStatus]['next'])) {
                   $nextStep = $statusTheme[$boxStatus]['next'];
                   ?>
                     <?= Html::a($statusTheme[$nextStep]['verb']." ".Html::tag("span", "", ["class" => "fas fa-chevron-right"]), Url::to(['/cashbox/index']), ["class" => "btn btn-".$statusTheme[$nextStep]['color']]) ?>
@@ -121,7 +130,7 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
               <tr>
                 <th scope="col">Fecha y Hora</th>
                 <th scope="col">Nombre</th>
-                <th scope="col">tipo</th>
+                <th scope="col">Tipo</th>
                 <th scope="col">Total</th>
               </tr>
             </thead>
@@ -134,7 +143,7 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
                   <td><?= date("Y-m-d g:i a", strtotime($record->created_at)) ?></td>
                   <td><?= $record->created_by_full_name ?></td>
                   <td><?= $record->getRecordTypeText() ?></td>
-                  <td><?= Yii::$app->formatter->asDecimal($record->cashbox_total/100,2) ?></td>
+                  <td class="text-right"><?= Yii::$app->formatter->asDecimal($record->cashbox_total/100,2) ?> <a href="#"><span class="fas fa-chevron-down"></span></a></td>
                 </tr>
               <?php
               }

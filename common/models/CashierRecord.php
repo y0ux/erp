@@ -147,6 +147,14 @@ class CashierRecord extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public static function getCurrentClosing()
+    {
+        return self::getClosingData();
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public static function getRecordData($record_type = self::RECORD_OPENING, $search_date = null)
     {
         $start_date = Yii::$app->formatter->asDatetime(strtotime((!empty($search_date)? date("Y-m-d",strtotime($search_date)) : date("Y-m-d")).' 00:00:01'),"php:Y-m-d H:i:s");
@@ -154,14 +162,6 @@ class CashierRecord extends \yii\db\ActiveRecord
           //$end_date = Yii::$app->formatter->asDatetime(strtotime(date("Y-m-d").' 23:59:59'),"php:Y-m-d H:i:s");
         return self::find()->where(['record_type' => $record_type])->andWhere(['between', 'created_at', $start_date, $end_date])->orderBy(['created_at' => SORT_DESC])->all();
         //return self::find()->where(['record_type' => $record_type])->andWhere("created_at >= curdate()")->orderBy(['created_at' => SORT_DESC])->all();
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public static function getCurrentClosing()
-    {
-        return self::getClosingData();
     }
 
     /**
