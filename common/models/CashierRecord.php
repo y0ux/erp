@@ -149,10 +149,10 @@ class CashierRecord extends \yii\db\ActiveRecord
      */
     public static function getRecordData($record_type = self::RECORD_OPENING, $start_date = null, $end_date = null)
     {
-        if (empty($start_date))
+        /*if (empty($start_date))
           $start_date = Yii::$app->formatter->asTimestamp(strtotime(date("Y-m-d").'T00:00:01-06:00'));
         if (empty($end_date))
-          $end_date = Yii::$app->formatter->asTimestamp(strtotime(date("Y-m-d").'T23:59:59-06:00'));
+          $end_date = Yii::$app->formatter->asTimestamp(strtotime(date("Y-m-d").'T23:59:59-06:00'));*/
         //return self::find()->where(['record_type' => self::RECORD_CLOSING])->andWhere(['between', 'created_at', $start_date, $end_date])->orderBy(['created_at' => SORT_DESC])->all();
         return self::find()->where(['record_type' => self::RECORD_CLOSING])->andWhere("created_at >= curdate()")->orderBy(['created_at' => SORT_DESC])->all();
     }
