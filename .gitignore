@@ -33,3 +33,8 @@ phpunit.phar
 
 # vagrant runtime
 /.vagrant
+vagrant/provision/provision.awk
+common/config/__autocomplete.php
+backend/views/layouts/blank.php
+composer.lock
+composer.lock

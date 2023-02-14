@@ -14,10 +14,16 @@ $this->title = 'Chermol - ERP';
 ?>
 <div class="site-index">
 
-    <div class="jumbotron">
-        <h1>Hola!</h1>
-        <p class="lead">Chermol ERP </p>
-    </div>
+  <div class="jumbotron">
+    <img src="/images/fca-antigua-2023-logo-final-sm.png" alt="FCA 2023 Logo">
+    <h1 class="display-4">Festival de Cerveza Artesanal 2023</h1>
+    <p class="lead">En esta sección del sistema podras ingresar info de la empresa, staff y productos.</p>
+    <hr class="my-4">
+    <p>Si no tienes invitación para crear un usuario solicítala con la organización del evento.</p>
+    <p class="lead">
+      <a class="btn btn-success btn-lg" href="https://wa.me/50249676591" role="button" target="_blank">Contacto</a>
+    </p>
+  </div>
 
     <!--div class="body-content">
 
