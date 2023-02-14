@@ -17,7 +17,7 @@ use yii\bootstra4\ActiveForm;
     <?= $form->field($model, 'description')->textarea(['rows' => 6])->label(null, ['class' => ' optional-field']) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(\Yii::t('eventplanner.company', $model->isNewRecord? 'Save' : 'Update'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(\Yii::t('erp.company', $model->isNewRecord? 'Save' : 'Update'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

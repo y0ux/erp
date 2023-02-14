@@ -13,32 +13,41 @@ use yii\bootstrap4\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label(null, ['class' => 'required-field']) ?>
-
-    <?php
-      $genders = [
-        1 => Yii::t('eventplanner.company', 'Male.'),
-        2 => Yii::t('eventplanner.company', 'Female'),
-      ];
-    ?>
-    <?= $form->field($model, 'gender')->inline(true)->radioList($genders)->label(null, ['class' => 'required-field']) ?>
+    <div class="row">
+      <div class="col-6">
+        <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label(null, ['class' => 'required-field']) ?>
+      </div>
+      <div class="col-6">
+        <?php
+          $genders = [
+            1 => Yii::t('erp.company', 'Male.'),
+            2 => Yii::t('erp.company', 'Female'),
+            3 => Yii::t('erp.company', 'Otro'),
+          ];
+        ?>
+        <?= $form->field($model, 'gender')->inline(true)->radioList($genders)->label(null, ['class' => 'required-field']) ?>
+      </div>
+    </div>
 
     <?php
       $document_types = [
-        1 => Yii::t('eventplanner.company', 'DPI o DNI'),
-        2 => Yii::t('eventplanner.company', 'Passport'),
-        3 => Yii::t('eventplanner.company', 'License'),
-        4 => Yii::t('eventplanner.company', 'Other'),
-        //4 => Yii::t('eventplanner.company', ''),
+        1 => Yii::t('erp.company', 'DPI o DNI'),
+        2 => Yii::t('erp.company', 'Passport'),
+        3 => Yii::t('erp.company', 'License'),
+        4 => Yii::t('erp.company', 'Other'),
+        //4 => Yii::t('erp.company', ''),
       ];
     ?>
-
-    <?= $form->field($model, 'document_type')->inline(true)->radioList($document_types)->label(null, ['class' => 'required-field']) ?>
-
-    <?= $form->field($model, 'document_number')->textInput(['maxlength' => true])->label(null, ['class' => 'required-field']) ?>
-
+    <div class="row">
+      <div class="col-6">
+        <?= $form->field($model, 'document_number')->textInput(['maxlength' => true])->label(null, ['class' => 'required-field']) ?>
+      </div>
+      <div class="col-6">
+        <?= $form->field($model, 'document_type')->inline(true)->radioList($document_types)->label(null, ['class' => 'required-field']) ?>
+      </div>
+    </div>
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('eventplanner.company', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('erp.company', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

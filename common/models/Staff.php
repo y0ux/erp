@@ -49,14 +49,14 @@ class Staff extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('eventplanner.company', 'ID'),
-            'company_id' => Yii::t('eventplanner.company', 'Company ID'),
-            'name' => Yii::t('eventplanner.company', 'Name'),
-            'gender' => Yii::t('eventplanner.company', 'Gender'),
-            'document_type' => Yii::t('eventplanner.company', 'Document Type'),
-            'document_number' => Yii::t('eventplanner.company', 'Document Number'),
-            'created_at' => Yii::t('eventplanner.company', 'Created At'),
-            'updated_at' => Yii::t('eventplanner.company', 'Updated At'),
+            'id' => Yii::t('erp.company', 'ID'),
+            'company_id' => Yii::t('erp.company', 'Company ID'),
+            'name' => Yii::t('erp.company', 'Name'),
+            'gender' => Yii::t('erp.company', 'Gender'),
+            'document_type' => Yii::t('erp.company', 'Document Type'),
+            'document_number' => Yii::t('erp.company', 'Document Number'),
+            'created_at' => Yii::t('erp.company', 'Created At'),
+            'updated_at' => Yii::t('erp.company', 'Updated At'),
         ];
     }
 

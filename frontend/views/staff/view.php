@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Staff */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('eventplanner.company', 'Staff'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('erp.company', 'Staff'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -16,11 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('eventplanner.company', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('eventplanner.company', 'Delete'), ['delete', 'id' => $model->id], [
+        <?= Html::a(Yii::t('erp.company', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('erp.company', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => Yii::t('eventplanner.company', 'Are you sure you want to delete this item?'),
+                'confirm' => Yii::t('erp.company', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
         ]) ?>
@@ -36,7 +36,14 @@ $this->params['breadcrumbs'][] = $this->title;
             [
               'attribute' => 'gender',
               'value' => function ($data) {
-                return $data->gender == 1? Yii::t('eventplanner.company', 'Male') : Yii::t('eventplanner.company', 'Female') ;
+                switch($data->gender) {
+                  case 1:
+                    return Yii::t('erp.company', 'Male');
+                  case 2:
+                    return  Yii::t('erp.company', 'Female');
+                  default:
+                }
+                return Yii::t('erp.company', 'Other');
               },
               'format' => ['raw']
             ],
@@ -46,16 +53,16 @@ $this->params['breadcrumbs'][] = $this->title;
               'value' => function ($data) {
                 switch($data->document_type) {
                   case 1:
-                    return Yii::t('eventplanner.company', 'DPI o DNI');
+                    return Yii::t('erp.company', 'DPI o DNI');
                     break;
                   case 2:
-                    return Yii::t('eventplanner.company', 'Passport');
+                    return Yii::t('erp.company', 'Passport');
                     break;
                   case 3:
-                    return Yii::t('eventplanner.company', 'Licenses');
+                    return Yii::t('erp.company', 'Licenses');
                     break;
                   case 4:
-                    return Yii::t('eventplanner.company', 'Other');
+                    return Yii::t('erp.company', 'Other');
                     break;
                   default:
                     return null;

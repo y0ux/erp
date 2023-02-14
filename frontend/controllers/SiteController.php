@@ -98,6 +98,9 @@ class SiteController extends Controller
       if(\Yii::$app->user->identity->status == User::STATUS_UNFINISH)
         return $this->redirect(['profile']);
 
+
+      // SQUARE AND ERP
+      /*
       $report_date = Yii::$app->request->get('date-search', date("Y-m-d"));
 
       $result = null;
@@ -106,7 +109,7 @@ class SiteController extends Controller
       $client = new SquareClient([
           'accessToken' => Yii::$app->params['SQUARE_ACCESS_TOKEN'],
           'environment' => Environment::PRODUCTION,
-      ]);
+      ]);*/
 
       /* $client = new SquareClient([
           'accessToken' => Yii::$app->params['SQUARE_ACCESS_TOKEN_SANDBOX'],
@@ -114,7 +117,7 @@ class SiteController extends Controller
           'sslVerification' => false,
       ]);*/
 
-
+      /*
 
       $location_ids = ['14M2PH4P0XV7W'];
       $created_at = new \Square\Models\TimeRange();
@@ -145,11 +148,11 @@ class SiteController extends Controller
           }
       } catch (ApiException $e) {
           throw new NotFoundHttpException(Yii::t('erp.sys', 'ApiException occurred: '.$e->getMessage() ));
-      }
-      return $this->render('dashboard', [
-        'result' => $result,
-        'errors' => $errors,
-        'report_date' => $report_date
+      }*/
+      return $this->render('panel', [
+        //'result' => $result,
+        //'errors' => $errors,
+        //'report_date' => $report_date
       ]);
     }
 

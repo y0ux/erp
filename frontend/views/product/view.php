@@ -9,7 +9,7 @@ use yii\grid\GridView;
 /* @var $model common\models\Product */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => \Yii::t('eventplanner.company','Products'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => \Yii::t('erp.company','Products'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -18,8 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(\Yii::t('eventplanner.company','Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(\Yii::t('eventplanner.company','Delete'), ['delete', 'id' => $model->id], [
+        <?= Html::a(\Yii::t('erp.company','Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(\Yii::t('erp.company','Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -43,19 +43,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],*/
             'name',
             //'name_desc:ntext',
-            [
+            /*[
               'attribute' => 'name_desc',
               'value' => function ($data) {
                 if (empty($data->name_desc))
                   return null;
                 return $data->name_desc;
               }
-            ],
+            ],*/
             //'details:ntext',
             //'brand_id',
-            [
+            /*[
               'attribute' => 'brand_id',
-              'label' => \Yii::t('eventplanner.company','Brand'),
+              'label' => \Yii::t('erp.company','Brand'),
               'value' => function ($data) {
                 if (!empty($data->brand))
                   return Html::a(
@@ -66,12 +66,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 return null;
               },
               'format' => ['raw']
-            ],
+            ],*/
             //'product_type_id',
             //'category_id',
-            [
+            /*[
               'attribute' => 'category_id',
-              'label' => \Yii::t('eventplanner.company','Category'),
+              'label' => \Yii::t('erp.company','Category'),
               'value' => function ($data) {
                 if (!empty($data->category))
                   return Html::a(
@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return null;
               },
               'format' => ['raw']
-            ],
+            ],*/
             //'created_at',
             //'updated_at',
         ],
@@ -91,14 +91,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h3>Precios</h3>
     <p>
-    <?= Html::a(\Yii::t('eventplanner.company','Add Price'), ['/product-price/create', 'product_id' => $model->id], ['class' => 'btn btn-success']) ?>
+    <?php //= Html::a(\Yii::t('erp.company','Add Price'), ['/product-price/create', 'product_id' => $model->id], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
-            'sku',
+            //'sku',
             //'presentation',
             [
               'attribute' => 'presentation',
@@ -137,7 +137,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'brand_id',
             [
               'attribute' => 'brand_id',
-              'label' => \Yii::t('eventplanner.company', 'Brand'),
+              'label' => \Yii::t('erp.company', 'Brand'),
               'value' => function ($data) {
                 if (!empty($data->brand_id)) {
                   return Html::a(
@@ -161,6 +161,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'visibleButtons' => [
                     'update' => false,
                     'view' => false,
+                    'delete' => false,
                 ]
             ],
         ],

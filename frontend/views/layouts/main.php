@@ -27,8 +27,12 @@ if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
 } else {
     if (Yii::$app->user->identity->status == User::STATUS_ACTIVE) {
-      $menuItems[] = $cashboxMenuItem + ["options" => ["class" => "d-md-none"]];
-      $menuItems[] = $receiptMenuItem + ["options" => ["class" => "d-md-none"]];
+      //$menuItems[] = $cashboxMenuItem + ["options" => ["class" => "d-md-none"]];
+      //$menuItems[] = $receiptMenuItem + ["options" => ["class" => "d-md-none"]];
+      $menuItems[] = ['label' => ' Registro', 'url' => ['/site/register'], "options" => ["class" => "d-md-none"]];
+      $menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], "options" => ["class" => "d-md-none"]];
+      $menuItems[] = ['label' => ' Productos', 'url' => ['/product/index'], "options" => ["class" => "d-md-none"]];
+
       //$menuItems[] = ['label' => 'Dashboard', 'url' => ['/site/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
       //$menuItems[] = ['label' => ' Cierre de Caja', 'url' => ['/cashbox/index'], 'icon' => 'off'];
       //$menuItems[] = ['label' => 'Registro', 'url' => ['/site/register'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
@@ -112,14 +116,18 @@ if (Yii::$app->user->isGuest) {
                 'icon' => 'fa-solid fa-gauge'
             ];
 
-            $menuItems[] = $cashboxMenuItem + ['icon' => 'fa-solid fa-cash-register'];
-            $menuItems[] = $receiptMenuItem + ['icon' => 'fa-solid fa-receipt'];
+            //$menuItems[] = $cashboxMenuItem + ['icon' => 'fa-solid fa-cash-register'];
+            //$menuItems[] = $receiptMenuItem + ['icon' => 'fa-solid fa-receipt'];
 
 
             //$menuItems[] = ['label' => ' Pedidos', 'url' => ['/order/index'], 'icon' => 'shopping-cart'];
 
             //$menuItems[] = ['label' => ' Inventario', 'url' => ['/inventory/index'], 'icon' => 'barcode'];
-            //$menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], 'icon' => 'time'];
+
+            $menuItems[] = ['label' => ' Registro', 'url' => ['/site/register'], 'icon' => 'fa-solid fa-rocket'];
+            $menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], 'icon' => 'fa-solid fa-person'];
+            $menuItems[] = ['label' => ' Productos', 'url' => ['/product/index'], 'icon' => 'fa-solid fa-tags'];
+
 
             //$menuItems[] = ['label' => 'Cash Flow', 'url' => ['/cash/index']];
             //$menuItems[] = ['label' => 'Ventas', 'url' => ['/sales/index']];

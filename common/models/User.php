@@ -45,6 +45,10 @@ use yii\web\IdentityInterface;
  * @property string $created_at
  * @property string $updated_at
  *
+ * @property UserAddress[] $userAddresses
+ * @property Address[] $addresses
+ * @property UserCompany[] $userCompanies
+ * @property Company[] $companies
  * @property UserProfile $userProfile
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -155,7 +159,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @return \yii\db\ActiveQuery
-     * /
+     */
     public function getUserAddresses()
     {
         return $this->hasMany(UserAddress::className(), ['user_id' => 'id']);
@@ -163,7 +167,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @return \yii\db\ActiveQuery
-     * /
+     */
     public function getAddresses()
     {
         return $this->hasMany(Address::className(), ['id' => 'address_id'])->viaTable('user_address', ['user_id' => 'id']);
@@ -171,7 +175,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @return \yii\db\ActiveQuery
-     * /
+     */
     public function getUserCompanies()
     {
         return $this->hasMany(UserCompany::className(), ['user_id' => 'id']);
@@ -179,7 +183,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @return \yii\db\ActiveQuery
-     * /
+     */
     public function getCompanies()
     {
         return $this->hasMany(Company::className(), ['id' => 'company_id'])->viaTable('user_company', ['user_id' => 'id']);
@@ -187,7 +191,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
       * @return \yii\db\ActiveQuery
-      * /
+      */
     public function getCompany()
     {
        return $this->hasOne(Company::className(), ['id' => 'company_id'])->viaTable('user_company', ['user_id' => 'id']);
@@ -195,7 +199,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
       * @return Array[\yii\db\ActiveQuery]
-      * /
+      */
     public function getCompanyList()
     {
         $companies = [];
@@ -205,7 +209,7 @@ class User extends ActiveRecord implements IdentityInterface
         return $companies;
     }
 
-    /**
+    /* *
       * @return Array[\yii\db\ActiveQuery]
       * /
     public function getVenueList()
@@ -227,17 +231,10 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(UserInvitation::className(), ['invited_by' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     * /
-    public function getUserProfile()
-    {
-        return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
-    }
 
     /**
       * @return \yii\db\ActiveQuery
-      * /
+      */
     public function getBrands()
     {
         $brands = [];
@@ -250,7 +247,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
       * @return \yii\db\ActiveQuery
-      * /
+      */
     public function getBrandList()
     {
         $brands = [];
@@ -263,7 +260,6 @@ class User extends ActiveRecord implements IdentityInterface
         }
         return $brands;
     }
-    */
 
     /**
      * {@inheritdoc}

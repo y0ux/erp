@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
 
-$this->title = \Yii::t('eventplanner.company','Create Product');
-$this->params['breadcrumbs'][] = ['label' => \Yii::t('eventplanner.company','Products'), 'url' => ['index']];
+$this->title = \Yii::t('erp.company','Create Product');
+$this->params['breadcrumbs'][] = ['label' => \Yii::t('erp.company','Products'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-create">

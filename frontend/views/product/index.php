@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\ProductSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = \Yii::t('eventplanner.company','Products');
+$this->title = \Yii::t('erp.company','Products');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-index">
@@ -19,9 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?php if($sellsBeer) : ?>
-          <?= Html::a(\Yii::t('eventplanner.company','create_beer_btn'), ['/beer/create'], ['class' => 'btn btn-success']) ?>
+          <?= Html::a(\Yii::t('erp.company','create_beer_btn'), ['/beer/create'], ['class' => 'btn btn-success']) ?>
         <?php endif; ?>
-        <?= Html::a(\Yii::t('eventplanner.company','create_product_btn'), ['create'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(\Yii::t('erp.company','Create Product'), ['create'], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= GridView::widget([
@@ -47,28 +47,28 @@ $this->params['breadcrumbs'][] = $this->title;
               },
               'format' => ['raw']
             ],
-            [
-              'label' => \Yii::t('eventplanner.company', 'Is Beer?'),
+            /*[
+              'label' => \Yii::t('erp.company', 'Is Beer?'),
               'value' => function ($data) {
-                return empty($data->beer)? \Yii::t('eventplanner.company', 'No') : \Yii::t('eventplanner.company', 'Yes');
+                return empty($data->beer)? \Yii::t('erp.company', 'No') : \Yii::t('erp.company', 'Yes');
 
               },
               'format' => ['raw']
-            ],
+            ],*/
             //'name_desc:ntext',
-            [
+            /*[
               'attribute' => 'name_desc',
               'value' => function ($data) {
                 if (empty($data->name_desc))
                   return null;
                 return $data->name_desc;
               }
-            ],
+            ],*/
             //'details:ntext',
             //'brand_id',
-            [
+            /*[
               'attribute' => 'brand_id',
-              'label' => \Yii::t('eventplanner.company', 'Brand'),
+              'label' => \Yii::t('erp.company', 'Brand'),
               'value' => function ($data) {
                 if (!empty($data->brand_id)) {
                   return Html::a(
@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return null;
               },
               'format' => ['raw']
-            ],
+            ],*/
             //'product_type_id',
             //'category_id',
             //'created_at',

@@ -47,12 +47,12 @@ class Category extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('eventplanner.company', 'ID'),
-            'name' => Yii::t('eventplanner.company', 'Name'),
-            'description' => Yii::t('eventplanner.company', 'Description'),
-            'details' => Yii::t('eventplanner.company', 'Details'),
-            'created_at' => Yii::t('eventplanner.company', 'Created At'),
-            'updated_at' => Yii::t('eventplanner.company', 'Updated At'),
+            'id' => Yii::t('erp.company', 'ID'),
+            'name' => Yii::t('erp.company', 'Name'),
+            'description' => Yii::t('erp.company', 'Description'),
+            'details' => Yii::t('erp.company', 'Details'),
+            'created_at' => Yii::t('erp.company', 'Created At'),
+            'updated_at' => Yii::t('erp.company', 'Updated At'),
         ];
     }
 

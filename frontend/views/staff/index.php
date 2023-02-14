@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel frontend\models\StaffSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('eventplanner.company', 'Staff');
+$this->title = Yii::t('erp.company', 'Staff');
 $this->params['breadcrumbs'][] = $this->title;
 
 $event_limits = Yii::$app->user->identity->company->companyLimits;
@@ -19,25 +19,23 @@ $staff = Yii::$app->user->identity->company->staff;
     <div>
       <h1 style="display: inline-block; margin: 0; margin-right: 20px;"><?= Html::encode($this->title) ?></h1>
       <?php if (count($staff) < $event_limits['staff'] ) : ?>
-        <?= Html::a(Yii::t('eventplanner.company', 'Create Staff'), ['create'], ['class' => 'btn btn-success', 'style' => 'vertical-align: top;']) ?>
+        <?= Html::a(Yii::t('erp.company', 'Create Staff'), ['create'], ['class' => 'btn btn-success', 'style' => 'vertical-align: top;']) ?>
       <?php endif; ?>
     </div>
-
-    <h4><b><?= "Cantidad maxima permitida de personal a ingresar: ".$event_limits['staff'] ?></b></h4>
     <?php if (count($staff) < $event_limits['staff'] ) : ?>
 
-      <p class='bg-info' style="padding: 20px 10px; margin-top: 10px;">
-        <?= 'Dispones de <b>'.($event_limits['staff'] - count($staff)). '</b> persona(s) para ingresar' ?>
-      </p>
+      <div class="alert alert-primary pt-2 pb-2" role="alert">
+        <?= 'Dispones de <b>'.($event_limits['staff'] - count($staff)). '</b> espacio(s) para ingresar de <b>'.$event_limits['staff']."</b> permitidas." ?>
+      </div>
 
     <?php elseif (count($staff) == $event_limits['staff']) : ?>
-      <p class='bg-warning' style="padding: 20px 10px;">
+      <div class="alert alert-warning pt-2 pb-2" role="alert">
         <?= 'Has llegado a tu limite de personal a ingresar. Si deseas ingresar a alguien mas, debes borrar a alguien.' ?>
-      </p>
+      </div>
     <?php else : ?>
-      <p class='bg-danger' style="padding: 20px 10px;">
+      <div class="alert alert-danger pt-2 pb-2" role="alert">
         <b><?= 'Has excedido el limite de personal que puedes ingresar. Las ultimas <span style="font-size: 1.5em;">'.(count($staff) - $event_limits['staff']).'</span> personas de esta lista NO podran ingresar.' ?></b>
-      </p>
+      </div>
     <?php endif; ?>
 
     <?php Pjax::begin(); ?>
@@ -66,7 +64,14 @@ $staff = Yii::$app->user->identity->company->staff;
             [
               'attribute' => 'gender',
               'value' => function ($data) {
-                return $data->gender == 1? Yii::t('eventplanner.company', 'Male') : Yii::t('eventplanner.company', 'Female') ;
+                switch($data->gender) {
+                  case 1:
+                    return Yii::t('erp.company', 'Male');
+                  case 2:
+                    return  Yii::t('erp.company', 'Female');
+                  default:
+                }
+                return Yii::t('erp.company', 'Other');
               },
               'format' => ['raw']
             ],
@@ -76,16 +81,16 @@ $staff = Yii::$app->user->identity->company->staff;
               'value' => function ($data) {
                 switch($data->document_type) {
                   case 1:
-                    return Yii::t('eventplanner.company', 'DPI o DNI');
+                    return Yii::t('erp.company', 'DPI o DNI');
                     break;
                   case 2:
-                    return Yii::t('eventplanner.company', 'Passport');
+                    return Yii::t('erp.company', 'Passport');
                     break;
                   case 3:
-                    return Yii::t('eventplanner.company', 'Licenses');
+                    return Yii::t('erp.company', 'Licenses');
                     break;
                   case 4:
-                    return Yii::t('eventplanner.company', 'Other');
+                    return Yii::t('erp.company', 'Other');
                     break;
                   default:
                     return null;

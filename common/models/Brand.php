@@ -58,17 +58,17 @@ class Brand extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => \Yii::t('eventplanner.company','ID'),
-            'name' => \Yii::t('eventplanner.company','Name'),
+            'id' => \Yii::t('erp.company','ID'),
+            'name' => \Yii::t('erp.company','Name'),
             //'stand_number' => 'Stand Number',
             //'negotiation_type' => 'Negotiation Type',
             //'stand_size' => 'Stand Size',
             //'status' => 'Status',
             //'amount' => 'Amount',
-            'company_id' => \Yii::t('eventplanner.company','Company ID'),
-            'details' => \Yii::t('eventplanner.company','Details'),
-            'created_at' => \Yii::t('eventplanner.company','Created At'),
-            'updated_at' => \Yii::t('eventplanner.company','Updated At'),
+            'company_id' => \Yii::t('erp.company','Company ID'),
+            'details' => \Yii::t('erp.company','Details'),
+            'created_at' => \Yii::t('erp.company','Created At'),
+            'updated_at' => \Yii::t('erp.company','Updated At'),
         ];
     }
 

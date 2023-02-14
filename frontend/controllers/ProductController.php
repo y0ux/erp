@@ -9,9 +9,12 @@ use common\models\Category;
 use common\models\Company;
 use frontend\models\ProductSearch;
 use frontend\models\ProductPriceSearch;
+use common\models\Model;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -48,7 +51,7 @@ class ProductController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'sellsBeer' => $company_type == Company::BREWERY || $company_type == Company::SUPPLIER,
+            'sellsBeer' => 0// $company_type == Company::BREWERY || $company_type == Company::SUPPLIER,
         ]);
     }
 
@@ -84,18 +87,56 @@ class ProductController extends Controller
         $product = new Product();
         $product->product_type_id = Product::OTHER;
         $product->company_id = Yii::$app->user->identity->company->id;
+        $product_price = [new ProductPrice];
 
-        $product_price = new ProductPrice();
+        if ($product->load(Yii::$app->request->post())) {
 
-        if($this->save($product, $product_price)) {
-        //if ($product->load(Yii::$app->request->post()) && $product->save()) {
-            return $this->redirect(['view', 'id' => $product->id]);
+            $product_price = Model::createMultiple(ProductPrice::classname());
+            Model::loadMultiple($product_price, Yii::$app->request->post());
+
+            // ajax validation
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ArrayHelper::merge(
+                    ActiveForm::validateMultiple($product_price),
+                    ActiveForm::validate($product)
+                );
+            }
+
+            // validate all models
+            $valid = $product->validate();
+
+            //$valid = Model::validateMultiple($product_price) && $valid;
+
+
+            if ($valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $product->save(false)) {
+                        foreach ($product_price as $product_price) {
+                            $product_price->product_id = $product->id;
+                            $flag = $product_price->validate() && $product_price->save(false);
+
+                            if (!$flag) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $product->id]);
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                }
+            }
         }
 
         return $this->render('create', [
             'model' =>[
               'product' => $product,
-              'product_price' => $product_price,
+              'product_price' => (empty($product_price)) ? [new ProductPrice] : $product_price,
             ],
             'category' => Category::getCategoryList(),
         ]);
@@ -111,17 +152,49 @@ class ProductController extends Controller
     public function actionUpdate($id)
     {
         $product = $this->findModel($id);
-        $product_price = $product->productPrice;
+        $product_price = $product->productPrices;
 
-        if($this->save($product, $product_price)) {
-        //if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $product->id]);
+        if ($product->load(Yii::$app->request->post())) {
+
+            $oldIDs = ArrayHelper::map($product_price, 'id', 'id');
+            $product_price = Model::createMultiple(ProductPrice::classname(), $product_price);
+            Model::loadMultiple($product_price, Yii::$app->request->post());
+            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($product_price, 'id', 'id')));
+
+            // validate all models
+            //$valid = $product->validate();
+            //$valid = Model::validateMultiple($product_price) && $valid;
+
+            //if ($valid) {
+            if ($product->validate()) {
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $product->save(false)) {
+                        if (!empty($deletedIDs)) {
+                            ProductPrice::deleteAll(['id' => $deletedIDs]);
+                        }
+                        foreach ($product_price as $price) {
+                            $price->product_id = $product->id;
+                            if (!( $price->validate() && $price->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $product->id]);
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                }
+            }
         }
 
         return $this->render('update', [
             'model' =>[
               'product' => $product,
-              'product_price' => $product_price,
+              'product_price' => (empty($product_price)) ? [new ProductPrice] : $product_price
             ],
             'category' => Category::getCategoryList(),
         ]);
@@ -136,8 +209,8 @@ class ProductController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        if ($this->findModel($id)->delete());
+          Yii::$app->session->setFlash('success', 'Record deleted successfully.');
         return $this->redirect(['index']);
     }
 
@@ -166,8 +239,8 @@ class ProductController extends Controller
     protected function save($product, $product_price)
     {
       $flash_id = 'product-'.($product->isNewRecord? 'create' : 'update');
-      Yii::$app->session->addFlash($flash_id, "flash_id: ".print_r($flash_id, true));
-      Yii::$app->session->addFlash($flash_id, "model isNewRecord? ".($product->isNewRecord? "yes":"no"));
+      //Yii::$app->session->addFlash($flash_id, "flash_id: ".print_r($flash_id, true));
+      //Yii::$app->session->addFlash($flash_id, "model isNewRecord? ".($product->isNewRecord? "yes":"no"));
 
       $product_transaction = Product::getDb()->beginTransaction();
       try
@@ -175,17 +248,17 @@ class ProductController extends Controller
           if ( $product->load(Yii::$app->request->post()) && $product->save() )
           {
               // save brand info
-              Yii::$app->session->addFlash($flash_id,'checking product_price.. isNewRecord? '.($product_price->isNewRecord? "yes" : "no"));
+              //Yii::$app->session->addFlash($flash_id,'checking product_price.. isNewRecord? '.($product_price->isNewRecord? "yes" : "no"));
               $product_price->product_id = $product->id;
               if ( $product_price->load(Yii::$app->request->post()) && $product_price->save() )
               {
-                  Yii::$app->session->addFlash($flash_id, 'saving product price');
+                  //Yii::$app->session->addFlash($flash_id, 'saving product price');
               }
               else {
                 return false;
               }
 
-              Yii::$app->session->addFlash($flash_id, 'commiting product');
+              //Yii::$app->session->addFlash($flash_id, 'commiting product');
               $product_transaction->commit();
               return true;
           }
@@ -193,7 +266,7 @@ class ProductController extends Controller
       catch (Exception $e)
       {
           $product_transaction->rollBack();
-          Yii::$app->session->addFlash($flash_id,"There was an error trying to save the Product information: [".$e->getMessage()."]");
+          //Yii::$app->session->addFlash($flash_id,"There was an error trying to save the Product information: [".$e->getMessage()."]");
       }
       return false;
     }

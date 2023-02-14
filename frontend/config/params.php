@@ -2,6 +2,10 @@
 return [
     'adminEmail' => 'paco@atom.com.gt',
     'event.limits' => [
+      0 => [
+        'staff' => 5,
+        'vehicles' => 2,
+      ],
       1 => [ // BREWERY
         'staff' => 8,
         'vehicles' => 2,
@@ -28,6 +32,6 @@ return [
           'staff' => 16,
           'vehicles' => 4,
         ]
-      ]
+      ],
     ]
 ];

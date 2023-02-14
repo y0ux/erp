@@ -55,7 +55,7 @@ class Product extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'id']],
-            [['product_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductType::className(), 'targetAttribute' => ['product_type_id' => 'id']],
+            //[['product_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductType::className(), 'targetAttribute' => ['product_type_id' => 'id']],
             [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['company_id' => 'id']],
         ];
     }
@@ -66,16 +66,16 @@ class Product extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('eventplanner.company', 'ID'),
-            'name' => Yii::t('eventplanner.company', 'Name'),
-            'name_desc' => Yii::t('eventplanner.company', 'Name Desc'),
-            'details' => Yii::t('eventplanner.company', 'Details'),
-            'company_id' => Yii::t('eventplanner.company', 'Company ID'),
-            'brand_id' => Yii::t('eventplanner.company', 'Brand ID'),
-            'product_type_id' => Yii::t('eventplanner.company', 'Product Type ID'),
-            'category_id' => Yii::t('eventplanner.company', 'Category ID'),
-            'created_at' => Yii::t('eventplanner.company', 'Created At'),
-            'updated_at' => Yii::t('eventplanner.company', 'Updated At'),
+            'id' => Yii::t('erp.company', 'ID'),
+            'name' => Yii::t('erp.company', 'Name'),
+            'name_desc' => Yii::t('erp.company', 'Name Desc'),
+            'details' => Yii::t('erp.company', 'Details'),
+            'company_id' => Yii::t('erp.company', 'Company ID'),
+            'brand_id' => Yii::t('erp.company', 'Brand ID'),
+            'product_type_id' => Yii::t('erp.company', 'Product Type ID'),
+            'category_id' => Yii::t('erp.company', 'Category ID'),
+            'created_at' => Yii::t('erp.company', 'Created At'),
+            'updated_at' => Yii::t('erp.company', 'Updated At'),
         ];
     }
 

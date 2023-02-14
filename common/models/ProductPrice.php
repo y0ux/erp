@@ -41,7 +41,7 @@ class ProductPrice extends \yii\db\ActiveRecord
             [['details'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['sku', 'presentation'], 'string', 'max' => 255],
-            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
+            //[['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
         ];
     }
 
@@ -51,14 +51,14 @@ class ProductPrice extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('eventplanner.company', 'ID'),
-            'sku' => Yii::t('eventplanner.company', 'Sku'),
-            'presentation' => Yii::t('eventplanner.company', 'Presentation'),
-            'price' => Yii::t('eventplanner.company', 'Price'),
-            'product_id' => Yii::t('eventplanner.company', 'Product ID'),
-            'details' => Yii::t('eventplanner.company', 'Details'),
-            'created_at' => Yii::t('eventplanner.company', 'Created At'),
-            'updated_at' => Yii::t('eventplanner.company', 'Updated At'),
+            'id' => Yii::t('erp.company', 'ID'),
+            'sku' => Yii::t('erp.company', 'Sku'),
+            'presentation' => Yii::t('erp.company', 'Variacion'),
+            'price' => Yii::t('erp.company', 'Precio'),
+            'product_id' => Yii::t('erp.company', 'Product ID'),
+            'details' => Yii::t('erp.company', 'Details'),
+            'created_at' => Yii::t('erp.company', 'Created At'),
+            'updated_at' => Yii::t('erp.company', 'Updated At'),
         ];
     }
 

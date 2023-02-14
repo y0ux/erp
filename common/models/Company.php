@@ -9,7 +9,6 @@ use yii\behaviors\TimestampBehavior;
  * This is the model class for table "company".
  *
  * @property string $id
- * @property string $short_name
  * @property string $legal_name
  * @property string $nit
  * @property string $details
@@ -54,10 +53,10 @@ class Company extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['short_name', 'legal_name', 'nit'], 'required'],
+            [['legal_name', 'nit'], 'required'],
             [['details'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['short_name', 'legal_name', 'nit'], 'string', 'max' => 255],
+            [['legal_name', 'nit'], 'string', 'max' => 255],
             [['legal_name'], 'unique'],
             [['nit'], 'unique'],
         ];
@@ -69,13 +68,12 @@ class Company extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('sys.company', 'ID'),
-            'short_name' => Yii::t('sys.company', 'Short Name'),
-            'legal_name' => Yii::t('sys.company', 'Legal Name'),
-            'nit' => Yii::t('sys.company', 'Nit'),
-            'details' => Yii::t('sys.company', 'Details'),
-            'created_at' => Yii::t('sys.company', 'Created At'),
-            'updated_at' => Yii::t('sys.company', 'Updated At'),
+            'id' => Yii::t('erp.company', 'ID'),
+            'legal_name' => Yii::t('erp.company', 'Legal Name'),
+            'nit' => Yii::t('erp.company', 'Nit'),
+            'details' => Yii::t('erp.company', 'Details'),
+            'created_at' => Yii::t('erp.company', 'Created At'),
+            'updated_at' => Yii::t('erp.company', 'Updated At'),
         ];
     }
 

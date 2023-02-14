@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\CategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = \Yii::t('eventplanner.company', 'Categories');
+$this->title = \Yii::t('erp.company', 'Categories');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="category-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(\Yii::t('eventplanner.company', 'Create Category'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(\Yii::t('erp.company', 'Create Category'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

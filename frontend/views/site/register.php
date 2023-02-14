@@ -25,30 +25,38 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
         ]);
       endif;*/
     ?>
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Por favor, llena estos datos para poder registrarte:</p>
+
+    <div class="py-3 text-center">
+      <h1><?= Html::encode($this->title) ?></h1>
+      <p class="lead">Ingresa la informacion solictada.</p>
+    </div>
 
     <div class="row">
         <div class="col-lg-12">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-            <h3>Datos de la Empresa</h3>
-                <?= $form->field($model['company'], 'legal_name')->textInput(['autofocus' => true])->label(null, ['class' => 'required-field']) ?>
 
-                <?php //= $form->field($model['company'], 'company_type_id')->inline(true)->radioList($lists['company_types'])->label('Tipo de Empresa', ['class' => 'required-field']); ?>
-
-            <h3>Datos de Conciliacion</h3>
-                <?= $form->field($model['company'], 'nit')->label(null, ['class' => 'required-field']) ?>
-                <?php //= $form->field($model['company'], 'address_1')->label(null, ['class' => 'required-field']) ?>
-                <?php //= $form->field($model['company'], 'address_2')->label(null, ['class' => 'optional-field']) ?>
-                <div class='form-group'>
-                  <label class="control-label required-field" for="Company[city]">Ciudad</label>
-                  <?= Html::input('text', 'Company[city]', !empty($companyDetails) && property_exists($companyDetails,'city')? $companyDetails->city : null ,['class' => 'form-control', 'required' => true]) ?>
+            <div class="order-md-1">
+              <form class="needs-validation" novalidate="">
+                <h4 class="mb-3">Empresa</h4>
+                <div class="row">
+                  <div class="col-md-4 mb-3">
+                    <?= $form->field($model['brand'], 'name')->label('Nombre de la Marca', ['class' => 'required-field']) ?>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <?= $form->field($model['company'], 'legal_name')->textInput(['autofocus' => true])->label(null, ['class' => 'required-field']) ?>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <?= $form->field($model['company'], 'nit')->label(null, ['class' => 'required-field']) ?>
+                  </div>
                 </div>
                 <!--div class='form-group'>
-                  <label class="control-label" for="country">Pais</label>
-                  <!--?= Html::dropDownList('country', null ,[502 => 'Guatemala', 503 => 'El Salvador', 504 => 'Honduras', 505 => 'Nicaragua', 506 => 'Costa Rica', 52 => 'Mexico', 1 => 'USA'] ,['class' => 'form-control']) ?>
+                  <label class="control-label required-field" for="Company[city]">Ciudad</label>
+                  <?php // Html::input('text', 'Company[city]', !empty($companyDetails) && property_exists($companyDetails,'city')? $companyDetails->city : null ,['class' => 'form-control', 'required' => true]) ?>
                 </div-->
+
+                <h4 class="mb-3">Banco</h4>
+
                 <?php
                 $bank_list = [
                     1 => 'Industrial',
@@ -63,23 +71,39 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                     10 => 'Bantrab'];
                  ?>
 
-                <?= $form->field($model['bank_account'], 'bank_id')
-                  ->dropDownList($bank_list,['prompt' => 'Selecciona...', 'options' => ['value' => 'none', 'class' => 'prompt', 'label' => 'Select']])
-                  ->label(\Yii::t('eventplanner.company', 'Bank Name'), ['class' => 'required-field']) ?>
-                <?= $form->field($model['bank_account'], 'beneficiary')->label(null, ['class' => 'required-field']) ?>
-                <?= $form->field($model['bank_account'], 'account_number')->label(null, ['class' => 'required-field']) ?>
-                <?= $form->field($model['bank_account'], 'type')->dropDownList([0 => 'Monetaria', 1 => 'Ahorro'])->label(null, ['class' => 'required-field']) ?>
-                <h3>Marca</h3>
-                <?= $form->field($model['brand'], 'name')->label('Nombre de la Marca', ['class' => 'required-field']) ?>
-                <h3>Participacion</h3>
-                <div class='form-group'>
+                 <div class="row">
+                   <div class="col-md-4 mb-3">
+                     <?= $form->field($model['bank_account'], 'bank_id')
+                       ->dropDownList($bank_list,['prompt' => 'Selecciona...', 'options' => ['value' => 'none', 'class' => 'prompt', 'label' => 'Select']])
+                       ->label(\Yii::t('erp.company', 'Bank Name'), ['class' => 'required-field']) ?>
+                   </div>
+                   <div class="col-md-4 mb-3">
+                     <?= $form->field($model['bank_account'], 'type')->dropDownList([0 => 'Monetaria', 1 => 'Ahorro'])->label(null, ['class' => 'required-field']) ?>
+                   </div>
+                   <div class="col-md-4 mb-3">
+                     <?= $form->field($model['bank_account'], 'account_number')->label(null, ['class' => 'required-field']) ?>
+                   </div>
+                 </div>
+                 <?= $form->field($model['bank_account'], 'beneficiary')->label(null, ['class' => 'required-field']) ?>
+
+
+
+                <hr class="mb-4">
+                <div class='custom-control custom-radio'>
                   <?= Html::checkbox('Company[first-time]', !empty($companyDetails) && property_exists($companyDetails,'firstTime')? $companyDetails->firstTime : false , ['class' => '']) ?>
                   <?= HTML::label('Primera vez','Company[first-time]',['class' => 'control-label optional-field']); ?>
                 </div>
-                <div class='form-group'>
+                <div class='custom-control custom-checkbox'>
                   <?= Html::radio('Company[cost-compromise]', !empty($companyDetails) && property_exists($companyDetails,'costCompromise')? $companyDetails->costCompromise : false, ['class' => '', 'required'=>true]) ?>
                   <label class="control-label required-field" for="Company[cost-compromise]">Me comprometo con el costo de participacion</label>
                 </div>
+                <hr class="mb-4">
+
+
+            </div>
+
+
+
                 <?php
                   if (!Html::submitButton($model['company']->isNewRecord)) :
                   /*$stands = [
@@ -142,7 +166,8 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
               <?php */ endif; ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton($model['company']->isNewRecord? 'Registrar' : 'Actualizar', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                                  
+                    <?= Html::submitButton($model['company']->isNewRecord? 'Registrar' : 'Actualizar', ['class' => 'btn btn-primary btn-block', 'name' => 'signup-button']) ?>
                 </div>
 
 
