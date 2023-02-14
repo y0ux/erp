@@ -4,7 +4,7 @@ return [
     'event.limits' => [
       0 => [
         'staff' => 5,
-        'vehicles' => 2,
+        'vehicles' => 0,
       ],
       1 => [ // BREWERY
         'staff' => 8,
@@ -24,13 +24,21 @@ return [
         'vehicles' => 2,
       ],
       'custom' => [
-        21 => [
-          'staff' => 1,
-          'vehicles' => 2,
+        3 => [ //Craftbev, S.A.
+          'staff' => 7,
+          'vehicles' => 0,
         ],
-        39 => [ // BILSTE
-          'staff' => 16,
-          'vehicles' => 4,
+        4 => [ // Maclaciones SA
+          'staff' => 7,
+          'vehicles' => 0,
+        ],
+        5 => [ // El Príncipe Gris S.A.
+          'staff' => 7,
+          'vehicles' => 0,
+        ],
+        7 => [ // Ixbalanque SA
+          'staff' => 7,
+          'vehicles' => 0,
         ]
       ],
     ]

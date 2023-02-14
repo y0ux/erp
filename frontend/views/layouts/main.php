@@ -26,7 +26,7 @@ if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
     $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
 } else {
-    if (Yii::$app->user->identity->status == User::STATUS_ACTIVE) {
+    if (Yii::$app->user->identity->status == User::STATUS_ACTIVE && !empty(Yii::$app->user->identity->company)) {
       //$menuItems[] = $cashboxMenuItem + ["options" => ["class" => "d-md-none"]];
       //$menuItems[] = $receiptMenuItem + ["options" => ["class" => "d-md-none"]];
       $menuItems[] = ['label' => ' Registro', 'url' => ['/site/register'], "options" => ["class" => "d-md-none"]];
@@ -102,7 +102,7 @@ if (Yii::$app->user->isGuest) {
 
     <div id="main-container" class="container-fluid">
       <div class="row">
-        <?php if (!Yii::$app->user->isGuest && \Yii::$app->user->identity->status == User::STATUS_ACTIVE) : ?>
+        <?php if (!Yii::$app->user->isGuest && \Yii::$app->user->identity->status == User::STATUS_ACTIVE && !empty(Yii::$app->user->identity->company)) : ?>
         <!--nav class="col-md-2 d-none d-md-block bg-light sidebar"-->
           <?php
             $currentUrl = Url::current();
@@ -198,7 +198,7 @@ if (Yii::$app->user->isGuest) {
             ?>
         <!--/nav-->
         <?php endif; ?>
-        <main role="main" class="<?= (Yii::$app->user->isGuest || Yii::$app->user->identity->status != User::STATUS_ACTIVE? "col-sm-12" : "col-md-10 ml-sm-auto col-lg-10 px-4") ?> main">
+        <main role="main" class="<?= (Yii::$app->user->isGuest || Yii::$app->user->identity->status != User::STATUS_ACTIVE || empty(Yii::$app->user->identity->company)? "col-sm-12" : "col-md-10 ml-sm-auto col-lg-10 px-4") ?> main">
           <?= Breadcrumbs::widget([
               'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
           ]) ?>

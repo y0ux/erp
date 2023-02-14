@@ -129,6 +129,6 @@ class StaffController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException(Yii::t('eventplanner.company', 'The requested page does not exist.'));
+        throw new NotFoundHttpException(Yii::t('erp.company', 'The requested page does not exist.'));
     }
 }

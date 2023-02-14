@@ -87,7 +87,7 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));?
               'label' => 'Tipo de Cuenta',
               //'attribute' => 'accepted_currency_id',
               'value' => function ($data) {
-                return empty($data->firstBankAccount)? null : ($data->firstBankAccount->type? 'Monetaria' : 'Ahorro');
+                return empty($data->firstBankAccount)? null : ($data->firstBankAccount->type? 'Ahorro' : 'Monetaria');
               }
             ],
             /*[

@@ -97,62 +97,11 @@ class SiteController extends Controller
         return $this->redirect(['profile']);
       if(\Yii::$app->user->identity->status == User::STATUS_UNFINISH)
         return $this->redirect(['profile']);
+      if (empty(Yii::$app->user->identity->company))
+        return $this->redirect(['register']);
 
-
-      // SQUARE AND ERP
-      /*
-      $report_date = Yii::$app->request->get('date-search', date("Y-m-d"));
-
-      $result = null;
-      $errors = null;
-
-      $client = new SquareClient([
-          'accessToken' => Yii::$app->params['SQUARE_ACCESS_TOKEN'],
-          'environment' => Environment::PRODUCTION,
-      ]);*/
-
-      /* $client = new SquareClient([
-          'accessToken' => Yii::$app->params['SQUARE_ACCESS_TOKEN_SANDBOX'],
-          'environment' => Environment::SANDBOX,
-          'sslVerification' => false,
-      ]);*/
-
-      /*
-
-      $location_ids = ['14M2PH4P0XV7W'];
-      $created_at = new \Square\Models\TimeRange();
-      $created_at->setStartAt($report_date.'T00:00:01-06:00');
-      $created_at->setEndAt($report_date.'T23:59:59-06:00');
-
-      $date_time_filter = new \Square\Models\SearchOrdersDateTimeFilter();
-      $date_time_filter->setCreatedAt($created_at);
-
-      $filter = new \Square\Models\SearchOrdersFilter();
-      $filter->setDateTimeFilter($date_time_filter);
-
-      $query = new \Square\Models\SearchOrdersQuery();
-      $query->setFilter($filter);
-
-      $body = new \Square\Models\SearchOrdersRequest();
-      $body->setLocationIds($location_ids);
-      $body->setQuery($query);
-      //$body->setLimit(3);
-      $body->setReturnEntries(false);
-
-      try {
-          $api_response = $client->getOrdersApi()->searchOrders($body);
-          if ($api_response->isSuccess()) {
-              $result = $api_response->getResult();
-          } else {
-              $errors = $api_response->getErrors();
-          }
-      } catch (ApiException $e) {
-          throw new NotFoundHttpException(Yii::t('erp.sys', 'ApiException occurred: '.$e->getMessage() ));
-      }*/
       return $this->render('panel', [
-        //'result' => $result,
-        //'errors' => $errors,
-        //'report_date' => $report_date
+
       ]);
     }
 

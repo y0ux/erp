@@ -60,15 +60,17 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                 <?php
                 $bank_list = [
                     1 => 'Industrial',
-                    2 => 'G&T Continental',
-                    3 => 'Banrural',
-                    4 => 'BAM',
-                    5 => 'Inter',
-                    6 => 'BAC',
+                    4 => 'G&T Continental',
+                    5 => 'Banrural',
+                    6 => 'BAM',
                     7 => 'Inmobiliario',
                     8 => 'Promerica',
                     9 => 'Azteca',
-                    10 => 'Bantrab'];
+                    10 => 'Bantrab'
+                    11 => 'Inter',
+                    12 => 'BAC',
+                    13 => 'Ficohsa',
+                  ];
                  ?>
 
                  <div class="row">
@@ -166,7 +168,7 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
               <?php */ endif; ?>
 
                 <div class="form-group">
-                                  
+
                     <?= Html::submitButton($model['company']->isNewRecord? 'Registrar' : 'Actualizar', ['class' => 'btn btn-primary btn-block', 'name' => 'signup-button']) ?>
                 </div>
 
