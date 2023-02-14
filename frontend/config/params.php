@@ -39,7 +39,24 @@ return [
         7 => [ // Ixbalanque SA
           'staff' => 7,
           'vehicles' => 0,
+        ],
+        11 => [ // Sapiens
+          'staff' => 7,
+          'vehicles' => 0,
+        ],
+        12 => [ // Cerveceria 14
+          'staff' => 7,
+          'vehicles' => 0,
+        ],
+        13 => [ // 100 Goles
+          'staff' => 7,
+          'vehicles' => 0,
+        ],
+        14 => [ // Quetzal
+          'staff' => 7,
+          'vehicles' => 0,
         ]
+
       ],
     ]
 ];
