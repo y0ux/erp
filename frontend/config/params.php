@@ -55,6 +55,10 @@ return [
         14 => [ // Quetzal
           'staff' => 7,
           'vehicles' => 0,
+        ],
+        16 => [ // Zapote
+          'staff' => 7,
+          'vehicles' => 0,
         ]
 
       ],
