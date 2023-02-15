@@ -59,6 +59,18 @@ return [
         16 => [ // Zapote
           'staff' => 7,
           'vehicles' => 0,
+        ],
+        17 => [ // Erdinger
+          'staff' => 8,
+          'vehicles' => 0,
+        ],
+        21 => [ // Mooshead
+          'staff' => 8,
+          'vehicles' => 0,
+        ],
+        22 => [ // Licorera
+          'staff' => 6,
+          'vehicles' => 0,
         ]
 
       ],
