@@ -73,11 +73,11 @@ return [
           'vehicles' => 0,
         ],
         24 => [ // la ermita
-          'staff' => 6,
+          'staff' => 7,
           'vehicles' => 0,
         ],
-        25 => [ // la ermita
-          'staff' => 6,
+        25 => [ // antigua cerveza
+          'staff' => 7,
           'vehicles' => 0,
         ]
 
