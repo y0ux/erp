@@ -97,7 +97,7 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                 </div>
                 <div class='custom-control custom-checkbox'>
                   <?= Html::radio('Company[cost-compromise]', !empty($companyDetails) && property_exists($companyDetails,'costCompromise')? $companyDetails->costCompromise : false, ['class' => '', 'required'=>true]) ?>
-                  <label class="control-label required-field" for="Company[cost-compromise]">Me comprometo con el costo de participacion</label>
+                  <label class="control-label required-field" for="Company[cost-compromise]">He leido y acepto el reglamento y estoy de acuerdo por sus penalizaciones.</label>
                 </div>
                 <hr class="mb-4">
 
