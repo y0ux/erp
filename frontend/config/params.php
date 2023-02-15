@@ -75,6 +75,10 @@ return [
         24 => [ // la ermita
           'staff' => 6,
           'vehicles' => 0,
+        ],
+        25 => [ // la ermita
+          'staff' => 6,
+          'vehicles' => 0,
         ]
 
       ],
