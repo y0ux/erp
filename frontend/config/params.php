@@ -71,6 +71,10 @@ return [
         22 => [ // Licorera
           'staff' => 6,
           'vehicles' => 0,
+        ],
+        24 => [ // la ermita
+          'staff' => 6,
+          'vehicles' => 0,
         ]
 
       ],
