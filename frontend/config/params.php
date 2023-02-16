@@ -83,7 +83,7 @@ return [
         28 => [ // skal
           'staff' => 7,
           'vehicles' => 0,
-        ]
+        ],
         31 => [ // xaman
           'staff' => 7,
           'vehicles' => 0,
