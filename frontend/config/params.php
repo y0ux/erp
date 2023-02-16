@@ -79,6 +79,10 @@ return [
         25 => [ // antigua cerveza
           'staff' => 7,
           'vehicles' => 0,
+        ],
+        28 => [ // skal
+          'staff' => 7,
+          'vehicles' => 0,
         ]
 
       ],
