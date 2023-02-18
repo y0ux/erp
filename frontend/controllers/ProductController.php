@@ -42,6 +42,9 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
+        if (Yii::$app->user->identity->id > 1)
+          return $this->redirect(['site/index']);
+
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->query->andWhere(['company_id' => array_keys(Yii::$app->user->identity->companyList)]);
