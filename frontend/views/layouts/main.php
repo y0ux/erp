@@ -31,7 +31,7 @@ if (Yii::$app->user->isGuest) {
       //$menuItems[] = $receiptMenuItem + ["options" => ["class" => "d-md-none"]];
       $menuItems[] = ['label' => ' Registro', 'url' => ['/site/register'], "options" => ["class" => "d-md-none"]];
       $menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], "options" => ["class" => "d-md-none"]];
-      $menuItems[] = ['label' => ' Productos', 'url' => ['/product/index'], "options" => ["class" => "d-md-none"]];
+      //$menuItems[] = ['label' => ' Productos', 'url' => ['/product/index'], "options" => ["class" => "d-md-none"]];
 
       //$menuItems[] = ['label' => 'Dashboard', 'url' => ['/site/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
       //$menuItems[] = ['label' => ' Cierre de Caja', 'url' => ['/cashbox/index'], 'icon' => 'off'];
@@ -141,7 +141,7 @@ if (Yii::$app->user->isGuest) {
 
             $menuItems[] = ['label' => ' Registro', 'url' => ['/site/register'], 'icon' => 'fa-solid fa-rocket'];
             $menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], 'icon' => 'fa-solid fa-person'];
-            $menuItems[] = ['label' => ' Productos', 'url' => ['/product/index'], 'icon' => 'fa-solid fa-tags'];
+            //$menuItems[] = ['label' => ' Productos', 'url' => ['/product/index'], 'icon' => 'fa-solid fa-tags'];
 
 
             //$menuItems[] = ['label' => 'Cash Flow', 'url' => ['/cash/index']];
