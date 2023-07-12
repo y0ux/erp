@@ -35,7 +35,7 @@ $statusTheme = [
 ];
 */
 
-$this->title = \Yii::t('erp.sys','FCA - Event System');
+$this->title = \Yii::t('erp.sys','POS');
 
 /*
 $daydiff = round((time() - strtotime($report_date))/ (60 * 60 * 24));
@@ -66,10 +66,55 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
     overflow: hidden;
     white-space: nowrap;
   }
+  .card {
+    border-radius: 0;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+  .btn-shark {
+    background-color: #24252a;
+    color: #f7f0f7;
+  }
+  .btn-shark:focus, .btn-shark:hover {
+    background-color: #c9f29b;
+    color: #24252a;
+  }
 
 </style>
+<script>
+
+</script>
 <div class="site-index">
-  <!--div class="row text-center">
+
+  <h4>Nueva Venta</h4>
+
+  <?php
+  $product_list = \Yii::$app->user->identity->company->products;
+  foreach($product_list as $product) :
+    foreach ($product->productPrices as $price) :
+  ?>
+    <div class="card">
+      <div class="card-body d-flex px-1 py-3">
+        <div class="product-name flex-grow-1 ">
+          <b><?= $product->name ?></b> <small class="">(<?= $price->presentation ?>)</small>
+        </div>
+
+        <div class="">
+           Q<?= $price->price ?>
+        </div>
+        <div class="ml-3">
+           <a href="#" class="btn btn-sm btn-shark"><i class="fa-solid fa-plus"></i></a> <b class=" d-inline-block ml-2 mr-2">0</b> <a href="#" class="btn btn-sm btn-light"><i class="fa-solid fa-minus"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <?php
+    endforeach;
+  endforeach;
+  ?>
+
+  <div class="row text-center">
     <div class="col-sm-3">
       <div class="alert alert-info p-5">Venta</div>
     </div>
@@ -94,7 +139,7 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
     <div class="col-sm-3">
       <div class="alert alert-info p-5">button 1</div>
     </div>
-  </div-->
+  </div>
 
     <!--div class="d-flex flex-wrap justify-content-start">
       <div class="alert alert-info p-5 m-1">button 1</div>

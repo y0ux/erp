@@ -100,6 +100,21 @@ if (Yii::$app->user->isGuest) {
     NavBar::end();
     ?>
 
+    <!--nav class="navbar fixed-bottom navbar-light bg-light" style="margin-bottom: 50px">
+      <div class="col-3">
+        <a href="#" class="btn btn-info btn-block"><i class="fa-solid fa-cash-register"></i> Venta</a>
+      </div>
+      <div class="col-3">
+        <a href="#" class="btn btn-info btn-block">Venta</a>
+      </div>
+      <div class="col-3">
+        <a href="#" class="btn btn-info btn-block">Venta</a>
+      </div>
+      <div class="col-3">
+        <a href="#" class="btn btn-info btn-block">Venta</a>
+      </div>
+    </nav-->
+
     <div id="main-container" class="container-fluid">
       <div class="row">
         <?php if (!Yii::$app->user->isGuest && \Yii::$app->user->identity->status == User::STATUS_ACTIVE && !empty(Yii::$app->user->identity->company)) : ?>
@@ -213,7 +228,7 @@ if (Yii::$app->user->isGuest) {
     <div class="container-fluid">
         <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <!--p class="pull-right"><?php //= Yii::powered() ?></p-->
     </div>
 </footer>
 

@@ -67,8 +67,8 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                     8 => 'Promerica',
                     9 => 'Azteca',
                     10 => 'Bantrab',
-                    11 => 'Inter',
-                    12 => 'BAC',
+                    11 => 'BAC',
+                    12 => 'Inter',
                     13 => 'Ficohsa',
                   ];
                  ?>
