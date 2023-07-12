@@ -307,7 +307,7 @@ class SiteController extends Controller
      */
     public function actionRegister()
     {
-      //if (Yii::$app->user->identity->id > 1)
+      //if (Yii::$app->user->identity->id > 1)  // BLOQUEO STAFF ACTIVAR CODIGO
         //return $this->render('panel');
       if (!empty(Yii::$app->user->identity->company)) {
           return $this->redirect(['view', 'id' => Yii::$app->user->identity->company->id]);

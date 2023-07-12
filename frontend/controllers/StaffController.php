@@ -35,8 +35,8 @@ class StaffController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->identity->id > 1)
-          return $this->redirect(['site/index']);
+        //if (Yii::$app->user->identity->id > 1)  // BLOQUEO STAFF ACTIVAR CODIGO
+          //return $this->redirect(['site/index']);
 
         $searchModel = new StaffSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -68,6 +68,9 @@ class StaffController extends Controller
      */
     public function actionCreate()
     {
+      //if (Yii::$app->user->identity->id > 1)  // BLOQUEO STAFF ACTIVAR CODIGO
+        //return $this->redirect(['site/index']);
+
         $event_limits = Yii::$app->user->identity->company->companyLimits;
         $staff = Yii::$app->user->identity->company->staff;
         if (count($staff) >= $event_limits['staff'])
