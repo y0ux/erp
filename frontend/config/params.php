@@ -7,7 +7,7 @@ return [
         'vehicles' => 0,
       ],
       1 => [ // BREWERY
-        'staff' => 7,
+        'staff' => 8,
         'vehicles' => 2,
       ],
       2 => [ //SUPPLIER
@@ -25,43 +25,43 @@ return [
       ],
       'custom' => [
         3 => [ //Craftbev, S.A.
-          'staff' => 7,
+          'staff' => 8,
           'vehicles' => 0,
         ],
         4 => [ // Maclaciones SA
-          'staff' => 7,
+          'staff' => 8,
           'vehicles' => 0,
         ],
         5 => [ // El Príncipe Gris S.A.
-          'staff' => 7,
+          'staff' => 0,
           'vehicles' => 0,
         ],
         7 => [ // Ixbalanque SA
-          'staff' => 7,
+          'staff' => 8,
           'vehicles' => 0,
         ],
         11 => [ // Sapiens
-          'staff' => 7,
+          'staff' => 8,
           'vehicles' => 0,
         ],
         12 => [ // Cerveceria 14
-          'staff' => 7,
+          'staff' => 8,
           'vehicles' => 0,
         ],
         13 => [ // 100 Goles
-          'staff' => 7,
+          'staff' => 8,
           'vehicles' => 0,
         ],
         14 => [ // Quetzal
-          'staff' => 7,
+          'staff' => 8,
           'vehicles' => 0,
         ],
         16 => [ // Zapote
-          'staff' => 7,
+          'staff' => 8,
           'vehicles' => 0,
         ],
         17 => [ // Erdinger
-          'staff' => 8,
+          'staff' => 0,
           'vehicles' => 0,
         ],
         21 => [ // Mooshead
@@ -69,23 +69,23 @@ return [
           'vehicles' => 0,
         ],
         22 => [ // Licorera
-          'staff' => 6,
+          'staff' => 0,
           'vehicles' => 0,
         ],
         24 => [ // la ermita
-          'staff' => 7,
+          'staff' => 8,
           'vehicles' => 0,
         ],
         25 => [ // antigua cerveza
-          'staff' => 7,
+          'staff' => 8,
           'vehicles' => 0,
         ],
         28 => [ // skal
-          'staff' => 7,
+          'staff' => 0,
           'vehicles' => 0,
         ],
         31 => [ // xaman
-          'staff' => 7,
+          'staff' => 8,
           'vehicles' => 0,
         ]
 
