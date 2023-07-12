@@ -24,6 +24,10 @@ return [
         'vehicles' => 2,
       ],
       'custom' => [
+        1 => [ // paco -- TESTING
+          'staff' => 8,
+          'vehicles' => 0,
+        ],
         3 => [ //Craftbev, S.A.
           'staff' => 8,
           'vehicles' => 0,
