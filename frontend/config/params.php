@@ -23,8 +23,8 @@ return [
         'vehicles' => 2,
       ],
       'custom' => [
-        1 => [ // paco -- TESTING
-          'staff' => 8,
+        2 => [ // Chermol -- TESTING
+          'staff' => 20,
           'vehicles' => 0,
         ],
         3 => [ //Craftbev, S.A.
