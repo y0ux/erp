@@ -307,8 +307,8 @@ class SiteController extends Controller
      */
     public function actionRegister()
     {
-      if (Yii::$app->user->identity->id > 1)
-        return $this->render('panel');
+      //if (Yii::$app->user->identity->id > 1)
+        //return $this->render('panel');
       if (!empty(Yii::$app->user->identity->company)) {
           return $this->redirect(['view', 'id' => Yii::$app->user->identity->company->id]);
       }
