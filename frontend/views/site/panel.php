@@ -108,10 +108,10 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
 
     </div-->
 
-    <!--div class="text-center">
-        <h1 class="">Chermol, S.A.<br><small>Sistema de ERP</small></h1>
+    <div class="text-center">
+        <h1 class="">FCA <br><small>Sistema de Eventos</small></h1>
         <p>Hola <?php // Yii::$app->user->identity->userProfile? Yii::$app->user->identity->userProfile->first_name : Yii::$app->user->identity->username ?>!</p>
-    </div-->
+    </div>
     <?php /*
     <nav class="navbar navbar-light justify-content-between mb-4 pb-3 border-bottom">
       <div class="navbar-brand"><?= date("D, F d, Y", strtotime($report_date)) ?></div>

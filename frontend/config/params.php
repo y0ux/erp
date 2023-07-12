@@ -7,20 +7,20 @@ return [
         'vehicles' => 0,
       ],
       1 => [ // BREWERY
-        'staff' => 8,
+        'staff' => 7,
         'vehicles' => 2,
       ],
       2 => [ //SUPPLIER
-        'staff' => 8,
+        'staff' => 6,
         'vehicles' => 2,
       ],
       3 => [ //RESTAURANT
-        'staff' => 8,
+        'staff' => 6,
         'vehicles' => 2,
       ],
 
       4 => [  //Other
-        'staff' => 8,
+        'staff' => 7,
         'vehicles' => 2,
       ],
       'custom' => [
