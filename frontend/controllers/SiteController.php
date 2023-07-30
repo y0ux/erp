@@ -112,6 +112,10 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        if (!empty(Yii::$app->params['system.status']) && Yii::$app->params['system.status'] == "closed") {
+            Yii::$app->session->setFlash('error', 'El sistema esta cerrado no se permite ingresar. Gracias!');
+            return $this->render('index');
+        }
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }

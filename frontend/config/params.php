@@ -1,5 +1,6 @@
 <?php
 return [
+    'system.status' => 'closed',
     'adminEmail' => 'paco@atom.com.gt',
     'event.limits' => [
       0 => [
