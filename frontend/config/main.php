@@ -92,7 +92,7 @@ return [
     ],
     // LOG OUT everybody!
     'on beforeRequest' => function ($event) {
-        if(!\Yii::$app->user->isGuest) {
+        if(!\Yii::$app->user->isGuest || (!empty(\Yii::$app->params['system.status']) && \Yii::$app->params['system.status'] == "closed") ) {
           Yii::$app->user->logout();
           Yii::$app->getResponse()->redirect(['site/index'])->send();
           return;
