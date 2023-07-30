@@ -116,8 +116,8 @@ class SiteController extends Controller
             Yii::$app->session->setFlash('error', 'El sistema esta cerrado no se permite ingresar. Gracias!');
             if (!Yii::$app->user->isGuest) {
                 Yii::$app->user->logout();
-                return $this->render('index');
             }
+            return $this->render('index');
         }
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();

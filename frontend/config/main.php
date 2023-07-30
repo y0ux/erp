@@ -90,14 +90,14 @@ return [
             ],
         ],
     ],
-    // logout everybody!
-    /*'on beforeRequest' => function ($event) {
+    // LOG OUT everybody!
+    'on beforeRequest' => function ($event) {
         if(!\Yii::$app->user->isGuest) {
           Yii::$app->user->logout();
           Yii::$app->getResponse()->redirect(['site/index'])->send();
           return;
         }
-    },*/
+    },
 
     'params' => $params,
 ];
