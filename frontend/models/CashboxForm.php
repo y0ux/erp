@@ -105,7 +105,7 @@ class CashboxForm extends Model
         ]
     ];
     private $significant_decimal = 2;
-    public $base_cashbox = 300000;
+    public $base_cashbox = 200000;
     private $totals = [
         'totals' => ['cash_gtq', 'cash_usd', 'card', 'transfer', 'gift_card', 'other', 'spent'],
     ];
