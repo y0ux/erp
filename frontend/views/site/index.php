@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'Chermol - ERP';
+//$this->title = 'Chermol - ERP';
 ?>
 <?php
   if (!empty($flash_messages)) :
