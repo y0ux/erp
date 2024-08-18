@@ -414,7 +414,7 @@ class SiteController extends Controller
                   $user_company->user_id = Yii::$app->user->id;
                   // move this to after save
                   if (!$user_company->save())
-                      throw now \Throwable("Can't save User-Company realtionship, otherwise won't be able to update later... bail");
+                      throw new \Throwable("Can't save User-Company realtionship, otherwise won't be able to update later... bail");
               }
               else
               {

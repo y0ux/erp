@@ -2,8 +2,14 @@
 
 /* @var $this yii\web\View */
 
+use frontend\assets\AppAsset;
+use yii\helpers\Html;
+
+AppAsset::register($this);
+
 //$this->title = 'Chermol - ERP';
 ?>
+<title><?= Html::encode($this->title) ?></title>
 <?php
   if (!empty($flash_messages)) :
     echo Alert::widget([
