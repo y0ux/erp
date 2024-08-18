@@ -14,6 +14,23 @@ use Square\SquareClient;
 use Square\Environment;
 use Square\Exceptions\ApiException;
 
+use common\models\UploadForm;
+use yii\web\UploadedFile;
+
+use felgt\Digifact;
+use felgt\models\ComplementoItem;
+use felgt\models\DatosAnulacion;
+use felgt\models\DatosGenerales;
+use felgt\models\Direccion;
+use felgt\models\Emisor;
+use felgt\models\Factura;
+use felgt\models\FacturaItem;
+use felgt\models\FacturaTotal;
+use felgt\models\Frase;
+use felgt\models\Impuesto;
+use felgt\models\Producto;
+use felgt\models\Receptor;
+
 
 /**
  * StaffController implements the CRUD actions for Staff model.
@@ -133,6 +150,102 @@ class FacturaController extends Controller
             //'dataProvider' => $dataProvider,
         ]);
     }
+
+    /**
+     * Lists batch FEL generation
+     * @return mixed
+     * @throws NotFoundHttpException if api call fails
+     */
+    public function actionBatch()
+    {
+        $model = new UploadForm();
+
+        // move this inside model validated
+        $productionMode = $this->loadProductionMode();
+        $accessInfo = $this->loadAccessInfo($productionMode);
+        if (empty($accessInfo))
+          throw new NotFoundHttpException(Yii::t('erp.sys', 'FELException occurred: connection could not be created'));
+
+        //$digifact = new Digifact("44653948","GT.000044653948.FRANTEST","E8t8rqdq5%"); // sandbox
+        //$digifact = new Digifact("96569611","GT.000096569611.96569611","Dy34j9o47o3$",false); // live
+        $digifact = new Digifact($accessInfo['nit'],"GT.".str_pad($accessInfo['nit'], 12, '0', STR_PAD_LEFT).".".$accessInfo['username'],$accessInfo['password'], $productionMode == "sandbox");
+
+
+        // try to make a factura
+        //$datosGenerales = new DatosGenerales("");
+        //$factura = new
+
+        if (Yii::$app->request->isPost) {
+            $model->csvFile = UploadedFile::getInstance($model, 'csvFile');
+            if ($model->upload()) {
+                //Yii::debug(print_r("file uploaded", true));
+                // file is uploaded successfully
+                //Yii::$app->session->setFlash('success', 'File "'.($model->csvFile->baseName . '.' . $model->csvFile->extension).'" uploaded');
+                if( $data = $this->loadFile($model)) {
+                    Yii::$app->session->setFlash('success', 'file data loaded');
+                    return $this->render('batch',
+                      [
+                        'model' => $model,
+                        'data' => $data
+                      ]
+                    );
+                }
+            }
+            else {
+                Yii::$app->session->setFlash('error', 'File FAIL to upload');
+            }
+        }
+
+        return $this->render('batch',
+          [
+            'model' => $model,
+            'fel' => $digifact
+          ]
+        );
+    }
+
+
+    private function loadAccessInfo($production = "sandbox")
+    {
+        if (isset(Yii::$app->params['digifact.access']) && isset(Yii::$app->params['digifact.access'][$production]) && is_array(Yii::$app->params['digifact.access'][$production])) {
+          if (isset(Yii::$app->params['digifact.access'][$production]['nit']) && isset(Yii::$app->params['digifact.access'][$production]['username']) && isset(Yii::$app->params['digifact.access'][$production]['password'])) {
+            return [
+              'nit' => Yii::$app->params['digifact.access'][$production]['nit'],
+              'username' => Yii::$app->params['digifact.access'][$production]['username'],
+              'password' => Yii::$app->params['digifact.access'][$production]['password']
+            ];
+          }
+        }
+        return null;
+    }
+
+    private function loadProductionMode()
+    {
+        return isset(Yii::$app->params['digifact.serverProduction']) ? (Yii::$app->params['digifact.serverProduction'] ? 'production' : 'sandbox') : 'sandbox';
+    }
+
+    /**
+     * Loads file
+     * @param UploadForm $loadedForm
+     * @return mixed
+     */
+    private function loadFile($loadedForm)
+    {
+      if (!empty($loadedForm->csvFile)) {
+          $fileHandler = fopen('uploads/' . $loadedForm->csvFile->baseName . '.' . $loadedForm->csvFile->extension,'r');
+          if ($fileHandler) {
+              $lines = [];
+              while ($line = fgetcsv($fileHandler,1000,",")) {
+                if (is_array($line))
+                  $lines[] = $line;
+              }
+              fclose($fileHandler);
+              return $lines;
+          }
+      }
+      return false;
+    }
+
 
     /**
      * Displays a single Staff model.

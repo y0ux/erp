@@ -1,6 +1,8 @@
 <?php
 return [
+    'system.status' => 'open',
     'adminEmail' => 'paco@atom.com.gt',
+    'digifact.serverProduction' => false,
     'event.limits' => [
       1 => [ // BREWERY
         'staff' => 8,
