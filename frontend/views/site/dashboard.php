@@ -177,7 +177,8 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
                   foreach ($tenders as $tender) {
                     $type = strtolower($tender->getType());
                     $value = intval($tender->getAmountMoney()->getAmount());
-                    $sum_totals[$type] += $value;
+                    if (isset($sum_totals[$type])) 
+                      $sum_totals[$type] += $value;
                     $sum_totals['total'] += $value;
 
                     if (isset($tender_types[$type])) {
