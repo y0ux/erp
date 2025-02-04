@@ -22,7 +22,7 @@ AppAsset::register($this);
 
   <div class="jumbotron">
     <img src="/images/fca-antigua-2023-logo-final-sm.png" alt="FCA 2023 Logo">
-    <h1 class="display-4">Festival de Cerveza Artesanal 2023</h1>
+    <h1 class="display-4">Festival de Cerveza Artesanal <?= date('Y') ?></h1>
     <p class="lead">En esta sección del sistema podras ingresar info de la empresa y staff.</p>
     <hr class="my-4">
     <p>Si no tienes invitación para crear un usuario solicítala con la organización del evento.</p>
