@@ -37,7 +37,7 @@ return [
           'vehicles' => 0,
         ],
         5 => [ // El Príncipe Gris S.A.
-          'staff' => 0,
+          'staff' => 8,
           'vehicles' => 0,
         ],
         7 => [ // Ixbalanque SA
@@ -91,7 +91,31 @@ return [
         31 => [ // xaman
           'staff' => 8,
           'vehicles' => 0,
-        ]
+        ],
+        43 => [ // star brewing - brand_id => 40
+          'staff' => 8,
+          'vehicles' => 0,
+        ],
+        62 => [ // baron - brand_id => 59 
+          'staff' => 8,
+          'vehicles' => 0,
+        ],
+        71 => [ // pantera - brand_id => 68
+          'staff' => 8,
+          'vehicles' => 0,
+        ],
+        72 => [ // ABC - brand_id => 69
+          'staff' => 8,
+          'vehicles' => 0,
+        ],
+        73 => [ // kasteel - brand_id => 70
+          'staff' => 8,
+          'vehicles' => 0,
+        ],
+        74 => [ // inmoral - brand_id => 71
+          'staff' => 8,
+          'vehicles' => 0,
+        ]        
 
       ]
     ]
