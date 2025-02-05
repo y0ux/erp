@@ -25,7 +25,7 @@ return [
       ],
       'custom' => [
         2 => [ // Chermol -- TESTING
-          'staff' => 20,
+          'staff' => 10,
           'vehicles' => 0,
         ],
         3 => [ //Craftbev, S.A.
