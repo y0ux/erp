@@ -55,7 +55,7 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                   <?php // Html::input('text', 'Company[city]', !empty($companyDetails) && property_exists($companyDetails,'city')? $companyDetails->city : null ,['class' => 'form-control', 'required' => true]) ?>
                 </div-->
 
-                <h4 class="mb-3">Banco</h4>
+                <!--h4 class="mb-3">Banco</h4>
 
                 <?php
                 $bank_list = [
@@ -75,18 +75,18 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
 
                  <div class="row">
                    <div class="col-md-4 mb-3">
-                     <?= $form->field($model['bank_account'], 'bank_id')
+                     < ?= $form->field($model['bank_account'], 'bank_id')
                        ->dropDownList($bank_list,['prompt' => 'Selecciona...', 'options' => ['value' => 'none', 'class' => 'prompt', 'label' => 'Select']])
                        ->label(\Yii::t('erp.company', 'Bank Name'), ['class' => 'required-field']) ?>
                    </div>
                    <div class="col-md-4 mb-3">
-                     <?= $form->field($model['bank_account'], 'type')->dropDownList([0 => 'Monetaria', 1 => 'Ahorro'])->label(null, ['class' => 'required-field']) ?>
+                     < ?= $form->field($model['bank_account'], 'type')->dropDownList([0 => 'Monetaria', 1 => 'Ahorro'])->label(null, ['class' => 'required-field']) ?>
                    </div>
                    <div class="col-md-4 mb-3">
-                     <?= $form->field($model['bank_account'], 'account_number')->label(null, ['class' => 'required-field']) ?>
+                     < ?= $form->field($model['bank_account'], 'account_number')->label(null, ['class' => 'required-field']) ?>
                    </div>
                  </div>
-                 <?= $form->field($model['bank_account'], 'beneficiary')->label(null, ['class' => 'required-field']) ?>
+                 < ?= $form->field($model['bank_account'], 'beneficiary')->label(null, ['class' => 'required-field']) ? -->
 
 
 

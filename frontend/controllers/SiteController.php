@@ -328,7 +328,7 @@ class SiteController extends Controller
       return $this->render('register',[
           'model' => [
             'company' => $company,
-            'bank_account' => $bank_account,
+            //'bank_account' => $bank_account,
             'brand' => $brand,
           ],
           'lists' => [
@@ -363,7 +363,7 @@ class SiteController extends Controller
           return $this->render('register',[
               'model' => [
                 'company' => $company,
-                'bank_account' => $bank_account,
+                //'bank_account' => $bank_account,
                 'brand' => $brand,
               ],
               'lists' => [

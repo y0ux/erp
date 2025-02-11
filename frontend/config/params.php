@@ -115,6 +115,10 @@ return [
         74 => [ // inmoral - brand_id => 71
           'staff' => 8,
           'vehicles' => 0,
+        ],
+        80 => [ // Ik - brand_id => 77
+          'staff' => 4,
+          'vehicles' => 0,
         ]        
 
       ]
