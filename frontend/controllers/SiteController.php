@@ -421,7 +421,7 @@ class SiteController extends Controller
                   Yii::$app->session->addFlash($flash_id,'relationship already created');
               }
 
-              
+              /*
               // save bank account info
               Yii::$app->session->addFlash($flash_id,'checking bank_account.. isNewRecord? '.($bank_account->isNewRecord? "yes" : "no"));
               $bank_account_transaction = BankAccount::getDb()->beginTransaction();
@@ -455,7 +455,7 @@ class SiteController extends Controller
               else {
                 return false;
               }
-            
+            */
 
               // save brand info
               Yii::$app->session->addFlash($flash_id,'checking brand.. isNewRecord? '.($brand->isNewRecord? "yes" : "no"));
