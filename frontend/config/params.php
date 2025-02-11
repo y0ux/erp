@@ -85,7 +85,7 @@ return [
           'vehicles' => 0,
         ],
         28 => [ // skal
-          'staff' => 0,
+          'staff' => 6,
           'vehicles' => 0,
         ],
         31 => [ // xaman
