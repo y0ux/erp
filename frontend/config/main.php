@@ -8,8 +8,8 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
-    'name' => 'Event System 1.3',
-    'version' => 'Alpha 0.5',
+    'name' => 'Event System 1.3.1',
+    'version' => 'v 1.3.1',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',

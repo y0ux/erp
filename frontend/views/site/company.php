@@ -69,7 +69,7 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));?
                 return !empty($data->firstBankAccount)? $data->firstBankAccount->bank->name : null;
               },
             ],*/
-            [
+            /*[
               'label' => 'Beneficiario',
               //'attribute' => 'accepted_currency_id',
               'value' => function ($data) {
@@ -89,7 +89,7 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));?
               'value' => function ($data) {
                 return empty($data->firstBankAccount)? null : ($data->firstBankAccount->type? 'Ahorro' : 'Monetaria');
               }
-            ],
+            ],*/
             /*[
               'label' => 'Stand',
               'attribute' => 'stand'
