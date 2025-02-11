@@ -328,7 +328,7 @@ class SiteController extends Controller
       return $this->render('register',[
           'model' => [
             'company' => $company,
-            //'bank_account' => $bank_account,
+            'bank_account' => $bank_account,
             'brand' => $brand,
           ],
           'lists' => [
@@ -363,7 +363,7 @@ class SiteController extends Controller
           return $this->render('register',[
               'model' => [
                 'company' => $company,
-                //'bank_account' => $bank_account,
+                'bank_account' => $bank_account,
                 'brand' => $brand,
               ],
               'lists' => [
@@ -372,7 +372,7 @@ class SiteController extends Controller
               ]
           ]);
         }
-        throw new ForbiddenHttpException('Please, modify your registration only.', 403, null);
+        throw new ForbiddenHttpException('Please, modify your profile only.', 403, null);
       }
 
     /**
@@ -421,6 +421,7 @@ class SiteController extends Controller
                   Yii::$app->session->addFlash($flash_id,'relationship already created');
               }
 
+              
               // save bank account info
               Yii::$app->session->addFlash($flash_id,'checking bank_account.. isNewRecord? '.($bank_account->isNewRecord? "yes" : "no"));
               $bank_account_transaction = BankAccount::getDb()->beginTransaction();
@@ -454,6 +455,7 @@ class SiteController extends Controller
               else {
                 return false;
               }
+            
 
               // save brand info
               Yii::$app->session->addFlash($flash_id,'checking brand.. isNewRecord? '.($brand->isNewRecord? "yes" : "no"));
