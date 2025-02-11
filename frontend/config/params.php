@@ -65,7 +65,7 @@ return [
           'vehicles' => 0,
         ],
         17 => [ // Erdinger
-          'staff' => 0,
+          'staff' => 8,
           'vehicles' => 0,
         ],
         21 => [ // Mooshead
