@@ -117,6 +117,7 @@ class SiteController extends Controller
 
 
       $location_ids = ['14M2PH4P0XV7W'];
+      $location_ids = ['LV1C21CRX2GM2']; // CH 4.0
       $created_at = new \Square\Models\TimeRange();
       $created_at->setStartAt($report_date.'T00:00:01-06:00');
       $created_at->setEndAt($report_date.'T23:59:59-06:00');
