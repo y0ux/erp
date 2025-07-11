@@ -20,7 +20,7 @@ use yii\bootstra4\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'product_id') ?>
+    <?php //= $form->field($model, 'product_id') ?>
 
     <?= $form->field($model, 'beer_style_id') ?>
 

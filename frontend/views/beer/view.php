@@ -8,8 +8,8 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Beer */
 
-$this->title = $model['product']->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('eventplanner.company', 'Products'), 'url' => ['product/index']];
+$this->title = $model['beer']->name;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('eventplanner.company', 'Cervezas'), 'url' => ['beer/index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?= DetailView::widget([
-        'model' => $model['product'],
+        'model' => $model['beer'],
         'attributes' => [
             //'id',
             //'sku',
@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],*/
             'name',
             //'name_desc:ntext',
-            [
+           /* [
               'attribute' => 'name_desc',
               'value' => function ($data) {
                 if (empty($data->name_desc))
@@ -64,48 +64,44 @@ $this->params['breadcrumbs'][] = $this->title;
                 return null;
               },
               'format' => ['raw']
-            ],
-            [
-              'label' => \Yii::t('eventplanner.company','Beer Style'),
+            ],*/            
+            [ // hide_brand
+              'label' => \Yii::t('eventplanner.company','Ocultar mi marca en este estilo'),
               'value' => function ($data) {
-                if (!empty($data->beer) && !empty($data->beer->beerStyle))
-                  return Html::a(
-                    $data->beer->beerStyle->name,
-                    Url::toRoute(['beer/view','id'=>$data->beer->beerStyle->id]),
-                    ['data' => ['pjax' => '0'], 'class' => 'set-class-here']
-                  );
+                if (!empty($data) && !empty($data->hide_brand))
+                  return $data->hide_brand? "si":"no";
                 return null;
               },
               'format' => ['raw']
             ],
             [
-              'label' => \Yii::t('eventplanner.company','Abv'),
+              'label' => \Yii::t('eventplanner.company','ABV %'),
               'value' => function ($data) {
-                if (!empty($data->beer) && !empty($data->beer->abv))
-                  return $data->beer->abv.'%';
+                if (!empty($data) && !empty($data->abv))
+                  return $data->abv.'%';
               }
             ],
             [
-              'label' => \Yii::t('eventplanner.company','Ibu'),
+              'label' => \Yii::t('eventplanner.company','IBU'),
               'value' => function ($data) {
-                if (!empty($data->beer) && !empty($data->beer->ibu))
-                  return $data->beer->ibu.'%';
+                if (!empty($data) && !empty($data->ibu))
+                  return $data->ibu;
               }
             ],
             [
-              'label' => \Yii::t('eventplanner.company','Srm Color'),
+              'label' => \Yii::t('eventplanner.company','Color SRM'),
               'value' => function ($data) {
-                if (!empty($data->beer) && !empty($data->beer->srmColor))
-                  return Html::a(
-                    $data->beer->srmColor->color,
-                    Url::toRoute(['beer/view','id' => $data->beer->srmColor->id]),
+                if (!empty($data) && !empty($data->srmColor))
+                  return $data->srmColor->color;/*Html::a(
+                    $data->srmColor->color,
+                    Url::toRoute(['beer/view','id' => $data->srmColor->id]),
                     ['data' => ['pjax' => '0'], 'class' => 'set-class-here']
-                  );
+                  );*/
                 return null;
               },
               'format' => ['raw']
             ],
-            [
+           /* [
               'label' => \Yii::t('eventplanner.company','Og'),
               'value' => function ($data) {
                 if (!empty($data->beer) && !empty($data->beer->og))
@@ -118,19 +114,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 if (!empty($data->beer) && !empty($data->beer->fg))
                   return $data->beer->fg;
               }
-            ],
+            ],*/
             //'aroma',
+            'details',
             [
               'label' => \Yii::t('eventplanner.company', 'Aroma'),
               'value' => function ($data) {
-                  return !empty($data->beer) && !empty($data->beer->aroma)? $data->beer->aroma : null;
+                  return !empty($data) && !empty($data->aroma)? $data->aroma : null;
               }
             ],
             //'flavor',
             [
-              'label' => \Yii::t('eventplanner.company','Flavor'),
+              'label' => \Yii::t('eventplanner.company','Sabor'),
               'value' => function ($data) {
-                  return !empty($data->beer) && !empty($data->beer->flavor)? $data->beer->flavor : null;
+                  return !empty($data) && !empty($data->flavor)? $data->flavor : null;
               }
             ],
             //'details:ntext',
@@ -138,7 +135,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'product_type_id',
             //'category_id',
-            [
+            /*[
               'attribute' => 'category_id',
               'label' => \Yii::t('eventplanner.company','Category'),
               'value' => function ($data) {
@@ -151,18 +148,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 return null;
               },
               'format' => ['raw']
-            ],
+            ],*/
             //'created_at',
             //'updated_at',
         ],
         'options' => ['class' => 'table table-striped']
     ]) ?>
 
-    <h3>Precios</h3>
+    <!--h3>Precios</h3>
     <p>
-    <?= Html::a(\Yii::t('eventplanner.company','Add Price'), ['/product-price/create', 'product_id' => $model['product']->id], ['class' => 'btn btn-success']) ?>
+    <?php //= Html::a(\Yii::t('eventplanner.company','Add Price'), ['/product-price/create', 'product_id' => $model['product']->id], ['class' => 'btn btn-success']) ?>
     </p>
-    <?= GridView::widget([
+    <?php /*= GridView::widget([
         'dataProvider' => $model['dataProvider'],
         //'filterModel' => $searchModel,
         'columns' => [
@@ -189,6 +186,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
         'tableOptions' => ['class' => 'table table-striped']
-    ]); ?>
+    ]); */?>
 
 </div>

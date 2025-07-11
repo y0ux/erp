@@ -67,18 +67,22 @@ class BeerController extends Controller
     public function actionView($id)
     {
         $beer = $this->findModel($id);
-        $product = $beer->product;
-        $productPrice = $product->productPrice;
+        //$product = $beer->product;
+        //$productPrice = $product->productPrice;
 
-        $searchModel = new ProductPriceSearch();
+        //$searchModel = new ProductPriceSearch();
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //$dataProvider->query->andWhere(['product_id' => $product->id]);
+
+        $searchModel = new BeerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->andWhere(['product_id' => $product->id]);
+        $dataProvider->query->andWhere(['user_id' => Yii::$app->user->identity->id]);
 
         return $this->render('view', [
             'model' => [
               'beer' => $beer,
-              'product' => $product,
-              'productPrice' => $productPrice,
+             // 'product' => $product,
+             // 'productPrice' => $productPrice,
               'dataProvider' => $dataProvider,
             ],
         ]);
@@ -91,28 +95,30 @@ class BeerController extends Controller
      */
     public function actionCreate()
     {
-        $product = new Product();
-        $product->product_type_id = Product::BEER;
-        $product->company_id = Yii::$app->user->identity->company->id;
+        //$product = new Product();
+        //$product->product_type_id = Product::BEER;
+        //$product->company_id = Yii::$app->user->identity->company->id;
 
-        $productPrice = new ProductPrice();
+        //$productPrice = new ProductPrice();
         $beer = new Beer();
+        $beer->user_id = Yii::$app->user->identity->id;
 
         //if ($product->load(Yii::$app->request->post()) && $product->save()) {
-        if ($this->save($product, $productPrice, $beer)) {
+        //if ($this->save($product, $productPrice, $beer)) {
+        if ($this->save($beer)) {
             return $this->redirect(['view', 'id' => $beer->id]);
         }
 
         return $this->render('create', [
             'model' => [
-              'product' => $product,
-              'productPrice' => $productPrice,
+              //'product' => $product,
+              //'productPrice' => $productPrice,
               'beer' => $beer,
             ],
             'lists' => [
-              'category' => Category::getCategoryList(),
+              //'category' => Category::getCategoryList(),
               'beerStyle' => BeerStyle::getBeerStyleList(),
-              'srmColor' => SrmColor::getSrmColorList(),
+              'srmColor' => SrmColor::getSrmColorListFormatted(),
             ],
         ]);
     }
@@ -127,22 +133,23 @@ class BeerController extends Controller
     public function actionUpdate($id)
     {
         $beer = $this->findModel($id);
-        $product = $beer->product;
-        $productPrice = $product->productPrice;
+        //$product = $beer->product;
+        //$productPrice = $product->productPrice;
 
         //if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        if ($this->save($product, $productPrice, $beer)) {
+        //if ($this->save($product, $productPrice, $beer)) {
+        if ($this->save($beer)) {
             return $this->redirect(['view', 'id' => $beer->id]);
         }
 
         return $this->render('update', [
             'model' => [
-              'product' => $product,
-              'productPrice' => $productPrice,
+              //'product' => $product,
+              //'productPrice' => $productPrice,
               'beer' => $beer,
             ],
             'lists' => [
-              'category' => Category::getCategoryList(),
+              //'category' => Category::getCategoryList(),
               'beerStyle' => BeerStyle::getBeerStyleList(),
               'srmColor' => SrmColor::getSrmColorList(),
             ],
@@ -176,7 +183,7 @@ class BeerController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException(Yii::t('eventplanner.company', 'The requested page does not exist.'));
+        throw new NotFoundHttpException(Yii::t('', 'The requested page does not exist.'));
     }
 
     /**
@@ -186,43 +193,47 @@ class BeerController extends Controller
      * @param Beer $beer
      * @return mixed
      */
-    protected function save($product, $productPrice, $beer)
+    //protected function save($product, $productPrice, $beer)
+    protected function save($beer)
     {
-      $flash_id = 'beer-'.($product->isNewRecord? 'create' : 'update');
-      Yii::$app->session->addFlash($flash_id, "flash_id: ".print_r($flash_id, true));
-      Yii::$app->session->addFlash($flash_id, "model isNewRecord? ".($product->isNewRecord? "yes":"no"));
+      //Yii::$app->session->setFlash('error', 'iniciando guardado!');
+      //$flash_id = 'beer-'.($beer->isNewRecord? 'create' : 'update');
+      //Yii::$app->session->addFlash($flash_id, "flash_id: ".print_r($flash_id, true));
+      //Yii::$app->session->addFlash($flash_id, "model isNewRecord? ".($product->isNewRecord? "yes":"no"));
 
-      $product_transaction = Product::getDb()->beginTransaction();
+      //$product_transaction = Product::getDb()->beginTransaction();
       try
       {
-          if ( $product->load(Yii::$app->request->post()) && $product->save() )
-          {
+          //if ( $product->load(Yii::$app->request->post()) && $product->save() )
+          //{
               $beer_transaction = Beer::getDb()->beginTransaction();
-              $beer->product_id = $product->id;
+              //$beer->product_id = $product->id;
               if ( $beer->load(Yii::$app->request->post()) && $beer->save() ) {
-                $productPrice->product_id = $product->id;
-                if ( $productPrice->load(Yii::$app->request->post()) && $productPrice->save() )
-                {
-                    Yii::$app->session->addFlash($flash_id, 'saving product price');
-                }
-                else {
-                  return false;
-                }
-                Yii::$app->session->addFlash($flash_id, 'commiting beer');
+                //$productPrice->product_id = $product->id;
+                //if ( $productPrice->load(Yii::$app->request->post()) && $productPrice->save() )
+                //{
+                   // Yii::$app->session->addFlash($flash_id, 'saving product price');
+                //}
+                //else {
+                  //return false;
+                //}
+                //Yii::$app->session->addFlash($flash_id, 'commiting beer');
                 $beer_transaction->commit();
+                return true;
               }
               else {
+                //Yii::$app->session->setFlash('error', 'fallo');
                 return false;
               }
-              Yii::$app->session->addFlash($flash_id, 'commiting product');
-              $product_transaction->commit();
-              return true;
-          }
+              //Yii::$app->session->addFlash($flash_id, 'commiting product');
+              //$product_transaction->commit();
+              //return true;
+          //}
       }
       catch (Exception $e)
       {
-          $product_transaction->rollBack();
-          Yii::$app->session->addFlash($flash_id,"There was an error trying to save the Product information: [".$e->getMessage()."]");
+          //$product_transaction->rollBack();
+          //Yii::$app->session->addFlash($flash_id,"There was an error trying to save the Beer information: [".$e->getMessage()."]");
       }
       return false;
     }

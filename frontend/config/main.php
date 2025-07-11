@@ -8,8 +8,8 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
-    'name' => 'Event System 1.3.1',
-    'version' => 'v 1.3.1',
+    'name' => 'Event System 1.4.0',
+    'version' => 'v 1.4.0',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
@@ -62,7 +62,23 @@ return [
                     'fileMap' => [
                         'app' => 'app.php',
                         'app/error' => 'error.php',
+                        'eventplanner.company' => 'event_planner.company.php',
                     ],
+                ],
+                'event*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/messages',
+                    'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                        'eventplanner.company' => 'event_planner.company.php',
+                    ],
+                ],
+                '   *' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/messages',
+                    'sourceLanguage' => 'en-US',
                 ],
             ],
         ],

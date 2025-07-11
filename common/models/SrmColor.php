@@ -12,6 +12,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $color
  * @property int $initial_range
  * @property int $final_range
+ * @property int $color_hex
  * @property string $details
  * @property string $created_at
  * @property string $updated_at
@@ -89,6 +90,23 @@ class SrmColor extends \yii\db\ActiveRecord
         $list = self::find()->all();
         foreach ($list as $item)
             $colors[$item->id] = $item->color;
+        return $colors;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public static function getSrmColorListFormatted()
+    {
+        $colors = [
+            'values' => [],
+            'colores' => []
+        ];
+        $list = self::find()->all();
+        foreach ($list as $item) {
+            $colors['values'][$item->id] = '<i class="srm-color hexcolor-'.$item->color_hex.'" style="background-color: #'.$item->color_hex.';"></i> '.$item->color;
+            $colors['colors'][$item->id] = $item->color_hex;
+        }
         return $colors;
     }
 }

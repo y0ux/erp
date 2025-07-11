@@ -6,10 +6,10 @@ use yii\helpers\Html;
 /* @var $model common\models\Beer */
 
 $this->title = Yii::t('eventplanner.company', 'Update Beer: {name}', [
-    'name' => $model['product']->name,
+    'name' => $model['beer']->name,
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('eventplanner.company', 'Products'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model['product']->name, 'url' => ['view', 'id' => $model['beer']->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('eventplanner.company', 'Cervezas'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model['beer']->name, 'url' => ['view', 'id' => $model['beer']->id]];
 $this->params['breadcrumbs'][] = Yii::t('eventplanner.company', 'Update');
 ?>
 <div class="beer-update">

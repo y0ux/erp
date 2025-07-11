@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Beer;
@@ -17,7 +18,7 @@ class BeerSearch extends Beer
     public function rules()
     {
         return [
-            [['id', 'product_id', 'beer_style_id', 'srm_color_id'], 'integer'],
+            [['id', 'beer_style_id', 'srm_color_id'], 'integer'],
             [['abv', 'ibu', 'og', 'fg'], 'number'],
             [['aroma', 'flavor', 'created_at', 'updated_at'], 'safe'],
         ];
@@ -60,13 +61,14 @@ class BeerSearch extends Beer
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'product_id' => $this->product_id,
+            'user_id' => Yii::$app->user->identity->id,
+            //'product_id' => $this->product_id,
             'beer_style_id' => $this->beer_style_id,
             'abv' => $this->abv,
             'ibu' => $this->ibu,
             'srm_color_id' => $this->srm_color_id,
-            'og' => $this->og,
-            'fg' => $this->fg,
+            //'og' => $this->og,
+            //'fg' => $this->fg,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

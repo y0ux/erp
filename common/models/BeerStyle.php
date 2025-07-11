@@ -10,6 +10,10 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property string $id
  * @property string $name
+ * @property string $number
+ * @property string $category
+ * @property string $category_number
+ * @property string $overall_impression
  * @property string $details
  * @property string $created_at
  * @property string $updated_at
@@ -47,6 +51,10 @@ class BeerStyle extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('eventplanner.company', 'ID'),
             'name' => Yii::t('eventplanner.company', 'Name'),
+            'number' => Yii::t('eventplanner.company', 'Number'),
+            'category' => Yii::t('eventplanner.company', 'Category'),
+            'category_number' => Yii::t('eventplanner.company', 'Category Number'),
+            'overall_impression' => Yii::t('eventplanner.company', 'Overall Impression'),
             'details' => Yii::t('eventplanner.company', 'Details'),
             'created_at' => Yii::t('eventplanner.company', 'Created At'),
             'updated_at' => Yii::t('eventplanner.company', 'Updated At'),
@@ -82,7 +90,7 @@ class BeerStyle extends \yii\db\ActiveRecord
         $styles = [];
         $list = self::find()->all();
         foreach ($list as $item)
-            $styles[$item->id] = $item->name;
+            $styles[$item->id] = $item->name." - ".$item->number;
         return $styles;
     }
 }

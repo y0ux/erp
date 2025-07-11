@@ -32,7 +32,7 @@ use Square\Environment;
 use Square\Exceptions\ApiException;
 
 /**
- * Site controller
+ * Site controller APPEVENT
  */
 class SiteController extends Controller
 {

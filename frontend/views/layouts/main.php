@@ -29,8 +29,9 @@ if (Yii::$app->user->isGuest) {
     if (Yii::$app->user->identity->status == User::STATUS_ACTIVE && !empty(Yii::$app->user->identity->company)) {
       //$menuItems[] = $cashboxMenuItem + ["options" => ["class" => "d-md-none"]];
       //$menuItems[] = $receiptMenuItem + ["options" => ["class" => "d-md-none"]];
-      $menuItems[] = ['label' => ' Registro', 'url' => ['/site/register'], "options" => ["class" => "d-md-none"]];
-      $menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], "options" => ["class" => "d-md-none"]];
+      $menuItems[] = ['label' => ' Perfil Empresa', 'url' => ['/site/register'], "options" => ["class" => "d-md-none"]];
+      $menuItems[] = ['label' => ' Cervezas', 'url' => ['/beer/index'], "options" => ["class" => "d-md-none"]];
+      //$menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], "options" => ["class" => "d-md-none"]];
       //$menuItems[] = ['label' => ' Productos', 'url' => ['/product/index'], "options" => ["class" => "d-md-none"]];
 
       //$menuItems[] = ['label' => 'Dashboard', 'url' => ['/site/index'], 'options' => ['class' => 'hidden-lg hidden-md hidden-sm']];
@@ -139,8 +140,10 @@ if (Yii::$app->user->isGuest) {
 
             //$menuItems[] = ['label' => ' Inventario', 'url' => ['/inventory/index'], 'icon' => 'barcode'];
 
-            $menuItems[] = ['label' => ' Registro', 'url' => ['/site/register'], 'icon' => 'fa-solid fa-rocket'];
-            $menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], 'icon' => 'fa-solid fa-person'];
+            $menuItems[] = ['label' => ' Perfil Empresa', 'url' => ['/site/register'], 'icon' => 'fa-solid fa-rocket'];
+            
+            $menuItems[] = ['label' => ' Cervezas', 'url' => ['/beer/index'], 'icon' => 'fa-solid fa-beer-mug-empty'];
+            //$menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], 'icon' => 'fa-solid fa-person'];
             //$menuItems[] = ['label' => ' Productos', 'url' => ['/product/index'], 'icon' => 'fa-solid fa-tags'];
 
 
