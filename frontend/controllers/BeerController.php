@@ -151,7 +151,7 @@ class BeerController extends Controller
             'lists' => [
               //'category' => Category::getCategoryList(),
               'beerStyle' => BeerStyle::getBeerStyleList(),
-              'srmColor' => SrmColor::getSrmColorList(),
+              'srmColor' => SrmColor::getSrmColorListFormatted(),
             ],
         ]);
     }

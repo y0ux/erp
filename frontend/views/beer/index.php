@@ -30,9 +30,32 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id',
             'name',
             //'product_id',
-            'beer_style_id',
+            [
+              'attribute' => 'beer_style_id',
+              'value' => function ($data) {
+                if (!empty($data) && !empty($data->beerStyle))
+                  return $data->beerStyle->name.' - '.$data->beerStyle->number;
+                return null;
+              },
+              'format' => ['raw']
+            ],
+            [
+              'attribute' => 'srm_color_id',
+              'value' => function ($data) {
+                if (!empty($data) && !empty($data->srmColor))
+                  return $data->srmColor->color.' <spa class="color-block" style="display: inline-block; width: 30px; height: 15px; vertical-align: middel; background-color: #'.$data->srmColor->color_hex.';"></span>';
+                /*Html::a(
+                    $data->srmColor->color,
+                    Url::toRoute(['beer/view','id' => $data->srmColor->id]),
+                    ['data' => ['pjax' => '0'], 'class' => 'set-class-here']
+                  );*/
+                return null;
+              },
+              'format' => ['raw']
+            ],
             'abv',
             'ibu',
+            //'srm_color_id',
             //'srm_color_id',
             //'og',
             //'fg',

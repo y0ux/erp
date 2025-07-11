@@ -75,6 +75,15 @@ $this->params['breadcrumbs'][] = $this->title;
               'format' => ['raw']
             ],
             [
+              'attribute' => 'beer_style_id',
+              'value' => function ($data) {
+                if (!empty($data) && !empty($data->beerStyle))
+                  return $data->beerStyle->name.' - '.$data->beerStyle->number;
+                return null;
+              },
+              'format' => ['raw']
+            ],
+            [
               'label' => \Yii::t('eventplanner.company','ABV %'),
               'value' => function ($data) {
                 if (!empty($data) && !empty($data->abv))
@@ -92,7 +101,8 @@ $this->params['breadcrumbs'][] = $this->title;
               'label' => \Yii::t('eventplanner.company','Color SRM'),
               'value' => function ($data) {
                 if (!empty($data) && !empty($data->srmColor))
-                  return $data->srmColor->color;/*Html::a(
+                  return $data->srmColor->color.' <spa class="color-block" style="display: inline-block; width: 30px; height: 15px; vertical-align: middel; background-color: #'.$data->srmColor->color_hex.';"></span>';
+                /*Html::a(
                     $data->srmColor->color,
                     Url::toRoute(['beer/view','id' => $data->srmColor->id]),
                     ['data' => ['pjax' => '0'], 'class' => 'set-class-here']
