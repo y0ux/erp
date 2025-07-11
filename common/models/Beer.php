@@ -68,7 +68,7 @@ class Beer extends \yii\db\ActiveRecord
             'beer_style_id' => Yii::t('eventplanner.company', 'Estilo'),
             'abv' => Yii::t('eventplanner.company', 'ABV %  '),
             'ibu' => Yii::t('eventplanner.company', 'IBU'),
-            'srm_color_id' => Yii::t('eventplanner.company', 'SRM Color ID'),
+            'srm_color_id' => Yii::t('eventplanner.company', 'SRM Color'),
             'og' => Yii::t('eventplanner.company', 'Og'),
             'fg' => Yii::t('eventplanner.company', 'Fg'),
             'details' => Yii::t('eventplanner.company', 'Descripcion'),

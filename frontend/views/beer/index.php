@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
               'attribute' => 'beer_style_id',
               'value' => function ($data) {
                 if (!empty($data) && !empty($data->beerStyle))
-                  return $data->beerStyle->name.' - '.$data->beerStyle->number;
+                  return $data->beerStyle->name.' - '.$data->beerStyle->number; 
                 return null;
               },
               'format' => ['raw']
