@@ -41,6 +41,7 @@ class BeerController extends Controller
      */
     public function actionIndex()
     {
+      if(!empty(Yii::$app->user->identity->company) && Yii::$app->user->identity->company->company_type_id == 1) {
         $searchModel = new BeerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -56,6 +57,10 @@ class BeerController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+      }
+      else {
+        return $this->redirect(['site/index']);
+      }
     }
 
     /**

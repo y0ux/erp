@@ -59,7 +59,7 @@ class Brand extends \yii\db\ActiveRecord
     {
         return [
             'id' => \Yii::t('erp.company','ID'),
-            'name' => \Yii::t('erp.company','Name'),
+            'name' => \Yii::t('erp.company','Nombre Comercial'),
             //'stand_number' => 'Stand Number',
             //'negotiation_type' => 'Negotiation Type',
             //'stand_size' => 'Stand Size',

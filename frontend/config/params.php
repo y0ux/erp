@@ -3,25 +3,25 @@ return [
     //'system.status' => 'closed',
     'adminEmail' => 'paco@atom.com.gt',
     'event.limits' => [
-      0 => [
-        'staff' => 6,
+      0 => [ // DEFAULT
+        'staff' => 4,
         'vehicles' => 0,
       ],
       1 => [ // BREWERY
         'staff' => 8,
-        'vehicles' => 2,
+        'vehicles' => 0,
       ],
-      2 => [ //SUPPLIER
+      2 => [ //RESTAURANT
         'staff' => 6,
-        'vehicles' => 2,
+        'vehicles' => 0,
       ],
-      3 => [ //RESTAURANT
-        'staff' => 6,
-        'vehicles' => 2,
+      3 => [ //SUPPLIER
+        'staff' => 4,
+        'vehicles' => 0,
       ],
       4 => [  //Other
-        'staff' => 7,
-        'vehicles' => 2,
+        'staff' => 4,
+        'vehicles' => 0,
       ],
       'custom' => [
         2 => [ // Chermol -- TESTING

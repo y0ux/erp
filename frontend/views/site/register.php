@@ -41,7 +41,7 @@ array_merge($flash_messages,Yii::$app->session->getFlash('company-create',[]));
                 <h4 class="mb-3">Empresa</h4>
                 <div class="row">
                   <div class="col-md-4 mb-3">
-                    <?= $form->field($model['brand'], 'name')->label('Nombre de la Marca', ['class' => 'required-field']) ?>
+                    <?= $form->field($model['brand'], 'name')->label(null, ['class' => 'required-field']) ?>
                   </div>
                   <div class="col-md-4 mb-3">
                     <?= $form->field($model['company'], 'legal_name')->textInput(['autofocus' => true])->label(null, ['class' => 'required-field']) ?>

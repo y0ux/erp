@@ -35,10 +35,11 @@ class Company extends \yii\db\ActiveRecord
 {
 
     /*const BREWERY = 1;
-    const SUPPLIER = 2;
-    const RESTAURANT = 3;
+    const RESTAURANT = 2;
+    const SUPPLIER = 3;
     const OTHER = 4;
-    //public $company_types = [1 => 'Brewery', 2 => 'Supplier', 3 => 'Restaurant', 4 => 'Other'];*/
+    
+    //public $company_types = [1 => 'Brewery', 2 => 'Restaurant',  3 => 'Supplier', 4 => 'Other'];*/
     /**
      * {@inheritdoc}
      */
@@ -69,7 +70,7 @@ class Company extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('erp.company', 'ID'),
-            'legal_name' => Yii::t('erp.company', 'Legal Name'),
+            'legal_name' => Yii::t('erp.company', 'Nombre Legal'),
             'nit' => Yii::t('erp.company', 'Nit'),
             'details' => Yii::t('erp.company', 'Details'),
             'created_at' => Yii::t('erp.company', 'Created At'),

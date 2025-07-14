@@ -30,7 +30,9 @@ if (Yii::$app->user->isGuest) {
       //$menuItems[] = $cashboxMenuItem + ["options" => ["class" => "d-md-none"]];
       //$menuItems[] = $receiptMenuItem + ["options" => ["class" => "d-md-none"]];
       $menuItems[] = ['label' => ' Perfil Empresa', 'url' => ['/site/register'], "options" => ["class" => "d-md-none"]];
-      $menuItems[] = ['label' => ' Cervezas', 'url' => ['/beer/index'], "options" => ["class" => "d-md-none"]];
+      if (!empty(Yii::$app->user->identity->company) && Yii::$app->user->identity->company->company_type_id == 1) {
+        $menuItems[] = ['label' => ' Cervezas', 'url' => ['/beer/index'], "options" => ["class" => "d-md-none"]];
+      }
       $menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], "options" => ["class" => "d-md-none"]];
       //$menuItems[] = ['label' => ' Productos', 'url' => ['/product/index'], "options" => ["class" => "d-md-none"]];
 
@@ -141,8 +143,9 @@ if (Yii::$app->user->isGuest) {
             //$menuItems[] = ['label' => ' Inventario', 'url' => ['/inventory/index'], 'icon' => 'barcode'];
 
             $menuItems[] = ['label' => ' Perfil Empresa', 'url' => ['/site/register'], 'icon' => 'fa-solid fa-rocket'];
-            
-            $menuItems[] = ['label' => ' Cervezas', 'url' => ['/beer/index'], 'icon' => 'fa-solid fa-beer-mug-empty'];
+            if (!empty(Yii::$app->user->identity->company) && Yii::$app->user->identity->company->company_type_id == 1) {
+              $menuItems[] = ['label' => ' Cervezas', 'url' => ['/beer/index'], 'icon' => 'fa-solid fa-beer-mug-empty'];
+            }
             $menuItems[] = ['label' => ' Staff', 'url' => ['/staff/index'], 'icon' => 'fa-solid fa-person'];
             //$menuItems[] = ['label' => ' Productos', 'url' => ['/product/index'], 'icon' => 'fa-solid fa-tags'];
 
