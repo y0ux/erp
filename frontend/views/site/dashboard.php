@@ -233,7 +233,7 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
                 if (!empty($return_list)) {
                   foreach ($return_list as $return_item) {
                     if (!empty($return_item->getReturnAmounts()))
-                      $sum_totals['return'] -= $return_item->getReturnAmounts()->getTotalAmount();
+                      $sum_totals['return'] -= $return_item->getReturnAmounts()->getTotalMoney();
                   }
                 }
 
