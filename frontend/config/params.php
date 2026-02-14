@@ -1,6 +1,6 @@
 <?php
 return [
-    'system.status' => 'open',
+    'system.status' => 'closed',
     'adminEmail' => 'paco@atom.com.gt',
     'event.limits' => [
       0 => [ // DEFAULT
@@ -8,7 +8,7 @@ return [
         'vehicles' => 0,
       ],
       1 => [ // BREWERY
-        'staff' => 8,
+        'staff' => 7,
         'vehicles' => 0,
       ],
       2 => [ //RESTAURANT
@@ -41,7 +41,7 @@ return [
           'vehicles' => 0,
         ],
         7 => [ // Ixbalanque SA
-          'staff' => 8,
+          'staff' => 8,   
           'vehicles' => 0,
         ],
         11 => [ // Sapiens
