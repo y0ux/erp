@@ -418,10 +418,10 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
                 }
               }
               ?>
-          <div>
+          <!--div>
             DEBUG:
-            <pre><code><?php var_dump($order_item);  ?></code></pre>
-          </div>
+            <pre><code>< ?php var_dump($order_item);  ? ></code></pre>
+          </div-->
           <div class="order-item">
             <div class="row">
               <div class="col-4">
@@ -435,7 +435,9 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
               <?php endif; ?>
               </div>
               <div class="col-4">
-                <b><sup><!--?= \common\models\Currency::findCurrencyByISO($order_item->getTotalMoney()->getCurrency())->symbol ?--></sup> <!--?= Yii::$app->formatter->asDecimal($order_item->getTotalMoney()->getAmount() / 100,2) ?--></b>
+                <?php if ($order_item->getTotalMoney()) : ?>
+                <b><sup><?= \common\models\Currency::findCurrencyByISO($order_item->getTotalMoney()->getCurrency())->symbol ?></sup> <?= Yii::$app->formatter->asDecimal($order_item->getTotalMoney()->getAmount() / 100,2) ?></b>
+                <?php endif; ?>
               </div>
               <div class="col-4">
                 <?= date("g:i a" ,strtotime($order_item->getClosedAt())) ?>
