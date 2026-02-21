@@ -432,11 +432,15 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
               <?php endforeach; ?>
               <?php if ($order_item->getDiscounts()) : ?>
                 <i class="fa-solid fa-tag"></i>
+              <?php else : ?>
+                NO Data
               <?php endif; ?>
               </div>
               <div class="col-4">
                 <?php if ($order_item->getTotalMoney()) : ?>
                 <b><sup><?= \common\models\Currency::findCurrencyByISO($order_item->getTotalMoney()->getCurrency())->symbol ?></sup> <?= Yii::$app->formatter->asDecimal($order_item->getTotalMoney()->getAmount() / 100,2) ?></b>
+                <?php else : ?>
+                NO Data
                 <?php endif; ?>
               </div>
               <div class="col-4">
