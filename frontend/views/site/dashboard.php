@@ -432,8 +432,6 @@ $boxStatus = !$is_close && !$is_open ? CBOX_NEW : (!$is_close && $is_open ? CBOX
               <?php endforeach; ?>
               <?php if ($order_item->getDiscounts()) : ?>
                 <i class="fa-solid fa-tag"></i>
-              <?php else : ?>
-                NO Data
               <?php endif; ?>
               </div>
               <div class="col-4">
